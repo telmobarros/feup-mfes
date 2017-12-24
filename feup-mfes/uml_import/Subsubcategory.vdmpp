@@ -1,0 +1,5 @@
+class Subsubcategory
+instance variables
+  subcategory:Subcategory;
+
+end Subsubcategory

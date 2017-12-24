@@ -1,0 +1,6 @@
+class VolumeDiscount
+instance variables
+  quantity:?;
+  price:?;
+
+end VolumeDiscount

@@ -1,0 +1,10 @@
+class Product
+instance variables
+  subsubcategory:Subsubcategory;
+  volumeDiscount:set of (VolumeDiscount);
+  title:seq of (char);
+  description:seq of (char);
+  imagePath:seq of (char);
+  price:?;
+
+end Product

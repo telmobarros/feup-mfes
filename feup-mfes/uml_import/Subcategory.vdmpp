@@ -1,0 +1,6 @@
+class Subcategory
+instance variables
+  category:Category;
+  name:seq of (char);
+
+end Subcategory
