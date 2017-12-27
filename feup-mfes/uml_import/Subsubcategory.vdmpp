@@ -1,5 +1,16 @@
 class Subsubcategory
+
+types
+	public Subcategory = set of (Subcategory);
+	
 instance variables
-  subcategory:Subcategory;
+  public subcategory: Subcategory;
+  
+operations
+	public Subsubcategory : Subcategory ==> Subsubcategory
+	Subsubcategory(cat) == (
+	subcategory := cat;
+  return self
+	);
 
 end Subsubcategory

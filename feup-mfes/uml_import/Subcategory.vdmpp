@@ -1,6 +1,19 @@
 class Subcategory
+
+types
+	public Category = set of (Category);
+	public Name = seq of (char);
+	
 instance variables
-  category:Category;
-  name:seq of (char);
+  public category: Category;
+  public name: Name;
+  
+operations
+	public Subcategory : Category * Name ==> Subcategory
+	Subcategory(cat,nm) == (
+	name := nm;
+	category := cat;
+  return self
+	);
 
 end Subcategory
