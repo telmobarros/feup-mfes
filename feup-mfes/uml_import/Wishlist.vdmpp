@@ -1,5 +1,14 @@
 class Wishlist
+
+types
+	public Product = set of (Product);
+
 instance variables
-  product:set of (Product);
+  public product: Product;
+  
+operations
+  	public Wishlist: () ==> Wishlist
+		Wishlist() == 
+			return self;
 
 end Wishlist

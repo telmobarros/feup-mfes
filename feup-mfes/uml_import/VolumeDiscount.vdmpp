@@ -1,6 +1,19 @@
 class VolumeDiscount
+
+types
+	public Quantity = nat;
+	public Price = nat1;
+	
 instance variables
-  quantity:?;
-  price:?;
+  public quantity: Quantity;
+ 	public price: Price;
+ 	
+operations
+	public VolumeDiscount : Quantity * Price ==> VolumeDiscount
+	VolumeDiscount(quant, pr) == (
+	quantity := quant;
+  price := pr;
+  return self
+	);
 
 end VolumeDiscount
