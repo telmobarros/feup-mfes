@@ -1,4 +1,4 @@
 # feup-mfes
 
 Relatório:
-https://docs.google.com/document/d/1lILfCj-9QN_6cSvWSSny-Tx5Xr1fKBm2QtuG6U6QvNI/edit?usp=sharing
+https://drive.google.com/drive/folders/1bt8Af9qut4tLziucY7HRdTSzL94ST4Av?usp=sharing
