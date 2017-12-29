@@ -1,0 +1,37 @@
+class Product
+
+types
+	public Title = seq of (char);
+	public Description = seq of char;
+	public Subcategory = seq of char;
+	public VolumeDiscounts =  map Quantity to Price;
+	public Quantity = nat;
+	public Price = rat;
+	public Color = <White> | <Blue> | <Pink> | <Yellow> | <Orange> | <Black> | <Purple> | <Brown> | <Green> | <Gray> | <Red> ;
+	
+instance variables
+  public title: Title;
+  public description: Description;
+  public price: Price;
+  public subcategory: Subcategory;
+  public quantity: Quantity := 0;
+  public volumeDiscounts: VolumeDiscounts := { |-> };
+  public colors: set of Color := {};
+
+operations
+	public Product : Title * Description * Subcategory * Price * Quantity * VolumeDiscounts * set of Color ==> Product
+	Product(tit, des, cat, pr, qty, volDisc, cors) == (
+	subcategory := cat;
+  title := tit;
+  description := des;
+  quantity := qty;
+  price := pr;
+  volumeDiscounts := volDisc;
+  colors := cors;
+  return self
+	);
+	
+functions
+
+-- TO DO
+end Product

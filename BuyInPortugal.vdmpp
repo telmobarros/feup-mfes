@@ -1,0 +1,32 @@
+class BuyInPortugal
+types
+	public Category = seq of char;
+	public SubCategory = seq of char;
+
+instance variables
+	public categories : set of Category := {};
+	public subcategories : map SubCategory to Category := { |-> };
+	public manufacturers : map Manufacturer`Name to Manufacturer := { |-> };
+	public clients : map Client`Email to Client := { |-> };
+
+operations
+public BuyInPortugal: () ==> BuyInPortugal
+		BuyInPortugal() == 
+			return self;
+	
+	
+public registerClient: Client`Email ==> Client
+registerClient(email) == (
+dcl c:Client := new Client(email);
+	addClient(c);
+	return c;
+)
+pre email not in set dom clients
+post dom clients = dom clients~ union {email};
+
+public addClient: Client ==> ()
+addClient(c) == (
+clients := clients munion { c.email |-> c };
+);
+
+end BuyInPortugal

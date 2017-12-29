@@ -1,0 +1,22 @@
+class Manufacturer
+types
+	public Name = seq of (char);
+	
+values
+-- TODO Define values here
+instance variables
+	public name : Name;
+	public products : map Product`Title to Product := { |-> };
+	
+operations
+	public Manufacturer : Name ==> Manufacturer
+	Manufacturer(nm) == (
+	name := nm;
+  return self
+	);
+	
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end Manufacturer

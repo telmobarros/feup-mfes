@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_JO-J0N8tEeeB7MjprDwkbg" name="feupmfes">
+  <eAnnotations xmi:id="_JO-J0d8tEeeB7MjprDwkbg" source="Objing">
+    <contents xmi:type="uml:Property" xmi:id="_JO-J0t8tEeeB7MjprDwkbg" name="exporterVersion">
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-J098tEeeB7MjprDwkbg" value="3.0.0"/>
+    </contents>
+    <contents xmi:type="uml:Property" xmi:id="_JO-J1N8tEeeB7MjprDwkbg" name="isRoundTrip"/>
+    <contents xmi:type="uml:Property" xmi:id="_JO-J1d8tEeeB7MjprDwkbg" name="Visibility">
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-J1t8tEeeB7MjprDwkbg" value="0"/>
+    </contents>
+  </eAnnotations>
+  <packagedElement xmi:type="uml:Class" xmi:id="_JO-J198tEeeB7MjprDwkbg" name="User">
+    <eAnnotations xmi:id="_JO-J2N8tEeeB7MjprDwkbg" source="Objing">
+      <contents xmi:type="uml:Property" xmi:id="_JO-J2d8tEeeB7MjprDwkbg" name="Visibility">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-J2t8tEeeB7MjprDwkbg" value="0"/>
+      </contents>
+    </eAnnotations>
+    <ownedAttribute xmi:id="_JO-J298tEeeB7MjprDwkbg" name="cart" visibility="private" type="_JO-J_98tEeeB7MjprDwkbg" association="_JO-J8d8tEeeB7MjprDwkbg">
+      <eAnnotations xmi:id="_JO-J3N8tEeeB7MjprDwkbg" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_JO-J3d8tEeeB7MjprDwkbg" name="Visibility">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-J3t8tEeeB7MjprDwkbg" value="2"/>
+        </contents>
+        <contents xmi:type="uml:Property" xmi:id="_JO-J398tEeeB7MjprDwkbg" name="AccessMode">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-J4N8tEeeB7MjprDwkbg" value="read_write"/>
+        </contents>
+      </eAnnotations>
+      <ownedComment xmi:id="_JO-J4d8tEeeB7MjprDwkbg">
+        <eAnnotations xmi:id="_JO-J4t8tEeeB7MjprDwkbg" source="Objing">
+          <contents xmi:type="uml:Property" xmi:id="_JO-J498tEeeB7MjprDwkbg" name="NoteType_Name">
+            <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-J5N8tEeeB7MjprDwkbg" value="description"/>
+          </contents>
+        </eAnnotations>
+        <body></body>
+      </ownedComment>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_JO-J5d8tEeeB7MjprDwkbg" name="wishlist" visibility="private" type="_JO-KGt8tEeeB7MjprDwkbg" association="_JO-J-N8tEeeB7MjprDwkbg">
+      <eAnnotations xmi:id="_JO-J5t8tEeeB7MjprDwkbg" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_JO-J598tEeeB7MjprDwkbg" name="Visibility">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-J6N8tEeeB7MjprDwkbg" value="2"/>
+        </contents>
+        <contents xmi:type="uml:Property" xmi:id="_JO-J6d8tEeeB7MjprDwkbg" name="AccessMode">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-J6t8tEeeB7MjprDwkbg" value="read_write"/>
+        </contents>
+      </eAnnotations>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_JO-J698tEeeB7MjprDwkbg" name="email" visibility="private" isUnique="false">
+      <eAnnotations xmi:id="_JO-J7N8tEeeB7MjprDwkbg" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_JO-J7d8tEeeB7MjprDwkbg" name="Visibility">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-J7t8tEeeB7MjprDwkbg" value="2"/>
+        </contents>
+        <contents xmi:type="uml:Property" xmi:id="_JO-J798tEeeB7MjprDwkbg" name="AccessMode">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-J8N8tEeeB7MjprDwkbg" value="read_write"/>
+        </contents>
+      </eAnnotations>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_JO-J8d8tEeeB7MjprDwkbg" memberEnd="_JO-J298tEeeB7MjprDwkbg _JO-J8t8tEeeB7MjprDwkbg">
+    <ownedEnd xmi:id="_JO-J8t8tEeeB7MjprDwkbg" visibility="public" type="_JO-J198tEeeB7MjprDwkbg" association="_JO-J8d8tEeeB7MjprDwkbg">
+      <eAnnotations xmi:id="_JO-J898tEeeB7MjprDwkbg" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_JO-J9N8tEeeB7MjprDwkbg" name="Visibility">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-J9d8tEeeB7MjprDwkbg" value="0"/>
+        </contents>
+        <contents xmi:type="uml:Property" xmi:id="_JO-J9t8tEeeB7MjprDwkbg" name="AccessMode">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-J998tEeeB7MjprDwkbg" value="read_write"/>
+        </contents>
+      </eAnnotations>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_JO-J-N8tEeeB7MjprDwkbg" memberEnd="_JO-J5d8tEeeB7MjprDwkbg _JO-J-d8tEeeB7MjprDwkbg">
+    <ownedEnd xmi:id="_JO-J-d8tEeeB7MjprDwkbg" visibility="public" type="_JO-J198tEeeB7MjprDwkbg" association="_JO-J-N8tEeeB7MjprDwkbg">
+      <eAnnotations xmi:id="_JO-J-t8tEeeB7MjprDwkbg" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_JO-J-98tEeeB7MjprDwkbg" name="Visibility">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-J_N8tEeeB7MjprDwkbg" value="0"/>
+        </contents>
+        <contents xmi:type="uml:Property" xmi:id="_JO-J_d8tEeeB7MjprDwkbg" name="AccessMode">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-J_t8tEeeB7MjprDwkbg" value="read_write"/>
+        </contents>
+      </eAnnotations>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_JO-J_98tEeeB7MjprDwkbg" name="Cart" isLeaf="true">
+    <eAnnotations xmi:id="_JO-KAN8tEeeB7MjprDwkbg" source="Objing">
+      <contents xmi:type="uml:Property" xmi:id="_JO-KAd8tEeeB7MjprDwkbg" name="Visibility">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KAt8tEeeB7MjprDwkbg" value="0"/>
+      </contents>
+    </eAnnotations>
+    <ownedAttribute xmi:id="_JO-KA98tEeeB7MjprDwkbg" name="product" visibility="private" type="_JO-Kad8tEeeB7MjprDwkbg" association="_JO-KEd8tEeeB7MjprDwkbg">
+      <eAnnotations xmi:id="_JO-KBN8tEeeB7MjprDwkbg" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_JO-KBd8tEeeB7MjprDwkbg" name="Visibility">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KBt8tEeeB7MjprDwkbg" value="2"/>
+        </contents>
+        <contents xmi:type="uml:Property" xmi:id="_JO-KB98tEeeB7MjprDwkbg" name="AccessMode">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KCN8tEeeB7MjprDwkbg" value="read_write"/>
+        </contents>
+      </eAnnotations>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_JO-KCd8tEeeB7MjprDwkbg" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_JO-KCt8tEeeB7MjprDwkbg"/>
+      <qualifier xmi:id="_JO-KC98tEeeB7MjprDwkbg" name="quantity" visibility="private" isUnique="false">
+        <eAnnotations xmi:id="_JO-KDN8tEeeB7MjprDwkbg" source="Objing">
+          <contents xmi:type="uml:Property" xmi:id="_JO-KDd8tEeeB7MjprDwkbg" name="Visibility">
+            <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KDt8tEeeB7MjprDwkbg" value="2"/>
+          </contents>
+          <contents xmi:type="uml:Property" xmi:id="_JO-KD98tEeeB7MjprDwkbg" name="AccessMode">
+            <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KEN8tEeeB7MjprDwkbg" value="read_write"/>
+          </contents>
+        </eAnnotations>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDouble"/>
+      </qualifier>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_JO-KEd8tEeeB7MjprDwkbg" memberEnd="_JO-KA98tEeeB7MjprDwkbg _JO-KEt8tEeeB7MjprDwkbg">
+    <ownedEnd xmi:id="_JO-KEt8tEeeB7MjprDwkbg" visibility="public" type="_JO-J_98tEeeB7MjprDwkbg" association="_JO-KEd8tEeeB7MjprDwkbg">
+      <eAnnotations xmi:id="_JO-KE98tEeeB7MjprDwkbg" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_JO-KFN8tEeeB7MjprDwkbg" name="Visibility">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KFd8tEeeB7MjprDwkbg" value="0"/>
+        </contents>
+        <contents xmi:type="uml:Property" xmi:id="_JO-KFt8tEeeB7MjprDwkbg" name="AccessMode">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KF98tEeeB7MjprDwkbg" value="read_write"/>
+        </contents>
+      </eAnnotations>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_JO-KGN8tEeeB7MjprDwkbg" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_JO-KGd8tEeeB7MjprDwkbg"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_JO-KGt8tEeeB7MjprDwkbg" name="Wishlist">
+    <eAnnotations xmi:id="_JO-KG98tEeeB7MjprDwkbg" source="Objing">
+      <contents xmi:type="uml:Property" xmi:id="_JO-KHN8tEeeB7MjprDwkbg" name="Visibility">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KHd8tEeeB7MjprDwkbg" value="0"/>
+      </contents>
+    </eAnnotations>
+    <ownedAttribute xmi:id="_JO-KHt8tEeeB7MjprDwkbg" name="product" visibility="private" type="_JO-Kad8tEeeB7MjprDwkbg" association="_JO-KJt8tEeeB7MjprDwkbg">
+      <eAnnotations xmi:id="_JO-KH98tEeeB7MjprDwkbg" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_JO-KIN8tEeeB7MjprDwkbg" name="Visibility">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KId8tEeeB7MjprDwkbg" value="2"/>
+        </contents>
+        <contents xmi:type="uml:Property" xmi:id="_JO-KIt8tEeeB7MjprDwkbg" name="AccessMode">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KI98tEeeB7MjprDwkbg" value="read_write"/>
+        </contents>
+      </eAnnotations>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_JO-KJN8tEeeB7MjprDwkbg" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_JO-KJd8tEeeB7MjprDwkbg"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_JO-KJt8tEeeB7MjprDwkbg" memberEnd="_JO-KHt8tEeeB7MjprDwkbg _JO-KJ98tEeeB7MjprDwkbg">
+    <ownedEnd xmi:id="_JO-KJ98tEeeB7MjprDwkbg" visibility="public" type="_JO-KGt8tEeeB7MjprDwkbg" association="_JO-KJt8tEeeB7MjprDwkbg">
+      <eAnnotations xmi:id="_JO-KKN8tEeeB7MjprDwkbg" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_JO-KKd8tEeeB7MjprDwkbg" name="Visibility">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KKt8tEeeB7MjprDwkbg" value="0"/>
+        </contents>
+        <contents xmi:type="uml:Property" xmi:id="_JO-KK98tEeeB7MjprDwkbg" name="AccessMode">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KLN8tEeeB7MjprDwkbg" value="read_write"/>
+        </contents>
+      </eAnnotations>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_JO-KLd8tEeeB7MjprDwkbg" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_JO-KLt8tEeeB7MjprDwkbg"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_JO-KL98tEeeB7MjprDwkbg" name="Category">
+    <eAnnotations xmi:id="_JO-KMN8tEeeB7MjprDwkbg" source="Objing">
+      <contents xmi:type="uml:Property" xmi:id="_JO-KMd8tEeeB7MjprDwkbg" name="Visibility">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KMt8tEeeB7MjprDwkbg" value="0"/>
+      </contents>
+    </eAnnotations>
+    <ownedAttribute xmi:id="_JO-KM98tEeeB7MjprDwkbg" name="name" visibility="private" isUnique="false">
+      <eAnnotations xmi:id="_JO-KNN8tEeeB7MjprDwkbg" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_JO-KNd8tEeeB7MjprDwkbg" name="Visibility">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KNt8tEeeB7MjprDwkbg" value="2"/>
+        </contents>
+        <contents xmi:type="uml:Property" xmi:id="_JO-KN98tEeeB7MjprDwkbg" name="AccessMode">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KON8tEeeB7MjprDwkbg" value="read_write"/>
+        </contents>
+      </eAnnotations>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_JO-KOd8tEeeB7MjprDwkbg" name="Subcategory">
+    <eAnnotations xmi:id="_JO-KOt8tEeeB7MjprDwkbg" source="Objing">
+      <contents xmi:type="uml:Property" xmi:id="_JO-KO98tEeeB7MjprDwkbg" name="Visibility">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KPN8tEeeB7MjprDwkbg" value="0"/>
+      </contents>
+    </eAnnotations>
+    <ownedComment xmi:id="_JO-KPd8tEeeB7MjprDwkbg">
+      <eAnnotations xmi:id="_JO-KPt8tEeeB7MjprDwkbg" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_JO-KP98tEeeB7MjprDwkbg" name="NoteType_Name">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KQN8tEeeB7MjprDwkbg" value="description"/>
+        </contents>
+      </eAnnotations>
+      <body></body>
+    </ownedComment>
+    <ownedAttribute xmi:id="_JO-KQd8tEeeB7MjprDwkbg" name="category" visibility="private" type="_JO-KL98tEeeB7MjprDwkbg" association="_JO-KTd8tEeeB7MjprDwkbg">
+      <eAnnotations xmi:id="_JO-KQt8tEeeB7MjprDwkbg" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_JO-KQ98tEeeB7MjprDwkbg" name="Visibility">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KRN8tEeeB7MjprDwkbg" value="2"/>
+        </contents>
+        <contents xmi:type="uml:Property" xmi:id="_JO-KRd8tEeeB7MjprDwkbg" name="AccessMode">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KRt8tEeeB7MjprDwkbg" value="read_write"/>
+        </contents>
+      </eAnnotations>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_JO-KR98tEeeB7MjprDwkbg" name="name" visibility="private" isUnique="false">
+      <eAnnotations xmi:id="_JO-KSN8tEeeB7MjprDwkbg" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_JO-KSd8tEeeB7MjprDwkbg" name="Visibility">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KSt8tEeeB7MjprDwkbg" value="2"/>
+        </contents>
+        <contents xmi:type="uml:Property" xmi:id="_JO-KS98tEeeB7MjprDwkbg" name="AccessMode">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KTN8tEeeB7MjprDwkbg" value="read_write"/>
+        </contents>
+      </eAnnotations>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_JO-KTd8tEeeB7MjprDwkbg" memberEnd="_JO-KQd8tEeeB7MjprDwkbg _JO-KTt8tEeeB7MjprDwkbg">
+    <ownedEnd xmi:id="_JO-KTt8tEeeB7MjprDwkbg" visibility="public" type="_JO-KOd8tEeeB7MjprDwkbg" association="_JO-KTd8tEeeB7MjprDwkbg">
+      <eAnnotations xmi:id="_JO-KT98tEeeB7MjprDwkbg" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_JO-KUN8tEeeB7MjprDwkbg" name="Visibility">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KUd8tEeeB7MjprDwkbg" value="0"/>
+        </contents>
+        <contents xmi:type="uml:Property" xmi:id="_JO-KUt8tEeeB7MjprDwkbg" name="AccessMode">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KU98tEeeB7MjprDwkbg" value="read_write"/>
+        </contents>
+      </eAnnotations>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_JO-KVN8tEeeB7MjprDwkbg" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_JO-KVd8tEeeB7MjprDwkbg"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_JO-KVt8tEeeB7MjprDwkbg" name="Subsubcategory">
+    <eAnnotations xmi:id="_JO-KV98tEeeB7MjprDwkbg" source="Objing">
+      <contents xmi:type="uml:Property" xmi:id="_JO-KWN8tEeeB7MjprDwkbg" name="Visibility">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KWd8tEeeB7MjprDwkbg" value="0"/>
+      </contents>
+    </eAnnotations>
+    <ownedAttribute xmi:id="_JO-KWt8tEeeB7MjprDwkbg" name="subcategory" visibility="private" type="_JO-KOd8tEeeB7MjprDwkbg" association="_JO-KYN8tEeeB7MjprDwkbg">
+      <eAnnotations xmi:id="_JO-KW98tEeeB7MjprDwkbg" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_JO-KXN8tEeeB7MjprDwkbg" name="Visibility">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KXd8tEeeB7MjprDwkbg" value="2"/>
+        </contents>
+        <contents xmi:type="uml:Property" xmi:id="_JO-KXt8tEeeB7MjprDwkbg" name="AccessMode">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KX98tEeeB7MjprDwkbg" value="read_write"/>
+        </contents>
+      </eAnnotations>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_JO-KYN8tEeeB7MjprDwkbg" memberEnd="_JO-KWt8tEeeB7MjprDwkbg _JO-KYd8tEeeB7MjprDwkbg">
+    <ownedEnd xmi:id="_JO-KYd8tEeeB7MjprDwkbg" visibility="public" type="_JO-KVt8tEeeB7MjprDwkbg" association="_JO-KYN8tEeeB7MjprDwkbg">
+      <eAnnotations xmi:id="_JO-KYt8tEeeB7MjprDwkbg" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_JO-KY98tEeeB7MjprDwkbg" name="Visibility">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KZN8tEeeB7MjprDwkbg" value="0"/>
+        </contents>
+        <contents xmi:type="uml:Property" xmi:id="_JO-KZd8tEeeB7MjprDwkbg" name="AccessMode">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KZt8tEeeB7MjprDwkbg" value="read_write"/>
+        </contents>
+      </eAnnotations>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_JO-KZ98tEeeB7MjprDwkbg" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_JO-KaN8tEeeB7MjprDwkbg"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_JO-Kad8tEeeB7MjprDwkbg" name="Product">
+    <eAnnotations xmi:id="_JO-Kat8tEeeB7MjprDwkbg" source="Objing">
+      <contents xmi:type="uml:Property" xmi:id="_JO-Ka98tEeeB7MjprDwkbg" name="Visibility">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KbN8tEeeB7MjprDwkbg" value="0"/>
+      </contents>
+    </eAnnotations>
+    <ownedAttribute xmi:id="_JO-Kbd8tEeeB7MjprDwkbg" name="subsubcategory" visibility="private" type="_JO-KVt8tEeeB7MjprDwkbg" association="_JO-Kk98tEeeB7MjprDwkbg">
+      <eAnnotations xmi:id="_JO-Kbt8tEeeB7MjprDwkbg" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_JO-Kb98tEeeB7MjprDwkbg" name="Visibility">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KcN8tEeeB7MjprDwkbg" value="2"/>
+        </contents>
+        <contents xmi:type="uml:Property" xmi:id="_JO-Kcd8tEeeB7MjprDwkbg" name="AccessMode">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-Kct8tEeeB7MjprDwkbg" value="read_write"/>
+        </contents>
+      </eAnnotations>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_JO-Kc98tEeeB7MjprDwkbg" name="volumeDiscount" visibility="private" type="_JO-Ko98tEeeB7MjprDwkbg" association="_JO-KnN8tEeeB7MjprDwkbg">
+      <eAnnotations xmi:id="_JO-KdN8tEeeB7MjprDwkbg" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_JO-Kdd8tEeeB7MjprDwkbg" name="Visibility">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-Kdt8tEeeB7MjprDwkbg" value="2"/>
+        </contents>
+        <contents xmi:type="uml:Property" xmi:id="_JO-Kd98tEeeB7MjprDwkbg" name="AccessMode">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KeN8tEeeB7MjprDwkbg" value="read_write"/>
+        </contents>
+      </eAnnotations>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_JO-Ked8tEeeB7MjprDwkbg" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_JO-Ket8tEeeB7MjprDwkbg"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_JO-Ke98tEeeB7MjprDwkbg" name="title" visibility="private" isUnique="false">
+      <eAnnotations xmi:id="_JO-KfN8tEeeB7MjprDwkbg" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_JO-Kfd8tEeeB7MjprDwkbg" name="Visibility">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-Kft8tEeeB7MjprDwkbg" value="2"/>
+        </contents>
+        <contents xmi:type="uml:Property" xmi:id="_JO-Kf98tEeeB7MjprDwkbg" name="AccessMode">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KgN8tEeeB7MjprDwkbg" value="read_write"/>
+        </contents>
+      </eAnnotations>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_JO-Kgd8tEeeB7MjprDwkbg" name="description" visibility="private" isUnique="false">
+      <eAnnotations xmi:id="_JO-Kgt8tEeeB7MjprDwkbg" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_JO-Kg98tEeeB7MjprDwkbg" name="Visibility">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KhN8tEeeB7MjprDwkbg" value="2"/>
+        </contents>
+        <contents xmi:type="uml:Property" xmi:id="_JO-Khd8tEeeB7MjprDwkbg" name="AccessMode">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-Kht8tEeeB7MjprDwkbg" value="read_write"/>
+        </contents>
+      </eAnnotations>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_JO-Kh98tEeeB7MjprDwkbg" name="imagePath" visibility="private" isUnique="false">
+      <eAnnotations xmi:id="_JO-KiN8tEeeB7MjprDwkbg" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_JO-Kid8tEeeB7MjprDwkbg" name="Visibility">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-Kit8tEeeB7MjprDwkbg" value="2"/>
+        </contents>
+        <contents xmi:type="uml:Property" xmi:id="_JO-Ki98tEeeB7MjprDwkbg" name="AccessMode">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KjN8tEeeB7MjprDwkbg" value="read_write"/>
+        </contents>
+      </eAnnotations>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_JO-Kjd8tEeeB7MjprDwkbg" name="price" visibility="private" isUnique="false">
+      <eAnnotations xmi:id="_JO-Kjt8tEeeB7MjprDwkbg" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_JO-Kj98tEeeB7MjprDwkbg" name="Visibility">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KkN8tEeeB7MjprDwkbg" value="2"/>
+        </contents>
+        <contents xmi:type="uml:Property" xmi:id="_JO-Kkd8tEeeB7MjprDwkbg" name="AccessMode">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-Kkt8tEeeB7MjprDwkbg" value="read_write"/>
+        </contents>
+      </eAnnotations>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDouble"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_JO-Kk98tEeeB7MjprDwkbg" memberEnd="_JO-Kbd8tEeeB7MjprDwkbg _JO-KlN8tEeeB7MjprDwkbg">
+    <ownedEnd xmi:id="_JO-KlN8tEeeB7MjprDwkbg" visibility="public" type="_JO-Kad8tEeeB7MjprDwkbg" association="_JO-Kk98tEeeB7MjprDwkbg">
+      <eAnnotations xmi:id="_JO-Kld8tEeeB7MjprDwkbg" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_JO-Klt8tEeeB7MjprDwkbg" name="Visibility">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-Kl98tEeeB7MjprDwkbg" value="0"/>
+        </contents>
+        <contents xmi:type="uml:Property" xmi:id="_JO-KmN8tEeeB7MjprDwkbg" name="AccessMode">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-Kmd8tEeeB7MjprDwkbg" value="read_write"/>
+        </contents>
+      </eAnnotations>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_JO-Kmt8tEeeB7MjprDwkbg" value="*"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_JO-Km98tEeeB7MjprDwkbg"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_JO-KnN8tEeeB7MjprDwkbg" memberEnd="_JO-Kc98tEeeB7MjprDwkbg _JO-Knd8tEeeB7MjprDwkbg">
+    <ownedEnd xmi:id="_JO-Knd8tEeeB7MjprDwkbg" visibility="public" type="_JO-Kad8tEeeB7MjprDwkbg" association="_JO-KnN8tEeeB7MjprDwkbg">
+      <eAnnotations xmi:id="_JO-Knt8tEeeB7MjprDwkbg" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_JO-Kn98tEeeB7MjprDwkbg" name="Visibility">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KoN8tEeeB7MjprDwkbg" value="0"/>
+        </contents>
+        <contents xmi:type="uml:Property" xmi:id="_JO-Kod8tEeeB7MjprDwkbg" name="AccessMode">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-Kot8tEeeB7MjprDwkbg" value="read_write"/>
+        </contents>
+      </eAnnotations>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_JO-Ko98tEeeB7MjprDwkbg" name="VolumeDiscount">
+    <eAnnotations xmi:id="_JO-KpN8tEeeB7MjprDwkbg" source="Objing">
+      <contents xmi:type="uml:Property" xmi:id="_JO-Kpd8tEeeB7MjprDwkbg" name="Visibility">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-Kpt8tEeeB7MjprDwkbg" value="0"/>
+      </contents>
+    </eAnnotations>
+    <ownedComment xmi:id="_JO-Kp98tEeeB7MjprDwkbg">
+      <eAnnotations xmi:id="_JO-KqN8tEeeB7MjprDwkbg" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_JO-Kqd8tEeeB7MjprDwkbg" name="NoteType_Name">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-Kqt8tEeeB7MjprDwkbg" value="description"/>
+        </contents>
+      </eAnnotations>
+      <body></body>
+    </ownedComment>
+    <ownedAttribute xmi:id="_JO-Kq98tEeeB7MjprDwkbg" name="quantity" visibility="private" isUnique="false">
+      <eAnnotations xmi:id="_JO-KrN8tEeeB7MjprDwkbg" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_JO-Krd8tEeeB7MjprDwkbg" name="Visibility">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-Krt8tEeeB7MjprDwkbg" value="2"/>
+        </contents>
+        <contents xmi:type="uml:Property" xmi:id="_JO-Kr98tEeeB7MjprDwkbg" name="AccessMode">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KsN8tEeeB7MjprDwkbg" value="read_write"/>
+        </contents>
+      </eAnnotations>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDouble"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_JO-Ksd8tEeeB7MjprDwkbg" name="price" visibility="private" isUnique="false">
+      <eAnnotations xmi:id="_JO-Kst8tEeeB7MjprDwkbg" source="Objing">
+        <contents xmi:type="uml:Property" xmi:id="_JO-Ks98tEeeB7MjprDwkbg" name="Visibility">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-KtN8tEeeB7MjprDwkbg" value="2"/>
+        </contents>
+        <contents xmi:type="uml:Property" xmi:id="_JO-Ktd8tEeeB7MjprDwkbg" name="AccessMode">
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_JO-Ktt8tEeeB7MjprDwkbg" value="read_write"/>
+        </contents>
+      </eAnnotations>
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/EcorePrimitiveTypes.library.uml#EDouble"/>
+    </ownedAttribute>
+  </packagedElement>
+</uml:Model>
