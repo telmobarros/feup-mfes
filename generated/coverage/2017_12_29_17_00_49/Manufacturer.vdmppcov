@@ -1,6 +1,6 @@
 class Manufacturer
 types
-	public Name = seq of char;
+	public Name = seq of (char);
 	
 instance variables
 	public name : Name;

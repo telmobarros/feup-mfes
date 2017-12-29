@@ -13,9 +13,9 @@ instance variables
   
 operations
 	public Client : Email ==> Client
-	Client(e) == (
-		email := e;
-	  return self
+	Client(em) == (
+	email := em;
+  return self
 	);
 
 end Client

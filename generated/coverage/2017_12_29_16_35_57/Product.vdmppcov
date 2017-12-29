@@ -1,7 +1,7 @@
 class Product
 
 types
-	public Title = seq of char;
+	public Title = seq of (char);
 	public Description = seq of char;
 	public Subcategory = seq of char;
 	public VolumeDiscounts =  map Quantity to Price;
@@ -21,23 +21,17 @@ instance variables
 operations
 	public Product : Title * Description * Subcategory * Price * Quantity * VolumeDiscounts * set of Color ==> Product
 	Product(tit, des, cat, pr, qty, volDisc, cors) == (
-		subcategory := cat;
-	  title := tit;
-	  description := des;
-	  quantity := qty;
-	  price := pr;
-	  volumeDiscounts := volDisc;
-	  colors := cors;
-	  return self
+	subcategory := cat;
+  title := tit;
+  description := des;
+  quantity := qty;
+  price := pr;
+  volumeDiscounts := volDisc;
+  colors := cors;
+  return self
 	);
 	
-	public removeFromStock: Quantity ==> () 
-	removeFromStock(qty) ==
-		quantity := quantity - qty
-	pre qty <= quantity;
+functions
 
-	public addToStock: Quantity ==> () 
-	addToStock(qty) ==
-		quantity := quantity + qty;
-
+-- TO DO
 end Product

@@ -1,7 +1,7 @@
 class Product
 
 types
-	public Title = seq of char;
+	public Title = seq of (char);
 	public Description = seq of char;
 	public Subcategory = seq of char;
 	public VolumeDiscounts =  map Quantity to Price;
