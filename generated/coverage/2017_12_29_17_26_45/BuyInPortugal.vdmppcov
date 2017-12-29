@@ -8,16 +8,11 @@ instance variables
 	public categories : set of Category := {};
 	public subcategories : map Subcategory to Category := { |-> };
 	public manufacturers : map Manufacturer`Name to Manufacturer := { |-> };
-	public products : map Product`Title to Product := { |-> };
 	public clients : map Client`Email to Client := { |-> };
 	
 	public adminCode : AdminCode := [];
-	
-	-- subcategories should be associated with category
-  inv rng subcategories subset categories;
 
 operations
-	/** ADMIN OPERATIONS **/
 	public BuyInPortugal: () ==> BuyInPortugal
 	BuyInPortugal() ==
 		return self;
@@ -26,8 +21,7 @@ operations
 	public setAdminCode: AdminCode * AdminCode ==> ()
 	setAdminCode(curCode, nextCode) ==
 		adminCode := nextCode
-	pre curCode <> nextCode
-		and curCode = adminCode;
+	pre curCode = adminCode;
 	
 	-- Register manufacturer
 	public registerManufacturer: Manufacturer`Name * AdminCode ==> Manufacturer
@@ -43,6 +37,21 @@ operations
 	private addManufacturer: Manufacturer ==> ()
 	addManufacturer(m) == (
 		manufacturers := manufacturers munion { m.name |-> m };
+	);
+	
+	-- Register client
+	public registerClient: Client`Email ==> Client
+	registerClient(email) == (
+	dcl c:Client := new Client(email);
+		addClient(c);
+		return c;
+	)
+	pre email not in set dom clients
+	post dom clients = dom clients~ union {email};
+
+	private addClient: Client ==> ()
+	addClient(c) == (
+		clients := clients munion { c.email |-> c };
 	);
 	
 	-- Add category
@@ -81,45 +90,5 @@ operations
 		return subcategories;
 	)
 	pre code = adminCode;
-	/** ADMIN OPERATIONS END **/
-	
-	
-	/** MANUFACTURER OPERATIONS **/
-	
-	-- Add product
-	public addProduct: Manufacturer`Name *  Product`Title * Product`Description * Product`Subcategory * Product`Price * map Product`Color to Product`Quantity * set of Product`Color ==> ()
-	addProduct(manName, tit, des, cat, pr, qties, cors) == (
-		dcl product : Product := new Product(tit, des, cat, pr, qties, cors);
-		--let manufacturer = manufacturers(manName),
-			--product;
-			return;
-	)
-	pre manName in set dom manufacturers
-		and tit not in set dom products
-	post dom products = dom products~ union {tit};
-	/** MANUFACTURER OPERATIONS END **/
-
-
-	/** CLIENT OPERATIONS **/
-	/** CLIENT OPERATIONS END **/
-	
-	
-	/** VISITOR OPERATIONS **/
-	-- Register client
-	public registerClient: Client`Email ==> Client
-	registerClient(email) == (
-	dcl c:Client := new Client(email);
-		addClient(c);
-		return c;
-	)
-	pre email not in set dom clients
-	post dom clients = dom clients~ union {email};
-
-	private addClient: Client ==> ()
-	addClient(c) == (
-		clients := clients munion { c.email |-> c };
-	);
-	/** VISITOR OPERATIONS END **/
-	
 
 end BuyInPortugal

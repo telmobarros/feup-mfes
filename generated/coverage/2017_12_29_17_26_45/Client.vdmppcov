@@ -1,0 +1,21 @@
+class Client
+
+types
+	public Email = seq of char;
+	public Cart = map Product to nat1;
+	public Wishlist = set of Product;
+	
+instance variables
+  public cart: Cart  := { |-> };
+  public wishlist: Wishlist := {};
+  public email: Email;
+  public buyHistory : seq of Cart := [];
+  
+operations
+	public Client : Email ==> Client
+	Client(e) == (
+		email := e;
+	  return self
+	);
+
+end Client

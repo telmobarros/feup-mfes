@@ -22,38 +22,29 @@ instance variables
   inv dom quantities = colors;
 
 operations
-	-- Create product without color
-	public Product : Title * Description * Subcategory * Price  ==> Product
-	Product(tit, des, cat, pr) == (
+	public Product : Title * Description * Subcategory * Price * VolumeDiscounts  ==> Product
+	Product(tit, des, cat, pr, volDisc) == (
 		subcategory := cat;
 	  title := tit;
 	  description := des;
 	  price := pr;
+	  volumeDiscounts := volDisc;
 	  return self
 	);
 	
-	-- Create product with color
-	public Product : Title * Description * Subcategory * Price * map Color to Quantity * set of Color ==> Product
-	Product(tit, des, cat, pr, qties, cors) == (
+	public Product : Title * Description * Subcategory * Price * VolumeDiscounts * map Color to Quantity * set of Color ==> Product
+	Product(tit, des, cat, pr, volDisc, qties, cors) == (
 		subcategory := cat;
 	  title := tit;
 	  description := des;
 	  price := pr;
+	  volumeDiscounts := volDisc;
 	  quantities := qties;
 	  colors := cors;
 	  return self
 	)
-	pre <None> not in set cors
-		and dom qties = cors;
-		
-	-- Set volume discounts
-	public setVolumeDiscounts : VolumeDiscounts ==> VolumeDiscounts
-	setVolumeDiscounts(volDiscs) == (
-		volumeDiscounts := volDiscs;
-	  return volumeDiscounts;
-	);
+	pre <None> not in set cors;
 	
-	-- Remove from stock in products without color
 	public removeFromStock: Quantity ==> map Color to Quantity
 	removeFromStock(qty) == (
 		quantities := quantities ++ {<None> |-> (quantities(<None>) - qty)};
@@ -61,16 +52,14 @@ operations
 	)
 	pre colors = {<None>}
 		and qty <= quantities(<None>);
-	
-	-- Add to stock in products without color
+
 	public addToStock: Quantity ==> map Color to Quantity
 	addToStock(qty) == (
 		quantities := quantities ++ {<None> |-> (quantities(<None>) + qty)};
 		return quantities;
 	)
-	pre colors = {<None>};
+		pre colors = {<None>};
 	
-	-- Remove from stock in products with color
 	public removeFromStock: Color * Quantity ==> map Color to Quantity
 	removeFromStock(color, qty) == (
 		quantities := quantities ++ {color |-> (quantities(color) - qty)};
@@ -78,8 +67,7 @@ operations
 	)
 	pre colors = {color}
 		and qty <= quantities(color);
-	
-	-- Add to stock in products with color
+
 	public addToStock: Color * Quantity ==> map Color to Quantity
 	addToStock(color, qty) == (
 		quantities := quantities ++ {color |-> (quantities(color) + qty)};

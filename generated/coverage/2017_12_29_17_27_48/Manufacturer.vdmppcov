@@ -12,12 +12,5 @@ operations
 		name := n;
 	  return self
 	);
-	
-	-- Add product
-	public addProduct: Product ==> ()
-	addProduct(p) == (
-		products := products munion { p.title |-> p };
-	)
-	pre p.title not in set dom products;
 
 end Manufacturer
