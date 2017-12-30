@@ -1,4 +1,4 @@
-class TestBuyInPortugal is subclass of MyTestCase
+class TestBuyInPortugal
 /* Test cases for BuyInPortugal model*/
 
 operations
@@ -98,10 +98,31 @@ operations
  		Assert(client.wishlist = {});
 	);
 	
+	/** Test Create Manufacturer **/
+	private testCreateManufacturer: () ==> ()
+	testCreateManufacturer() ==	(
+ 		dcl manufacturer: Manufacturer := new Manufacturer("Manuel");
+ 		Assert(manufacturer.name = "Manuel");
+	);
+	
+	/** Test Add Category **/
+	
+	private testAddCategory: () ==> ()
+	testAddCategory() ==	(
+ 		dcl manufacturer: Manufacturer := new Manufacturer("Manuel");
+ 		Assert(manufacturer.name = "Manuel");
+	);
+	
+	
 	-- Entry point that runs all tests with valid inputs
   public static testAll: () ==> ()
   testAll() == (
+  	
+  		dcl test: TestBuyInPortugal := new TestBuyInPortugal();
+  			
   		test();
+  		test.testCreateClient();
+  		test.testCreateManufacturer();
   );
 	
 	/** TEST CASES WITH VALID INPUTS END **/
