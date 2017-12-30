@@ -1,6 +1,28 @@
 class TestBuyInPortugal
 /* Test cases for BuyInPortugal model*/
 
+types
+	public Category = seq of char;
+	public Subcategory = seq of char;
+
+
+instance variables
+	public category: Category := "roupa";
+	public manufacturer : Manufacturer := new Manufacturer("Manuel");
+	public product: Product := new Product("Pocket Tissues",
+		"- 3-ply base sheet\n- 36x9 tissues per pack\n- Tissue size: 21x21cm",
+		"Health & Personal Care",
+		1.23,
+		{<White> |-> 0,
+			<Blue> |-> 0,
+			<Pink> |-> 0,
+			<Yellow> |-> 0,
+			<Orange> |-> 0,
+			<Purple> |-> 0,
+			<Green> |-> 0,
+			<Red> |-> 0
+		});
+
 operations
 	
 	/** TEST CASES WITH VALID INPUTS **/
@@ -109,9 +131,39 @@ operations
 	
 	private testAddCategory: () ==> ()
 	testAddCategory() ==	(
- 		dcl manufacturer: Manufacturer := new Manufacturer("Manuel");
- 		Assert(manufacturer.name = "Manuel");
+		dcl bip : BuyInPortugal := new BuyInPortugal();
+		Assert(category not in set bip.categories);
+		bip.addCategory(category,"");
+ 		Assert(category in set bip.categories);
 	);
+	
+	private testRegisterManufacturer: () ==> ()
+	testRegisterManufacturer() ==	(
+		dcl bip : BuyInPortugal := new BuyInPortugal();
+		
+		Assert(manufacturer.name not in set dom bip.manufacturers);
+		bip.registerManufacturer(manufacturer.name,"");
+		Assert(manufacturer.name in set dom bip.manufacturers);
+ 		
+	);
+	
+		private testCreateProduct: () ==> ()
+	testCreateProduct() ==	(
+ 		Assert(product.title = "Pocket Tissues");
+ 		Assert(product.description = "- 3-ply base sheet\n- 36x9 tissues per pack\n- Tissue size: 21x21cm");
+ 		Assert(product.subcategory = "Health & Personal Care");
+ 		Assert(product.price = 1.23);
+	);
+	
+		private testAddProduct: () ==> ()
+	testAddProduct() ==	(
+		dcl bip : BuyInPortugal := new BuyInPortugal();
+		Assert(product.title not in set dom bip.products);
+		bip.addProduct("",product.title,product.description, product.subcategory, product.price, product.quantities);
+ 		Assert(product.title in set dom bip.products);
+	);
+	
+	
 	
 	
 	-- Entry point that runs all tests with valid inputs
@@ -123,7 +175,16 @@ operations
   		test();
   		test.testCreateClient();
   		test.testCreateManufacturer();
+  		test.testAddCategory();
+  		test.testRegisterManufacturer();
+  		test.testCreateProduct();
+  		test.testAddProduct();
   );
+  
+/** Missing Tests
+
+addSubCategory()
+**/
 	
 	/** TEST CASES WITH VALID INPUTS END **/
 
