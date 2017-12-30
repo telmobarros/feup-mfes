@@ -1,0 +1,158 @@
+class BuyInPortugal
+types
+	public Category = seq of char;
+	public Subcategory = seq of char;
+	public AdminCode = seq of char;
+
+instance variables
+	public categories : set of Category := {};
+	public subcategories : map Subcategory to Category := { |-> };
+	public manufacturers : map Manufacturer`Name to Manufacturer := { |-> };
+	public products : map Product`Title to Product := { |-> };
+	public clients : map Client`Email to Client := { |-> };
+	
+	public adminCode : AdminCode := [];
+	
+	-- subcategories should be associated with category
+  inv rng subcategories subset categories;
+
+operations
+	/** ADMIN OPERATIONS **/
+	
+	public BuyInPortugal: () ==> BuyInPortugal
+	BuyInPortugal() ==
+		return self;
+	
+	-- Change admin password
+	public setAdminCode: AdminCode * AdminCode ==> ()
+	setAdminCode(curCode, nextCode) ==
+		adminCode := nextCode
+	pre curCode <> nextCode
+		and curCode = adminCode;
+	
+	-- Register manufacturer
+	public registerManufacturer: Manufacturer`Name * AdminCode ==> ()
+	registerManufacturer(name, code) == (
+		dcl m:Manufacturer := new Manufacturer(name);
+		addManufacturer(m);
+	)
+	pre name not in set dom manufacturers
+		and code = adminCode
+	post dom manufacturers = dom manufacturers~ union {name};
+
+	private addManufacturer: Manufacturer ==> ()
+	addManufacturer(m) == (
+		manufacturers := manufacturers munion { m.name |-> m };
+	);
+	
+	-- Add category
+	public addCategory: Category * AdminCode ==> ()
+	addCategory(category, code) == (
+		categories := categories union {category};
+	)
+	pre category not in set categories
+		and code = adminCode
+	post categories = categories~ union {category};
+	
+	-- Set categories
+	public setCategories: set of Category * AdminCode ==> ()
+	setCategories(cats, code) == (
+		categories := cats;
+	)
+	pre code = adminCode;
+	
+	-- Add subCategories
+	public addSubcategory: Subcategory * Category * AdminCode ==> ()
+	addSubcategory(subcategory, category, code) == (
+		subcategories := subcategories munion {subcategory |-> category};
+	)
+	pre subcategory not in set dom subcategories
+		and category in set categories
+		and code = adminCode
+	post dom subcategories = dom subcategories~ union {subcategory};
+	
+	-- Set subCategories
+	public setSubcategories: map Subcategory to Category * AdminCode ==> ()
+	setSubcategories(subcats, code) == (
+		subcategories := subcats;
+	)
+	pre code = adminCode;
+	
+	/** ADMIN OPERATIONS END **/
+	
+	
+	/** MANUFACTURER OPERATIONS **/
+	
+	-- Add product
+	public addProduct: Manufacturer`Name * Product`Title * Product`Description * Product`Subcategory * Product`Price * map Product`Color to Product`Quantity ==> ()
+	addProduct(manName, tit, des, cat, pr, qties) == (
+		dcl product : Product := new Product(tit, des, cat, pr, qties);
+		let manufacturer = manufacturers(manName)
+			in (
+				manufacturer.addProduct(product);
+				products := products munion {tit |-> product};
+			);
+			return;
+	)
+	pre manName in set dom manufacturers
+		and tit not in set dom products
+		and cat in set dom subcategories
+	post dom products = dom products~ union {tit};
+	
+	-- Add to stock of a product
+	public addToStock: Manufacturer`Name * Product`Title * Product`Color * Product`Quantity ==> ()
+	addToStock(manName, title, color, qty) == (
+		let product = products(title)
+		in (
+			product.addToStock(color, qty);
+		);
+	)
+	pre title in set dom manufacturers(manName).products;
+	
+	-- Remove from stock of a product
+	public removeFromStock: Manufacturer`Name * Product`Title * Product`Color * Product`Quantity ==> ()
+	removeFromStock(manName, title, color, qty) == (
+		let product = products(title)
+		in (
+			product.removeFromStock(color, qty);
+		);
+	)
+	pre title in set dom manufacturers(manName).products;
+	
+	/** MANUFACTURER OPERATIONS END **/
+
+
+	/** CLIENT OPERATIONS **/
+	
+	-- Add to stock of a product
+	public addToWishlist: Client`Email * Product`Title * Product`Color ==> ()
+	addToWishlist(email, title, color) == (
+		let product = products(title), client = clients(email)
+		in (
+			client.addToWishlist(product, color);
+		);
+	);
+	
+	/** CLIENT OPERATIONS END **/
+	
+	
+	/** VISITOR OPERATIONS **/
+	
+	-- Register client
+	public registerClient: Client`Email ==> ()
+	registerClient(email) == (
+	dcl c:Client := new Client(email);
+		addClient(c);
+	)
+	pre email not in set dom clients
+	post dom clients = dom clients~ union {email};
+
+	private addClient: Client ==> ()
+	addClient(c) == (
+		clients := clients munion { c.email |-> c };
+	);
+	
+	/** VISITOR OPERATIONS END **/
+	
+
+end BuyInPortugal
