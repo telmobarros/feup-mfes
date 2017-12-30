@@ -75,6 +75,29 @@ operations
 		IO`print(bip);
 	);
 	
+	private Assert : bool ==> ()
+		Assert(cond) == return
+		pre cond;
+		
+	private AssertEqual: ? * ? ==> ()
+	AssertEqual(expected, actual) == 
+		if expected <> actual then (
+  			IO`print("Actual value (");
+  			IO`print(actual); 
+  			IO`print(") different from expected (");
+  			IO`print(expected);
+  			IO`println(")\n")
+		)
+	post expected = actual;
+	
+	/** Test Create Client **/
+	private testCreateClient: () ==> ()
+	testCreateClient() ==	(
+ 		dcl client: Client := new Client("aaa@gmail.com");
+ 		Assert(client.email = "aaa@gmail.com");
+ 		Assert(client.wishlist = {});
+	);
+	
 	-- Entry point that runs all tests with valid inputs
   public static testAll: () ==> ()
   testAll() == (
