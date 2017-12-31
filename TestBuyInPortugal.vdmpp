@@ -5,7 +5,6 @@ types
 	public Category = seq of char;
 	public Subcategory = seq of char;
 
-
 instance variables
 	public category: Category := "roupa";
 	public manufacturer : Manufacturer := new Manufacturer("Manuel");
@@ -22,6 +21,9 @@ instance variables
 			<Green> |-> 0,
 			<Red> |-> 0
 		});
+		public client : Client := new Client("exemplo@gmail.com");
+		
+		
 
 operations
 	
@@ -163,6 +165,24 @@ operations
  		Assert(product.title in set dom bip.products);
 	);
 	
+		private testRegisterClient: () ==> ()
+	testRegisterClient() ==	(
+		dcl bip : BuyInPortugal := new BuyInPortugal();
+		
+		Assert(client.email not in set dom bip.clients);
+		bip.registerClient(client.email);
+		Assert(client.email in set dom bip.clients);
+ 		
+	);
+	
+			private testAddWishList: () ==> ()
+	testAddWishList() ==	(
+		dcl bip : BuyInPortugal := new BuyInPortugal();
+		bip.addToWishlist("logistica@fe.up.pt", "Pocket Tissues", <Red>);	
+	);
+	
+	
+	
 	
 	
 	
@@ -179,11 +199,14 @@ operations
   		test.testRegisterManufacturer();
   		test.testCreateProduct();
   		test.testAddProduct();
+  		test.testRegisterClient();
+  		test.testAddWishList()
   );
   
 /** Missing Tests
 
 addSubCategory()
+addToStock
 **/
 	
 	/** TEST CASES WITH VALID INPUTS END **/
