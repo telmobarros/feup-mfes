@@ -3,11 +3,10 @@ class TestBuyInPortugal
 
 types
 	public Category = seq of char;
-	public Subcategory = seq of char;
 
 instance variables
-	public category: Category := "roupa";
-	public manufacturer : Manufacturer := new Manufacturer("Manuel");
+	public category: Category := "Real Estate";
+	public manufacturer : Manufacturer := new Manufacturer("RENOVA");
 	public product: Product := new Product("Pocket Tissues",
 		"- 3-ply base sheet\n- 36x9 tissues per pack\n- Tissue size: 21x21cm",
 		"Health & Personal Care",
@@ -114,23 +113,22 @@ operations
 		)
 	post expected = actual;
 	
-	/** Test Create Client **/
+	-- Test Create Client
 	private testCreateClient: () ==> ()
 	testCreateClient() ==	(
- 		dcl client: Client := new Client("aaa@gmail.com");
- 		Assert(client.email = "aaa@gmail.com");
+ 		dcl client: Client := new Client("exemplo@gmail.com");
+ 		Assert(client.email = "exemplo@gmail.com");
  		Assert(client.wishlist = {});
 	);
 	
-	/** Test Create Manufacturer **/
+	-- Test Create Manufacturer
 	private testCreateManufacturer: () ==> ()
 	testCreateManufacturer() ==	(
- 		dcl manufacturer: Manufacturer := new Manufacturer("Manuel");
- 		Assert(manufacturer.name = "Manuel");
+ 		dcl manufacturer: Manufacturer := new Manufacturer("RENOVA");
+ 		Assert(manufacturer.name = "RENOVA");
 	);
 	
-	/** Test Add Category **/
-	
+	-- Test Add Category
 	private testAddCategory: () ==> ()
 	testAddCategory() ==	(
 		dcl bip : BuyInPortugal := new BuyInPortugal();
@@ -139,6 +137,19 @@ operations
  		Assert(category in set bip.categories);
 	);
 	
+	-- Test Add SubCategory
+	private testAddSubCategory: () ==> ()
+	testAddSubCategory() ==	(
+		dcl bip : BuyInPortugal := new BuyInPortugal();
+		bip.addSubcategory("Investment", "Real Estate","");
+		if "Real Estate" not in set bip.categories then
+				bip.addCategory("Real Estate","");
+		Assert("Investment" not in set dom bip.subcategories);
+		bip.addSubcategory("Investment", "Real Estate","");
+ 		Assert("Investment" in set dom bip.subcategories);
+	);
+	
+	-- Test Register Manufacturer
 	private testRegisterManufacturer: () ==> ()
 	testRegisterManufacturer() ==	(
 		dcl bip : BuyInPortugal := new BuyInPortugal();
@@ -149,7 +160,8 @@ operations
  		
 	);
 	
-		private testCreateProduct: () ==> ()
+	-- Test Create Product
+	private testCreateProduct: () ==> ()
 	testCreateProduct() ==	(
  		Assert(product.title = "Pocket Tissues");
  		Assert(product.description = "- 3-ply base sheet\n- 36x9 tissues per pack\n- Tissue size: 21x21cm");
@@ -157,7 +169,8 @@ operations
  		Assert(product.price = 1.23);
 	);
 	
-		private testAddProduct: () ==> ()
+	-- Test Add Product
+	private testAddProduct: () ==> ()
 	testAddProduct() ==	(
 		dcl bip : BuyInPortugal := new BuyInPortugal();
 		Assert(product.title not in set dom bip.products);
@@ -165,7 +178,8 @@ operations
  		Assert(product.title in set dom bip.products);
 	);
 	
-		private testRegisterClient: () ==> ()
+	-- Test Register Client
+	private testRegisterClient: () ==> ()
 	testRegisterClient() ==	(
 		dcl bip : BuyInPortugal := new BuyInPortugal();
 		
@@ -175,15 +189,156 @@ operations
  		
 	);
 	
-			private testAddWishList: () ==> ()
+	-- Test Add WishList
+	private testAddWishList: () ==> ()
 	testAddWishList() ==	(
 		dcl bip : BuyInPortugal := new BuyInPortugal();
-		bip.addToWishlist("logistica@fe.up.pt", "Pocket Tissues", <Red>);	
+		bip.registerManufacturer(manufacturer.name,"");
+		bip.registerClient("logistica@fe.up.pt");
+		bip.addProduct(manufacturer.name,product.title,product.description, product.subcategory, product.price, product.quantities);
+		let client1 = bip.clients("logistica@fe.up.pt")
+		in(
+		 Assert(mk_("Pocket Tissues", <Red>) not in set client1.wishlist);
+		);
+		bip.addToWishlist("logistica@fe.up.pt", "Pocket Tissues", <Red>);
+		let client1 = bip.clients("logistica@fe.up.pt")
+		in(
+		 Assert(mk_("Pocket Tissues", <Red>) in set client1.wishlist);
+		);
 	);
 	
+	-- Test Add Stock
+	private testAddToStock: () ==> ()
+	testAddToStock() ==	(
+		dcl bip : BuyInPortugal := new BuyInPortugal();
+		bip.registerManufacturer(manufacturer.name,"");
+		bip.addProduct(manufacturer.name,product.title,product.description, product.subcategory, product.price, product.quantities);
+		let product1 = bip.products("Pocket Tissues")
+		in(
+		 Assert(product1.quantities(<Blue>) = 0);
+		);
+		bip.addToStock("RENOVA", "Pocket Tissues", <Blue>, 36);
+		let product1 = bip.products("Pocket Tissues")
+		in(
+		 Assert(product1.quantities(<Blue>) = 36);
+		);
+	);
 	
+	-- Test Remove WishList
+	private testRemoveWishList: () ==> ()
+	testRemoveWishList() ==	(
+		dcl bip : BuyInPortugal := new BuyInPortugal();
+		bip.registerManufacturer(manufacturer.name,"");
+		bip.registerClient("logistica@fe.up.pt");
+		bip.addProduct(manufacturer.name,product.title,product.description, product.subcategory, product.price, product.quantities);
+		bip.addToWishlist("logistica@fe.up.pt", "Pocket Tissues", <Red>);
+		let client1 = bip.clients("logistica@fe.up.pt")
+		in(
+		 if mk_("Pocket Tissues", <Red>) not in set client1.wishlist then
+				bip.addToWishlist("logistica@fe.up.pt", "Pocket Tissues", <Red>);
+		);
+		bip.removeFromWishlist("logistica@fe.up.pt", "Pocket Tissues", <Red>);
+		let client1 = bip.clients("logistica@fe.up.pt")
+		in(
+		 Assert(mk_("Pocket Tissues", <Red>) not in set client1.wishlist);
+		);
+	);
 	
+	-- Test Add to Cart
+	private testAddToCart: () ==> ()
+	testAddToCart() ==	(
+		dcl bip : BuyInPortugal := new BuyInPortugal();
+		bip.registerManufacturer(manufacturer.name,"");
+		bip.registerClient("logistica@fe.up.pt");
+		bip.addProduct(manufacturer.name,product.title,product.description, product.subcategory, product.price, product.quantities);
+		let client1 = bip.clients("logistica@fe.up.pt")
+		in(
+		 Assert(mk_("Pocket Tissues", <Red>)  not in set dom client1.cart);
+		);
+		bip.addToCart("logistica@fe.up.pt", "Pocket Tissues", <Red>);
+		let client1 = bip.clients("logistica@fe.up.pt")
+		in(
+		 Assert(mk_("Pocket Tissues", <Red>) in set dom client1.cart);
+		);
+	);
 	
+	-- Test Add Quantity to Cart
+	private testQntAddToCart: () ==> ()
+	testQntAddToCart() ==	(
+		dcl bip : BuyInPortugal := new BuyInPortugal();
+		bip.registerManufacturer(manufacturer.name,"");
+		bip.registerClient("logistica@fe.up.pt");
+		bip.addProduct(manufacturer.name,product.title,product.description, product.subcategory, product.price, product.quantities);
+		bip.addToCart("logistica@fe.up.pt", "Pocket Tissues", <Blue>);
+		let client1 = bip.clients("logistica@fe.up.pt")
+		in(
+		 Assert(client1.cart(mk_("Pocket Tissues",<Blue>)) = 1);
+		);
+		bip.setQtyInCart("logistica@fe.up.pt", "Pocket Tissues", <Blue>, 35);
+		let client1 = bip.clients("logistica@fe.up.pt")
+		in(
+		 Assert(client1.cart(mk_("Pocket Tissues",<Blue>)) = 35);
+		);
+	);
+	
+	-- Test Remove from Cart
+	private testRemoveFromCart: () ==> ()
+	testRemoveFromCart() ==	(
+		dcl bip : BuyInPortugal := new BuyInPortugal();
+		bip.registerManufacturer(manufacturer.name,"");
+		bip.registerClient("logistica@fe.up.pt");
+		bip.addProduct(manufacturer.name,product.title,product.description, product.subcategory, product.price, product.quantities);
+		let client1 = bip.clients("logistica@fe.up.pt")
+		in(
+		 if mk_("Pocket Tissues", <Red>) not in set dom client1.cart then
+				bip.addToCart("logistica@fe.up.pt", "Pocket Tissues", <Red>);
+		);
+		bip.removeFromCart("logistica@fe.up.pt", "Pocket Tissues", <Red>);
+		let client1 = bip.clients("logistica@fe.up.pt")
+		in(
+		 Assert(mk_("Pocket Tissues", <Red>) not in set dom client1.cart);
+		);
+	);
+	
+	-- Test Convert WishList
+	private testConvertWishList: () ==> ()
+	testConvertWishList() ==	(
+		dcl bip : BuyInPortugal := new BuyInPortugal();
+		bip.registerManufacturer(manufacturer.name,"");
+		bip.registerClient("logistica@fe.up.pt");
+		bip.addProduct(manufacturer.name,product.title,product.description, product.subcategory, product.price, product.quantities);
+		bip.addToWishlist("logistica@fe.up.pt", "Pocket Tissues", <Red>);
+		let client1 = bip.clients("logistica@fe.up.pt")
+		in(
+		  if mk_("Pocket Tissues", <Red>) not in set dom client1.cart and mk_("Pocket Tissues", <Red>) in set client1.wishlist then
+		  	bip.convertWishlist("logistica@fe.up.pt");
+		  	Assert(mk_("Pocket Tissues", <Red>) in set dom client1.cart);
+		  	Assert(client1.cart(mk_("Pocket Tissues",<Red>)) = 1);
+		  	Assert(mk_("Pocket Tissues", <Red>) not in set client1.wishlist);
+		);
+		let client1 = bip.clients("logistica@fe.up.pt")
+		in(
+		  if mk_("Pocket Tissues", <Red>) in set dom client1.cart and mk_("Pocket Tissues", <Red>) in set client1.wishlist then
+		  	let tmp = client1.cart(mk_("Pocket Tissues",<Red>))
+		  	in(
+		  	bip.convertWishlist("logistica@fe.up.pt");
+		  	Assert(mk_("Pocket Tissues", <Red>) in set dom client1.cart);
+		  	Assert(client1.cart(mk_("Pocket Tissues",<Red>)) = tmp);
+		  	Assert(mk_("Pocket Tissues", <Red>) not in set client1.wishlist);
+		));
+	);
+	
+	-- Test Get Total Cart
+	private testGetTotalCart: () ==> ()
+	testGetTotalCart() ==	(
+		dcl bip : BuyInPortugal := new BuyInPortugal();
+		bip.registerManufacturer(manufacturer.name,"");
+		bip.registerClient("logistica@fe.up.pt");
+		bip.addProduct(manufacturer.name,product.title,product.description, product.subcategory, product.price, product.quantities);
+		bip.addToCart("logistica@fe.up.pt", "Pocket Tissues", <Blue>);
+		bip.setQtyInCart("logistica@fe.up.pt", "Pocket Tissues", <Blue>, 2);
+		Assert(bip.getTotalCart("logistica@fe.up.pt") = 2.46);
+	);
 	
 	
 	-- Entry point that runs all tests with valid inputs
@@ -196,18 +351,21 @@ operations
   		test.testCreateClient();
   		test.testCreateManufacturer();
   		test.testAddCategory();
+  		test.testAddSubCategory();
   		test.testRegisterManufacturer();
   		test.testCreateProduct();
   		test.testAddProduct();
   		test.testRegisterClient();
-  		test.testAddWishList()
+  		test.testAddToStock();
+  		test.testAddWishList();
+  		test.testRemoveWishList();
+  		test.testAddToCart();
+  		test.testQntAddToCart();
+  		test.testRemoveFromCart();
+  		test.testConvertWishList();
+  		test.testGetTotalCart();
   );
   
-/** Missing Tests
-
-addSubCategory()
-addToStock
-**/
 	
 	/** TEST CASES WITH VALID INPUTS END **/
 
