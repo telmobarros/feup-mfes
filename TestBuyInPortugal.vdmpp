@@ -113,7 +113,7 @@ operations
 		)
 	post expected = actual;
 	
-	/** Test Create Client **/
+	-- Test Create Client
 	private testCreateClient: () ==> ()
 	testCreateClient() ==	(
  		dcl client: Client := new Client("exemplo@gmail.com");
@@ -121,15 +121,14 @@ operations
  		Assert(client.wishlist = {});
 	);
 	
-	/** Test Create Manufacturer **/
+	-- Test Create Manufacturer
 	private testCreateManufacturer: () ==> ()
 	testCreateManufacturer() ==	(
  		dcl manufacturer: Manufacturer := new Manufacturer("RENOVA");
  		Assert(manufacturer.name = "RENOVA");
 	);
 	
-	/** Test Add Category **/
-	
+	-- Test Add Category
 	private testAddCategory: () ==> ()
 	testAddCategory() ==	(
 		dcl bip : BuyInPortugal := new BuyInPortugal();
@@ -138,7 +137,8 @@ operations
  		Assert(category in set bip.categories);
 	);
 	
-		private testAddSubCategory: () ==> ()
+	-- Test Add SubCategory
+	private testAddSubCategory: () ==> ()
 	testAddSubCategory() ==	(
 		dcl bip : BuyInPortugal := new BuyInPortugal();
 		bip.addSubcategory("Investment", "Real Estate","");
@@ -149,6 +149,7 @@ operations
  		Assert("Investment" in set dom bip.subcategories);
 	);
 	
+	-- Test Register Manufacturer
 	private testRegisterManufacturer: () ==> ()
 	testRegisterManufacturer() ==	(
 		dcl bip : BuyInPortugal := new BuyInPortugal();
@@ -159,7 +160,8 @@ operations
  		
 	);
 	
-		private testCreateProduct: () ==> ()
+	-- Test Create Product
+	private testCreateProduct: () ==> ()
 	testCreateProduct() ==	(
  		Assert(product.title = "Pocket Tissues");
  		Assert(product.description = "- 3-ply base sheet\n- 36x9 tissues per pack\n- Tissue size: 21x21cm");
@@ -167,7 +169,8 @@ operations
  		Assert(product.price = 1.23);
 	);
 	
-		private testAddProduct: () ==> ()
+	-- Test Add Product
+	private testAddProduct: () ==> ()
 	testAddProduct() ==	(
 		dcl bip : BuyInPortugal := new BuyInPortugal();
 		Assert(product.title not in set dom bip.products);
@@ -175,7 +178,8 @@ operations
  		Assert(product.title in set dom bip.products);
 	);
 	
-		private testRegisterClient: () ==> ()
+	-- Test Register Client
+	private testRegisterClient: () ==> ()
 	testRegisterClient() ==	(
 		dcl bip : BuyInPortugal := new BuyInPortugal();
 		
@@ -185,7 +189,8 @@ operations
  		
 	);
 	
-			private testAddWishList: () ==> ()
+	-- Test Add WishList
+	private testAddWishList: () ==> ()
 	testAddWishList() ==	(
 		dcl bip : BuyInPortugal := new BuyInPortugal();
 		bip.registerManufacturer(manufacturer.name,"");
@@ -202,6 +207,7 @@ operations
 		);
 	);
 	
+	-- Test Add Stock
 	private testAddToStock: () ==> ()
 	testAddToStock() ==	(
 		dcl bip : BuyInPortugal := new BuyInPortugal();
@@ -218,6 +224,7 @@ operations
 		);
 	);
 	
+	-- Test Remove WishList
 	private testRemoveWishList: () ==> ()
 	testRemoveWishList() ==	(
 		dcl bip : BuyInPortugal := new BuyInPortugal();
@@ -237,8 +244,8 @@ operations
 		);
 	);
 	
-	
-				private testAddToCart: () ==> ()
+	-- Test Add to Cart
+	private testAddToCart: () ==> ()
 	testAddToCart() ==	(
 		dcl bip : BuyInPortugal := new BuyInPortugal();
 		bip.registerManufacturer(manufacturer.name,"");
@@ -255,7 +262,8 @@ operations
 		);
 	);
 	
-					private testQntAddToCart: () ==> ()
+	-- Test Add Quantity to Cart
+	private testQntAddToCart: () ==> ()
 	testQntAddToCart() ==	(
 		dcl bip : BuyInPortugal := new BuyInPortugal();
 		bip.registerManufacturer(manufacturer.name,"");
@@ -273,6 +281,7 @@ operations
 		);
 	);
 	
+	-- Test Remove from Cart
 	private testRemoveFromCart: () ==> ()
 	testRemoveFromCart() ==	(
 		dcl bip : BuyInPortugal := new BuyInPortugal();
@@ -291,6 +300,7 @@ operations
 		);
 	);
 	
+	-- Test Convert WishList
 	private testConvertWishList: () ==> ()
 	testConvertWishList() ==	(
 		dcl bip : BuyInPortugal := new BuyInPortugal();
@@ -318,8 +328,17 @@ operations
 		));
 	);
 	
-	
-	
+	-- Test Get Total Cart
+	private testGetTotalCart: () ==> ()
+	testGetTotalCart() ==	(
+		dcl bip : BuyInPortugal := new BuyInPortugal();
+		bip.registerManufacturer(manufacturer.name,"");
+		bip.registerClient("logistica@fe.up.pt");
+		bip.addProduct(manufacturer.name,product.title,product.description, product.subcategory, product.price, product.quantities);
+		bip.addToCart("logistica@fe.up.pt", "Pocket Tissues", <Blue>);
+		bip.setQtyInCart("logistica@fe.up.pt", "Pocket Tissues", <Blue>, 2);
+		Assert(bip.getTotalCart("logistica@fe.up.pt") = 2.46);
+	);
 	
 	
 	-- Entry point that runs all tests with valid inputs
@@ -332,6 +351,7 @@ operations
   		test.testCreateClient();
   		test.testCreateManufacturer();
   		test.testAddCategory();
+  		test.testAddSubCategory();
   		test.testRegisterManufacturer();
   		test.testCreateProduct();
   		test.testAddProduct();
@@ -343,6 +363,7 @@ operations
   		test.testQntAddToCart();
   		test.testRemoveFromCart();
   		test.testConvertWishList();
+  		test.testGetTotalCart();
   );
   
 	
