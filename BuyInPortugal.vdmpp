@@ -229,7 +229,49 @@ operations
 		clients := clients munion { c.email |-> c };
 	);
 	
+	-- Get product by title
+	public searchProductsByTitle: Product`Title ==> Product
+	searchProductsByTitle(title) == (
+		dcl product: Product := nil;
+		product := products(title);
+		return product;
+	);
+	
+		-- Get products by manufacturer
+	public searchProductsByManufacturer: Manufacturer ==> Product
+	searchProductsByManufacturer(man) == (
+		dcl products: set of Product := {};
+		products := manufacturer(man);
+		return products;
+	)
+	pre man in set dom manufacturers;
+	
+	-- Get products by subcategory
+	public searchProductBySubcategory: Subcategory ==> set of Product
+	searchProductBySubcategory(subcat) == (
+		dcl products: set of Product := {};
+		for all product in set dom products
+			do (
+				if product.subcategory = subcat
+				then products := products union {product};
+			);
+		return products;
+	)
+	pre subcat in set dom subcategories;
+	
+	
+	-- Get products by category
+	public searchProductByCategory: Category ==> set of Product
+	searchProductByCategory(cat) == (
+		dcl products: set of Product := {};
+		for all product in set dom products
+			do (
+				if subcategories(product.subcategory) = cat
+				then products := products union {product};
+			);
+		return products;
+	)
+	pre cat in set categories;
 	/** VISITOR OPERATIONS END **/
 	
-
 end BuyInPortugal
