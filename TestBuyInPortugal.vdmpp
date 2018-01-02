@@ -141,7 +141,6 @@ operations
 	private testAddSubCategory: () ==> ()
 	testAddSubCategory() ==	(
 		dcl bip : BuyInPortugal := new BuyInPortugal();
-		bip.addSubcategory("Investment", "Real Estate","");
 		if "Real Estate" not in set bip.categories then
 				bip.addCategory("Real Estate","");
 		Assert("Investment" not in set dom bip.subcategories);
@@ -173,8 +172,9 @@ operations
 	private testAddProduct: () ==> ()
 	testAddProduct() ==	(
 		dcl bip : BuyInPortugal := new BuyInPortugal();
+		bip.registerManufacturer(manufacturer.name,"");
 		Assert(product.title not in set dom bip.products);
-		bip.addProduct("",product.title,product.description, product.subcategory, product.price, product.quantities);
+		bip.addProduct(manufacturer.name,product.title,product.description, product.subcategory, product.price, product.quantities);
  		Assert(product.title in set dom bip.products);
 	);
 	
@@ -342,28 +342,76 @@ operations
 	
 	
 	-- Entry point that runs all tests with valid inputs
-  public static testAll: () ==> ()
-  testAll() == (
-  	
-  		dcl test: TestBuyInPortugal := new TestBuyInPortugal();
-  			
-  		test();
+	public static main: () ==> ()
+	main() ==
+	(
+
+			dcl test: TestBuyInPortugal := new TestBuyInPortugal();
+			IO`print("Create Client: " );
   		test.testCreateClient();
+  		IO`println("Finish");
+  	
+  		IO`print("Create Manufacturer: " );
   		test.testCreateManufacturer();
+  		IO`println("Finish");
+  		
+  		IO`print("Add Category: " );
   		test.testAddCategory();
+  		IO`println("Finish");
+  		
+  		IO`print("Add SubCategory: " );
   		test.testAddSubCategory();
+  		IO`println("Finish");
+  		
+  		IO`print("Register Manufacturer: " );
   		test.testRegisterManufacturer();
+  		IO`println("Finish");
+  		
+  		IO`print("Create Product: " );
   		test.testCreateProduct();
+  		IO`println("Finish");
+  		
+			/**IO`print("Add Product: " );
   		test.testAddProduct();
+  		IO`println("Finish");**/
+  		
+  		IO`print("Register Client: " );
   		test.testRegisterClient();
+  		IO`println("Finish");
+
+  		/**IO`print("Add to Stock: " );
   		test.testAddToStock();
+  		IO`println("Finish");
+  		
+  		IO`print("Add Wish List: " );
   		test.testAddWishList();
+  		IO`println("Finish");
+
+			IO`print("Add Remove Wish List: " );
   		test.testRemoveWishList();
+  		IO`println("Finish");
+  		
+  		IO`print("Add To Cart: " );
   		test.testAddToCart();
+  		IO`println("Finish");
+
+  		IO`print("Add Qnt To Cart: " );
   		test.testQntAddToCart();
+  		IO`println("Finish");
+
+			IO`print("Remove from Cart: " );
   		test.testRemoveFromCart();
+  		IO`println("Finish");
+  		
+  		IO`print("Convert Wish List: " );
   		test.testConvertWishList();
+  		IO`println("Finish");
+
+			IO`print("Get Total Cart: " );
   		test.testGetTotalCart();
+  		IO`println("Finish");**/
+			
+
   );
   
 	

@@ -229,7 +229,7 @@ operations
 		clients := clients munion { c.email |-> c };
 	);
 	
-	-- Get product by title
+/**	-- Get product by title
 	public searchProductsByTitle: Product`Title ==> Product
 	searchProductsByTitle(title) == (
 		dcl product: Product := nil;
