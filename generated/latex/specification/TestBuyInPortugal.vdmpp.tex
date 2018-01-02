@@ -1,0 +1,485 @@
+\begin{vdmpp}[breaklines=true]
+class TestBuyInPortugal
+/* Test cases for BuyInPortugal model*/
+
+types
+ public Category = seq of char;
+
+instance variables
+ public category: Category := (*@\vdmnotcovered{"Real Estate"}@*);
+ public manufacturer : Manufacturer := new Manufacturer((*@\vdmnotcovered{"RENOVA"}@*));
+ public product: Product := new Product((*@\vdmnotcovered{"Pocket Tissues"}@*),
+  (*@\vdmnotcovered{"- 3-ply base sheet\textbackslash n- 36x9 tissues per pack\textbackslash n- Tissue size: 21x21cm"}@*),
+  (*@\vdmnotcovered{"Health \& Personal Care"}@*),
+  (*@\vdmnotcovered{1.23}@*),
+  {(*@\vdmnotcovered{<White>}@*) (*@\vdmnotcovered{|->}@*) (*@\vdmnotcovered{0}@*),
+   <Blue> (*@\vdmnotcovered{|->}@*) (*@\vdmnotcovered{0}@*),
+   <Pink> (*@\vdmnotcovered{|->}@*) (*@\vdmnotcovered{0}@*),
+   (*@\vdmnotcovered{<Yellow>}@*) (*@\vdmnotcovered{|->}@*) (*@\vdmnotcovered{0}@*),
+   (*@\vdmnotcovered{<Orange>}@*) |-> (*@\vdmnotcovered{0}@*),
+   (*@\vdmnotcovered{<Purple>}@*) |-> (*@\vdmnotcovered{0}@*),
+   (*@\vdmnotcovered{<Green>}@*) |-> (*@\vdmnotcovered{0}@*),
+   (*@\vdmnotcovered{<Red>}@*) (*@\vdmnotcovered{|->}@*) (*@\vdmnotcovered{0}@*)
+  });
+  public client : Client := (*@\vdmnotcovered{new}@*) (*@\vdmnotcovered{Client}@*)((*@\vdmnotcovered{"exemplo@gmail.com"}@*));
+  
+  
+
+operations
+ 
+ /** TEST CASES WITH VALID INPUTS **/
+(*@
+\label{test:30}
+@*)
+ public static test: () ==> ()
+ test() == (*@\vdmnotcovered{(}@*)
+  dcl bip : BuyInPortugal := new (*@\vdmnotcovered{BuyInPortugal}@*)();
+  
+  (*@\vdmnotcovered{bip}@*).setCategories((*@\vdmnotcovered{\{}@*)
+   (*@\vdmnotcovered{"Agriculture \& Food"}@*),
+   (*@\vdmnotcovered{"Beauty \& Health"}@*),
+   (*@\vdmnotcovered{"Books \& Audible"}@*),
+   (*@\vdmnotcovered{"Clothes, Shoes \& Jewellery"}@*),
+   (*@\vdmnotcovered{"Car \& Motorbike"}@*),
+   (*@\vdmnotcovered{"Fresh Products, Drinks \& Grocery"}@*),
+   (*@\vdmnotcovered{"Home, Garden, Pets \& DIY"}@*),
+   (*@\vdmnotcovered{"Electronics \& Computers"}@*),
+   (*@\vdmnotcovered{"Metallurgy, Chemicals, Rubber \& Plastics"}@*),
+   (*@\vdmnotcovered{"Movies, TV, Music \& Games"}@*),
+   (*@\vdmnotcovered{"Machinery, Industrial Parts \& Tools"}@*),
+   (*@\vdmnotcovered{"Toys, Children \& Baby"}@*),
+   (*@\vdmnotcovered{"Sports \& Outdoors"}@*)
+   },(*@\vdmnotcovered{""}@*));
+  (*@\vdmnotcovered{bip}@*).addCategory((*@\vdmnotcovered{"Real Estate"}@*),(*@\vdmnotcovered{""}@*));
+   
+  (*@\vdmnotcovered{bip}@*).setSubcategories({
+  "Vanilla Beans" |-> (*@\vdmnotcovered{"Agriculture \& Food"}@*),
+  "Plant Seeds & Bulbs" (*@\vdmnotcovered{|->}@*) (*@\vdmnotcovered{"Agriculture \& Food"}@*),
+  (*@\vdmnotcovered{"Nuts \& Kernels"}@*) |-> (*@\vdmnotcovered{"Agriculture \& Food"}@*),
+  "Health & Personal Care" |-> (*@\vdmnotcovered{"Beauty \& Health"}@*)
+  },(*@\vdmnotcovered{""}@*));
+  bip.addSubcategory("Investment", (*@\vdmnotcovered{"Real Estate"}@*),(*@\vdmnotcovered{""}@*));
+  
+  bip.registerManufacturer("RENOVA",(*@\vdmnotcovered{""}@*));
+  
+  (*@\vdmnotcovered{bip}@*).addProduct(
+   (*@\vdmnotcovered{"RENOVA"}@*),
+  (*@\vdmnotcovered{"Pocket Tissues"}@*),
+  (*@\vdmnotcovered{"- 3-ply base sheet\textbackslash n- 36x9 tissues per pack\textbackslash n- Tissue size: 21x21cm"}@*),
+  (*@\vdmnotcovered{"Health \& Personal Care"}@*),
+  (*@\vdmnotcovered{1.23}@*),
+  {(*@\vdmnotcovered{<White>}@*) (*@\vdmnotcovered{|->}@*) (*@\vdmnotcovered{0}@*),
+   (*@\vdmnotcovered{<Blue>}@*) (*@\vdmnotcovered{|->}@*) (*@\vdmnotcovered{0}@*),
+   (*@\vdmnotcovered{<Pink>}@*) (*@\vdmnotcovered{|->}@*) (*@\vdmnotcovered{0}@*),
+   (*@\vdmnotcovered{<Yellow>}@*) |-> (*@\vdmnotcovered{0}@*),
+   (*@\vdmnotcovered{<Orange>}@*) |-> (*@\vdmnotcovered{0}@*),
+   (*@\vdmnotcovered{<Purple>}@*) |-> (*@\vdmnotcovered{0}@*),
+   (*@\vdmnotcovered{<Green>}@*) |-> (*@\vdmnotcovered{0}@*),
+   <Red> (*@\vdmnotcovered{|->}@*) (*@\vdmnotcovered{0}@*)
+  });
+  
+  bip.addToStock("RENOVA", (*@\vdmnotcovered{"Pocket Tissues"}@*), (*@\vdmnotcovered{<Blue>}@*), (*@\vdmnotcovered{36}@*));
+  (*@\vdmnotcovered{bip}@*).addToStock("RENOVA", "Pocket Tissues", (*@\vdmnotcovered{<White>}@*), (*@\vdmnotcovered{2}@*));
+  
+  bip.registerClient((*@\vdmnotcovered{"logistica@fe.up.pt"}@*));
+  
+  (*@\vdmnotcovered{bip}@*).addToWishlist((*@\vdmnotcovered{"logistica@fe.up.pt"}@*), "Pocket Tissues", (*@\vdmnotcovered{<Red>}@*));
+  bip.removeFromWishlist((*@\vdmnotcovered{"logistica@fe.up.pt"}@*), "Pocket Tissues", (*@\vdmnotcovered{<Red>}@*));
+  (*@\vdmnotcovered{bip}@*).addToWishlist("logistica@fe.up.pt", (*@\vdmnotcovered{"Pocket Tissues"}@*), (*@\vdmnotcovered{<Blue>}@*));
+  (*@\vdmnotcovered{bip}@*).addToWishlist("logistica@fe.up.pt", (*@\vdmnotcovered{"Pocket Tissues"}@*), (*@\vdmnotcovered{<White>}@*));
+  
+  bip.addToCart("logistica@fe.up.pt", (*@\vdmnotcovered{"Pocket Tissues"}@*), (*@\vdmnotcovered{<Blue>}@*));
+  bip.setQtyInCart("logistica@fe.up.pt", (*@\vdmnotcovered{"Pocket Tissues"}@*), <Blue>, (*@\vdmnotcovered{35}@*));
+  bip.addToCart((*@\vdmnotcovered{"logistica@fe.up.pt"}@*), "Pocket Tissues", (*@\vdmnotcovered{<Red>}@*));
+  (*@\vdmnotcovered{bip}@*).removeFromCart("logistica@fe.up.pt", (*@\vdmnotcovered{"Pocket Tissues"}@*), (*@\vdmnotcovered{<Red>}@*));
+  
+  bip.convertWishlist((*@\vdmnotcovered{"logistica@fe.up.pt"}@*));
+  
+  (*@\vdmnotcovered{IO`print}@*)(bip.getTotalCart((*@\vdmnotcovered{"logistica@fe.up.pt"}@*)));
+  IO`print((*@\vdmnotcovered{"\textbackslash n"}@*));
+  
+  (*@\vdmnotcovered{bip}@*).buy((*@\vdmnotcovered{"logistica@fe.up.pt"}@*));
+  (*@\vdmnotcovered{IO`print}@*)((*@\vdmnotcovered{bip}@*));
+ );
+ 
+(*@
+\label{Assert:101}
+@*)
+ private Assert : bool ==> ()
+  Assert(cond) == (*@\vdmnotcovered{return}@*)
+  pre (*@\vdmnotcovered{cond}@*);
+  
+(*@
+\label{AssertEqual:105}
+@*)
+ private AssertEqual: ? * ? ==> ()
+ AssertEqual(expected, actual) == 
+  if expected (*@\vdmnotcovered{<>}@*) (*@\vdmnotcovered{actual}@*) then (*@\vdmnotcovered{(}@*)
+     IO`print((*@\vdmnotcovered{"Actual value ("}@*));
+     IO`print((*@\vdmnotcovered{actual}@*)); 
+     IO`print((*@\vdmnotcovered{") different from expected ("}@*));
+     (*@\vdmnotcovered{IO`print}@*)((*@\vdmnotcovered{expected}@*));
+     IO`println((*@\vdmnotcovered{")\textbackslash n"}@*))
+  )
+ post (*@\vdmnotcovered{expected}@*) (*@\vdmnotcovered{=}@*) (*@\vdmnotcovered{actual}@*);
+ 
+ -- Test Create Client
+(*@
+\label{testCreateClient:117}
+@*)
+ private testCreateClient: () ==> ()
+ testCreateClient() == (*@\vdmnotcovered{(}@*)
+   dcl client: Client := (*@\vdmnotcovered{new}@*) (*@\vdmnotcovered{Client}@*)((*@\vdmnotcovered{"exemplo@gmail.com"}@*));
+   (*@\vdmnotcovered{Assert}@*)(client.(*@\vdmnotcovered{email}@*) = (*@\vdmnotcovered{"exemplo@gmail.com"}@*));
+   (*@\vdmnotcovered{Assert}@*)(client.(*@\vdmnotcovered{wishlist}@*) = (*@\vdmnotcovered{\{}@*)});
+ );
+ 
+ -- Test Create Manufacturer
+(*@
+\label{testCreateManufacturer:125}
+@*)
+ private testCreateManufacturer: () ==> ()
+ testCreateManufacturer() == (*@\vdmnotcovered{(}@*)
+   dcl manufacturer: Manufacturer := new Manufacturer((*@\vdmnotcovered{"RENOVA"}@*));
+   (*@\vdmnotcovered{Assert}@*)(manufacturer.(*@\vdmnotcovered{name}@*) (*@\vdmnotcovered{=}@*) (*@\vdmnotcovered{"RENOVA"}@*));
+ );
+ 
+ -- Test Add Category
+(*@
+\label{testAddCategory:132}
+@*)
+ private testAddCategory: () ==> ()
+ testAddCategory() == (*@\vdmnotcovered{(}@*)
+  dcl bip : BuyInPortugal := new (*@\vdmnotcovered{BuyInPortugal}@*)();
+  (*@\vdmnotcovered{Assert}@*)((*@\vdmnotcovered{category}@*) not in set (*@\vdmnotcovered{bip}@*).(*@\vdmnotcovered{categories}@*));
+  bip.addCategory(category,(*@\vdmnotcovered{""}@*));
+   Assert((*@\vdmnotcovered{category}@*) in set (*@\vdmnotcovered{bip}@*).(*@\vdmnotcovered{categories}@*));
+ );
+ 
+ -- Test Add SubCategory
+(*@
+\label{testAddSubCategory:141}
+@*)
+ private testAddSubCategory: () ==> ()
+ testAddSubCategory() == (*@\vdmnotcovered{(}@*)
+  dcl bip : BuyInPortugal := (*@\vdmnotcovered{new}@*) (*@\vdmnotcovered{BuyInPortugal}@*)();
+  bip.addSubcategory("Investment", "Real Estate",(*@\vdmnotcovered{""}@*));
+  (*@\vdmnotcovered{if}@*) (*@\vdmnotcovered{"Real Estate"}@*) not in set (*@\vdmnotcovered{bip}@*).(*@\vdmnotcovered{categories}@*) then
+    (*@\vdmnotcovered{bip}@*).addCategory((*@\vdmnotcovered{"Real Estate"}@*),(*@\vdmnotcovered{""}@*));
+  (*@\vdmnotcovered{Assert}@*)("Investment" not in set dom bip.(*@\vdmnotcovered{subcategories}@*));
+  (*@\vdmnotcovered{bip}@*).addSubcategory((*@\vdmnotcovered{"Investment"}@*), (*@\vdmnotcovered{"Real Estate"}@*),(*@\vdmnotcovered{""}@*));
+   Assert((*@\vdmnotcovered{"Investment"}@*) in set dom (*@\vdmnotcovered{bip}@*).(*@\vdmnotcovered{subcategories}@*));
+ );
+ 
+ -- Test Register Manufacturer
+(*@
+\label{testRegisterManufacturer:153}
+@*)
+ private testRegisterManufacturer: () ==> ()
+ testRegisterManufacturer() == (*@\vdmnotcovered{(}@*)
+  dcl bip : BuyInPortugal := new (*@\vdmnotcovered{BuyInPortugal}@*)();
+  
+  Assert(manufacturer.(*@\vdmnotcovered{name}@*) (*@\vdmnotcovered{not}@*) in set (*@\vdmnotcovered{dom}@*) (*@\vdmnotcovered{bip}@*).(*@\vdmnotcovered{manufacturers}@*));
+  (*@\vdmnotcovered{bip}@*).registerManufacturer(manufacturer.name,(*@\vdmnotcovered{""}@*));
+  (*@\vdmnotcovered{Assert}@*)(manufacturer.name in set dom (*@\vdmnotcovered{bip}@*).(*@\vdmnotcovered{manufacturers}@*));
+   
+ );
+ 
+ -- Test Create Product
+(*@
+\label{testCreateProduct:164}
+@*)
+ private testCreateProduct: () ==> ()
+ testCreateProduct() == (*@\vdmnotcovered{(}@*)
+   (*@\vdmnotcovered{Assert}@*)(product.(*@\vdmnotcovered{title}@*) (*@\vdmnotcovered{=}@*) (*@\vdmnotcovered{"Pocket Tissues"}@*));
+   Assert(product.description = (*@\vdmnotcovered{"- 3-ply base sheet\textbackslash n- 36x9 tissues per pack\textbackslash n- Tissue size: 21x21cm"}@*));
+   Assert(product.subcategory (*@\vdmnotcovered{=}@*) (*@\vdmnotcovered{"Health \& Personal Care"}@*));
+   Assert((*@\vdmnotcovered{product}@*).(*@\vdmnotcovered{price}@*) (*@\vdmnotcovered{=}@*) (*@\vdmnotcovered{1.23}@*));
+ );
+ 
+ -- Test Add Product
+(*@
+\label{testAddProduct:173}
+@*)
+ private testAddProduct: () ==> ()
+ testAddProduct() == (*@\vdmnotcovered{(}@*)
+  dcl bip : BuyInPortugal := new (*@\vdmnotcovered{BuyInPortugal}@*)();
+  (*@\vdmnotcovered{Assert}@*)(product.title not in set dom bip.(*@\vdmnotcovered{products}@*));
+  bip.addProduct("",product.title,product.description, product.subcategory, product.price, product.(*@\vdmnotcovered{quantities}@*));
+   (*@\vdmnotcovered{Assert}@*)(product.title in set (*@\vdmnotcovered{dom}@*) (*@\vdmnotcovered{bip}@*).(*@\vdmnotcovered{products}@*));
+ );
+ 
+ -- Test Register Client
+(*@
+\label{testRegisterClient:182}
+@*)
+ private testRegisterClient: () ==> ()
+ testRegisterClient() == (*@\vdmnotcovered{(}@*)
+  dcl bip : BuyInPortugal := new (*@\vdmnotcovered{BuyInPortugal}@*)();
+  
+  Assert((*@\vdmnotcovered{client}@*).(*@\vdmnotcovered{email}@*) not in set dom bip.(*@\vdmnotcovered{clients}@*));
+  (*@\vdmnotcovered{bip}@*).registerClient((*@\vdmnotcovered{client}@*).(*@\vdmnotcovered{email}@*));
+  Assert(client.email in set dom bip.(*@\vdmnotcovered{clients}@*));
+   
+ );
+ 
+ -- Test Add WishList
+(*@
+\label{testAddWishList:193}
+@*)
+ private testAddWishList: () ==> ()
+ testAddWishList() == (*@\vdmnotcovered{(}@*)
+  dcl bip : BuyInPortugal := (*@\vdmnotcovered{new}@*) (*@\vdmnotcovered{BuyInPortugal}@*)();
+  (*@\vdmnotcovered{bip}@*).registerManufacturer((*@\vdmnotcovered{manufacturer}@*).(*@\vdmnotcovered{name}@*),(*@\vdmnotcovered{""}@*));
+  (*@\vdmnotcovered{bip}@*).registerClient((*@\vdmnotcovered{"logistica@fe.up.pt"}@*));
+  bip.addProduct(manufacturer.name,product.title,product.description, product.subcategory, (*@\vdmnotcovered{product}@*).(*@\vdmnotcovered{price}@*), (*@\vdmnotcovered{product}@*).(*@\vdmnotcovered{quantities}@*));
+  (*@\vdmnotcovered{let}@*) client1 = (*@\vdmnotcovered{bip}@*).(*@\vdmnotcovered{clients}@*)((*@\vdmnotcovered{"logistica@fe.up.pt"}@*))
+  in(*@\vdmnotcovered{(}@*)
+   (*@\vdmnotcovered{Assert}@*)(mk_("Pocket Tissues", <Red>) not in set client1.(*@\vdmnotcovered{wishlist}@*));
+  );
+  (*@\vdmnotcovered{bip}@*).addToWishlist((*@\vdmnotcovered{"logistica@fe.up.pt"}@*), (*@\vdmnotcovered{"Pocket Tissues"}@*), (*@\vdmnotcovered{<Red>}@*));
+  (*@\vdmnotcovered{let}@*) client1 = bip.clients((*@\vdmnotcovered{"logistica@fe.up.pt"}@*))
+  in(*@\vdmnotcovered{(}@*)
+   (*@\vdmnotcovered{Assert}@*)((*@\vdmnotcovered{mk\_}@*)((*@\vdmnotcovered{"Pocket Tissues"}@*), (*@\vdmnotcovered{<Red>}@*)) in set client1.(*@\vdmnotcovered{wishlist}@*));
+  );
+ );
+ 
+ -- Test Add Stock
+(*@
+\label{testAddToStock:211}
+@*)
+ private testAddToStock: () ==> ()
+ testAddToStock() == (*@\vdmnotcovered{(}@*)
+  dcl bip : BuyInPortugal := (*@\vdmnotcovered{new}@*) (*@\vdmnotcovered{BuyInPortugal}@*)();
+  (*@\vdmnotcovered{bip}@*).registerManufacturer((*@\vdmnotcovered{manufacturer}@*).(*@\vdmnotcovered{name}@*),(*@\vdmnotcovered{""}@*));
+  bip.addProduct(manufacturer.name,product.title,product.description, product.subcategory, product.price, (*@\vdmnotcovered{product}@*).(*@\vdmnotcovered{quantities}@*));
+  (*@\vdmnotcovered{let}@*) product1 = (*@\vdmnotcovered{bip}@*).(*@\vdmnotcovered{products}@*)((*@\vdmnotcovered{"Pocket Tissues"}@*))
+  in(*@\vdmnotcovered{(}@*)
+   Assert(product1.quantities(<Blue>) (*@\vdmnotcovered{=}@*) (*@\vdmnotcovered{0}@*));
+  );
+  bip.addToStock("RENOVA", "Pocket Tissues", <Blue>, (*@\vdmnotcovered{36}@*));
+  let product1 = bip.(*@\vdmnotcovered{products}@*)((*@\vdmnotcovered{"Pocket Tissues"}@*))
+  in(*@\vdmnotcovered{(}@*)
+   (*@\vdmnotcovered{Assert}@*)(product1.(*@\vdmnotcovered{quantities}@*)((*@\vdmnotcovered{<Blue>}@*)) = (*@\vdmnotcovered{36}@*));
+  );
+ );
+ 
+ -- Test Remove WishList
+(*@
+\label{testRemoveWishList:228}
+@*)
+ private testRemoveWishList: () ==> ()
+ testRemoveWishList() == (*@\vdmnotcovered{(}@*)
+  dcl bip : BuyInPortugal := (*@\vdmnotcovered{new}@*) (*@\vdmnotcovered{BuyInPortugal}@*)();
+  bip.registerManufacturer((*@\vdmnotcovered{manufacturer}@*).(*@\vdmnotcovered{name}@*),(*@\vdmnotcovered{""}@*));
+  bip.registerClient((*@\vdmnotcovered{"logistica@fe.up.pt"}@*));
+  bip.addProduct(manufacturer.name,product.title,product.(*@\vdmnotcovered{description}@*), product.subcategory, (*@\vdmnotcovered{product}@*).price, product.(*@\vdmnotcovered{quantities}@*));
+  bip.addToWishlist((*@\vdmnotcovered{"logistica@fe.up.pt"}@*), "Pocket Tissues", (*@\vdmnotcovered{<Red>}@*));
+  (*@\vdmnotcovered{let}@*) client1 = bip.clients((*@\vdmnotcovered{"logistica@fe.up.pt"}@*))
+  in(*@\vdmnotcovered{(}@*)
+   (*@\vdmnotcovered{if}@*) (*@\vdmnotcovered{mk\_}@*)((*@\vdmnotcovered{"Pocket Tissues"}@*), <Red>) not in set (*@\vdmnotcovered{client1}@*).(*@\vdmnotcovered{wishlist}@*) then
+    (*@\vdmnotcovered{bip}@*).addToWishlist("logistica@fe.up.pt", "Pocket Tissues", (*@\vdmnotcovered{<Red>}@*));
+  );
+  bip.removeFromWishlist((*@\vdmnotcovered{"logistica@fe.up.pt"}@*), "Pocket Tissues", (*@\vdmnotcovered{<Red>}@*));
+  (*@\vdmnotcovered{let}@*) client1 = bip.clients((*@\vdmnotcovered{"logistica@fe.up.pt"}@*))
+  in(*@\vdmnotcovered{(}@*)
+   Assert((*@\vdmnotcovered{mk\_}@*)((*@\vdmnotcovered{"Pocket Tissues"}@*), <Red>) not in set client1.(*@\vdmnotcovered{wishlist}@*));
+  );
+ );
+ 
+ -- Test Add to Cart
+(*@
+\label{testAddToCart:248}
+@*)
+ private testAddToCart: () ==> ()
+ testAddToCart() == (*@\vdmnotcovered{(}@*)
+  dcl bip : BuyInPortugal := new (*@\vdmnotcovered{BuyInPortugal}@*)();
+  (*@\vdmnotcovered{bip}@*).registerManufacturer((*@\vdmnotcovered{manufacturer}@*).name,(*@\vdmnotcovered{""}@*));
+  (*@\vdmnotcovered{bip}@*).registerClient((*@\vdmnotcovered{"logistica@fe.up.pt"}@*));
+  bip.addProduct(manufacturer.name,product.title,product.description, product.subcategory, product.price, (*@\vdmnotcovered{product}@*).(*@\vdmnotcovered{quantities}@*));
+  (*@\vdmnotcovered{let}@*) client1 = bip.clients((*@\vdmnotcovered{"logistica@fe.up.pt"}@*))
+  in(*@\vdmnotcovered{(}@*)
+   Assert(mk_("Pocket Tissues", <Red>)  not in set (*@\vdmnotcovered{dom}@*) client1.(*@\vdmnotcovered{cart}@*));
+  );
+  bip.addToCart((*@\vdmnotcovered{"logistica@fe.up.pt"}@*), (*@\vdmnotcovered{"Pocket Tissues"}@*), (*@\vdmnotcovered{<Red>}@*));
+  (*@\vdmnotcovered{let}@*) client1 = (*@\vdmnotcovered{bip}@*).(*@\vdmnotcovered{clients}@*)((*@\vdmnotcovered{"logistica@fe.up.pt"}@*))
+  in(*@\vdmnotcovered{(}@*)
+   Assert(mk_((*@\vdmnotcovered{"Pocket Tissues"}@*), (*@\vdmnotcovered{<Red>}@*)) in set (*@\vdmnotcovered{dom}@*) client1.(*@\vdmnotcovered{cart}@*));
+  );
+ );
+ 
+ -- Test Add Quantity to Cart
+(*@
+\label{testQntAddToCart:266}
+@*)
+ private testQntAddToCart: () ==> ()
+ testQntAddToCart() == (*@\vdmnotcovered{(}@*)
+  dcl bip : BuyInPortugal := new (*@\vdmnotcovered{BuyInPortugal}@*)();
+  bip.registerManufacturer((*@\vdmnotcovered{manufacturer}@*).(*@\vdmnotcovered{name}@*),(*@\vdmnotcovered{""}@*));
+  bip.registerClient((*@\vdmnotcovered{"logistica@fe.up.pt"}@*));
+  bip.addProduct((*@\vdmnotcovered{manufacturer}@*).name,(*@\vdmnotcovered{product}@*).title,product.description, product.subcategory, product.price, product.(*@\vdmnotcovered{quantities}@*));
+  (*@\vdmnotcovered{bip}@*).addToCart((*@\vdmnotcovered{"logistica@fe.up.pt"}@*), (*@\vdmnotcovered{"Pocket Tissues"}@*), (*@\vdmnotcovered{<Blue>}@*));
+  let client1 = (*@\vdmnotcovered{bip}@*).clients((*@\vdmnotcovered{"logistica@fe.up.pt"}@*))
+  in(*@\vdmnotcovered{(}@*)
+   Assert(client1.(*@\vdmnotcovered{cart}@*)(mk_((*@\vdmnotcovered{"Pocket Tissues"}@*),(*@\vdmnotcovered{<Blue>}@*))) (*@\vdmnotcovered{=}@*) (*@\vdmnotcovered{1}@*));
+  );
+  bip.setQtyInCart((*@\vdmnotcovered{"logistica@fe.up.pt"}@*), (*@\vdmnotcovered{"Pocket Tissues"}@*), (*@\vdmnotcovered{<Blue>}@*), (*@\vdmnotcovered{35}@*));
+  (*@\vdmnotcovered{let}@*) client1 = bip.(*@\vdmnotcovered{clients}@*)((*@\vdmnotcovered{"logistica@fe.up.pt"}@*))
+  in(*@\vdmnotcovered{(}@*)
+   Assert(client1.cart(mk_("Pocket Tissues",(*@\vdmnotcovered{<Blue>}@*))) = (*@\vdmnotcovered{35}@*));
+  );
+ );
+ 
+ -- Test Remove from Cart
+(*@
+\label{testRemoveFromCart:285}
+@*)
+ private testRemoveFromCart: () ==> ()
+ testRemoveFromCart() == (*@\vdmnotcovered{(}@*)
+  dcl bip : BuyInPortugal := new (*@\vdmnotcovered{BuyInPortugal}@*)();
+  bip.registerManufacturer(manufacturer.name,(*@\vdmnotcovered{""}@*));
+  (*@\vdmnotcovered{bip}@*).registerClient((*@\vdmnotcovered{"logistica@fe.up.pt"}@*));
+  (*@\vdmnotcovered{bip}@*).addProduct(manufacturer.name,product.title,product.description, product.subcategory, product.price, product.(*@\vdmnotcovered{quantities}@*));
+  (*@\vdmnotcovered{let}@*) client1 = (*@\vdmnotcovered{bip}@*).clients((*@\vdmnotcovered{"logistica@fe.up.pt"}@*))
+  in(*@\vdmnotcovered{(}@*)
+   (*@\vdmnotcovered{if}@*) (*@\vdmnotcovered{mk\_}@*)((*@\vdmnotcovered{"Pocket Tissues"}@*), <Red>) (*@\vdmnotcovered{not}@*) in set dom (*@\vdmnotcovered{client1}@*).(*@\vdmnotcovered{cart}@*) then
+    bip.addToCart((*@\vdmnotcovered{"logistica@fe.up.pt"}@*), (*@\vdmnotcovered{"Pocket Tissues"}@*), (*@\vdmnotcovered{<Red>}@*));
+  );
+  (*@\vdmnotcovered{bip}@*).removeFromCart("logistica@fe.up.pt", "Pocket Tissues", (*@\vdmnotcovered{<Red>}@*));
+  let client1 = bip.clients((*@\vdmnotcovered{"logistica@fe.up.pt"}@*))
+  in(*@\vdmnotcovered{(}@*)
+   (*@\vdmnotcovered{Assert}@*)((*@\vdmnotcovered{mk\_}@*)((*@\vdmnotcovered{"Pocket Tissues"}@*), <Red>) (*@\vdmnotcovered{not}@*) in set dom client1.(*@\vdmnotcovered{cart}@*));
+  );
+ );
+ 
+ -- Test Convert WishList
+(*@
+\label{testConvertWishList:304}
+@*)
+ private testConvertWishList: () ==> ()
+ testConvertWishList() == (*@\vdmnotcovered{(}@*)
+  dcl bip : BuyInPortugal := new (*@\vdmnotcovered{BuyInPortugal}@*)();
+  (*@\vdmnotcovered{bip}@*).registerManufacturer(manufacturer.name,(*@\vdmnotcovered{""}@*));
+  (*@\vdmnotcovered{bip}@*).registerClient((*@\vdmnotcovered{"logistica@fe.up.pt"}@*));
+  (*@\vdmnotcovered{bip}@*).addProduct(manufacturer.name,(*@\vdmnotcovered{product}@*).title,product.description, product.(*@\vdmnotcovered{subcategory}@*), (*@\vdmnotcovered{product}@*).(*@\vdmnotcovered{price}@*), (*@\vdmnotcovered{product}@*).(*@\vdmnotcovered{quantities}@*));
+  (*@\vdmnotcovered{bip}@*).addToWishlist("logistica@fe.up.pt", "Pocket Tissues", (*@\vdmnotcovered{<Red>}@*));
+  let client1 = bip.clients((*@\vdmnotcovered{"logistica@fe.up.pt"}@*))
+  in(*@\vdmnotcovered{(}@*)
+    (*@\vdmnotcovered{if}@*) (*@\vdmnotcovered{mk\_}@*)("Pocket Tissues", <Red>) not in set dom client1.cart and mk_("Pocket Tissues", <Red>) in set client1.(*@\vdmnotcovered{wishlist}@*) then
+     bip.convertWishlist((*@\vdmnotcovered{"logistica@fe.up.pt"}@*));
+     Assert(mk_("Pocket Tissues", (*@\vdmnotcovered{<Red>}@*)) in set dom client1.(*@\vdmnotcovered{cart}@*));
+     Assert(client1.cart(mk_("Pocket Tissues",(*@\vdmnotcovered{<Red>}@*))) = (*@\vdmnotcovered{1}@*));
+     Assert(mk_("Pocket Tissues", <Red>) not in set client1.(*@\vdmnotcovered{wishlist}@*));
+  );
+  (*@\vdmnotcovered{let}@*) client1 = bip.clients((*@\vdmnotcovered{"logistica@fe.up.pt"}@*))
+  in(*@\vdmnotcovered{(}@*)
+    if mk_((*@\vdmnotcovered{"Pocket Tissues"}@*), (*@\vdmnotcovered{<Red>}@*)) in set dom client1.cart and mk_("Pocket Tissues", (*@\vdmnotcovered{<Red>}@*)) (*@\vdmnotcovered{in}@*) set (*@\vdmnotcovered{client1}@*).(*@\vdmnotcovered{wishlist}@*) then
+     let tmp = client1.cart(mk_("Pocket Tissues",(*@\vdmnotcovered{<Red>}@*)))
+     in(*@\vdmnotcovered{(}@*)
+     bip.convertWishlist((*@\vdmnotcovered{"logistica@fe.up.pt"}@*));
+     (*@\vdmnotcovered{Assert}@*)(mk_("Pocket Tissues", <Red>) (*@\vdmnotcovered{in}@*) set (*@\vdmnotcovered{dom}@*) (*@\vdmnotcovered{client1}@*).(*@\vdmnotcovered{cart}@*));
+     Assert((*@\vdmnotcovered{client1}@*).(*@\vdmnotcovered{cart}@*)((*@\vdmnotcovered{mk\_}@*)((*@\vdmnotcovered{"Pocket Tissues"}@*),(*@\vdmnotcovered{<Red>}@*))) = (*@\vdmnotcovered{tmp}@*));
+     (*@\vdmnotcovered{Assert}@*)((*@\vdmnotcovered{mk\_}@*)("Pocket Tissues", <Red>) not in set client1.(*@\vdmnotcovered{wishlist}@*));
+  ));
+ );
+ 
+ -- Test Get Total Cart
+(*@
+\label{testGetTotalCart:332}
+@*)
+ private testGetTotalCart: () ==> ()
+ testGetTotalCart() == (*@\vdmnotcovered{(}@*)
+  dcl bip : BuyInPortugal := (*@\vdmnotcovered{new}@*) (*@\vdmnotcovered{BuyInPortugal}@*)();
+  bip.registerManufacturer(manufacturer.(*@\vdmnotcovered{name}@*),(*@\vdmnotcovered{""}@*));
+  (*@\vdmnotcovered{bip}@*).registerClient((*@\vdmnotcovered{"logistica@fe.up.pt"}@*));
+  (*@\vdmnotcovered{bip}@*).addProduct(manufacturer.name,product.title,product.description, product.subcategory, product.price, (*@\vdmnotcovered{product}@*).(*@\vdmnotcovered{quantities}@*));
+  (*@\vdmnotcovered{bip}@*).addToCart((*@\vdmnotcovered{"logistica@fe.up.pt"}@*), (*@\vdmnotcovered{"Pocket Tissues"}@*), (*@\vdmnotcovered{<Blue>}@*));
+  (*@\vdmnotcovered{bip}@*).setQtyInCart("logistica@fe.up.pt", (*@\vdmnotcovered{"Pocket Tissues"}@*), <Blue>, (*@\vdmnotcovered{2}@*));
+  Assert(bip.getTotalCart((*@\vdmnotcovered{"logistica@fe.up.pt"}@*)) = (*@\vdmnotcovered{2.46}@*));
+ );
+ 
+ 
+ -- Entry point that runs all tests with valid inputs
+(*@
+\label{testAll:345}
+@*)
+  public static testAll: () ==> ()
+  testAll() == (*@\vdmnotcovered{(}@*)
+   
+    dcl test: TestBuyInPortugal := new (*@\vdmnotcovered{TestBuyInPortugal}@*)();
+     
+    (*@\vdmnotcovered{test}@*)();
+    (*@\vdmnotcovered{test}@*).testCreateClient();
+    (*@\vdmnotcovered{test}@*).testCreateManufacturer();
+    (*@\vdmnotcovered{test}@*).testAddCategory();
+    (*@\vdmnotcovered{test}@*).testAddSubCategory();
+    (*@\vdmnotcovered{test}@*).testRegisterManufacturer();
+    (*@\vdmnotcovered{test}@*).testCreateProduct();
+    (*@\vdmnotcovered{test}@*).testAddProduct();
+    (*@\vdmnotcovered{test}@*).testRegisterClient();
+    (*@\vdmnotcovered{test}@*).testAddToStock();
+    (*@\vdmnotcovered{test}@*).testAddWishList();
+    (*@\vdmnotcovered{test}@*).testRemoveWishList();
+    (*@\vdmnotcovered{test}@*).testAddToCart();
+    (*@\vdmnotcovered{test}@*).testQntAddToCart();
+    (*@\vdmnotcovered{test}@*).testRemoveFromCart();
+    (*@\vdmnotcovered{test}@*).testConvertWishList();
+    (*@\vdmnotcovered{test}@*).testGetTotalCart();
+  );
+  
+ 
+ /** TEST CASES WITH VALID INPUTS END **/
+
+end TestBuyInPortugal
+\end{vdmpp}
+\bigskip
+\begin{longtable}{|l|r|r|r|}
+\hline
+Function or operation & Line & Coverage & Calls \\
+\hline
+\hline
+\hyperref[Assert:101]{Assert} & 101&0.0\% & 0 \\
+\hline
+\hyperref[AssertEqual:105]{AssertEqual} & 105&0.0\% & 0 \\
+\hline
+\hyperref[test:30]{test} & 30&0.0\% & 0 \\
+\hline
+\hyperref[testAddCategory:132]{testAddCategory} & 132&0.0\% & 0 \\
+\hline
+\hyperref[testAddProduct:173]{testAddProduct} & 173&0.0\% & 0 \\
+\hline
+\hyperref[testAddSubCategory:141]{testAddSubCategory} & 141&0.0\% & 0 \\
+\hline
+\hyperref[testAddToCart:248]{testAddToCart} & 248&0.0\% & 0 \\
+\hline
+\hyperref[testAddToStock:211]{testAddToStock} & 211&0.0\% & 0 \\
+\hline
+\hyperref[testAddWishList:193]{testAddWishList} & 193&0.0\% & 0 \\
+\hline
+\hyperref[testAll:345]{testAll} & 345&0.0\% & 0 \\
+\hline
+\hyperref[testConvertWishList:304]{testConvertWishList} & 304&0.0\% & 0 \\
+\hline
+\hyperref[testCreateClient:117]{testCreateClient} & 117&0.0\% & 0 \\
+\hline
+\hyperref[testCreateManufacturer:125]{testCreateManufacturer} & 125&0.0\% & 0 \\
+\hline
+\hyperref[testCreateProduct:164]{testCreateProduct} & 164&0.0\% & 0 \\
+\hline
+\hyperref[testGetTotalCart:332]{testGetTotalCart} & 332&0.0\% & 0 \\
+\hline
+\hyperref[testQntAddToCart:266]{testQntAddToCart} & 266&0.0\% & 0 \\
+\hline
+\hyperref[testRegisterClient:182]{testRegisterClient} & 182&0.0\% & 0 \\
+\hline
+\hyperref[testRegisterManufacturer:153]{testRegisterManufacturer} & 153&0.0\% & 0 \\
+\hline
+\hyperref[testRemoveFromCart:285]{testRemoveFromCart} & 285&0.0\% & 0 \\
+\hline
+\hyperref[testRemoveWishList:228]{testRemoveWishList} & 228&0.0\% & 0 \\
+\hline
+\hline
+TestBuyInPortugal.vdmpp & & 0.0\% & 0 \\
+\hline
+\end{longtable}
+

@@ -1,0 +1,135 @@
+\begin{vdmpp}[breaklines=true]
+class Client
+
+types
+ public Email = seq of char;
+ public Cart = map (Product`Title * Product`Color) to nat1;
+ public Wishlist = set of (Product`Title * Product`Color);
+ 
+instance variables
+  public cart: Cart  := (*@\vdmnotcovered{\{}@*) |-> };
+  public wishlist: Wishlist := (*@\vdmnotcovered{\{}@*)};
+  public email: Email;
+  public buyHistory : seq of Cart := (*@\vdmnotcovered{[}@*)];
+  
+operations
+(*@
+\label{Client:15}
+@*)
+ public Client : Email ==> Client
+ Client(e) == (*@\vdmnotcovered{(}@*)
+  email := (*@\vdmnotcovered{e}@*);
+   (*@\vdmnotcovered{return}@*) (*@\vdmnotcovered{self}@*)
+ );
+ 
+ -- Add product to wishlist
+(*@
+\label{addToWishlist:22}
+@*)
+ public addToWishlist: Product`Title * Product`Color ==> ()
+ addToWishlist(title, color) == (*@\vdmnotcovered{(}@*)
+  (*@\vdmnotcovered{wishlist}@*) := wishlist (*@\vdmnotcovered{union}@*) { mk_(title, (*@\vdmnotcovered{color}@*)) };
+ )
+ pre mk_(title, color) not in set (*@\vdmnotcovered{wishlist}@*);
+ 
+ -- Remove product from wishlist
+(*@
+\label{removeFromWishlist:29}
+@*)
+ public removeFromWishlist: Product`Title * Product`Color ==> ()
+ removeFromWishlist(title, color) == (*@\vdmnotcovered{(}@*)
+  (*@\vdmnotcovered{wishlist}@*) := (*@\vdmnotcovered{wishlist}@*) \ {mk_(title, (*@\vdmnotcovered{color}@*))};
+ )
+ pre mk_((*@\vdmnotcovered{title}@*), (*@\vdmnotcovered{color}@*)) in set (*@\vdmnotcovered{wishlist}@*);
+ 
+ -- Add product to cart
+(*@
+\label{addToCart:36}
+@*)
+ public addToCart: Product`Title * Product`Color ==> ()
+ addToCart(title, color) == (*@\vdmnotcovered{(}@*)
+  cart := cart munion { (*@\vdmnotcovered{mk\_}@*)((*@\vdmnotcovered{title}@*), color) |-> (*@\vdmnotcovered{1}@*) };
+ )
+ pre (*@\vdmnotcovered{mk\_}@*)(title, color) (*@\vdmnotcovered{not}@*) in set dom (*@\vdmnotcovered{cart}@*);
+ 
+ -- Remove product from cart specific color
+(*@
+\label{removeFromCart:43}
+@*)
+ public removeFromCart: Product`Title * Product`Color ==> ()
+ removeFromCart(title, color) == (*@\vdmnotcovered{(}@*)
+  cart := {mk_((*@\vdmnotcovered{title}@*), color)} <-: (*@\vdmnotcovered{cart}@*);
+ )
+ pre mk_(title, color) (*@\vdmnotcovered{in}@*) set (*@\vdmnotcovered{dom}@*) (*@\vdmnotcovered{cart}@*);
+ 
+ -- Set product quantity in cart
+(*@
+\label{setQtyInCart:50}
+@*)
+ public setQtyInCart: Product`Title * Product`Color * Product`Quantity ==> ()
+ setQtyInCart(title, color, qty) == (*@\vdmnotcovered{(}@*)
+  (*@\vdmnotcovered{cart}@*) := (*@\vdmnotcovered{cart}@*) (*@\vdmnotcovered{++}@*) { mk_((*@\vdmnotcovered{title}@*), color) (*@\vdmnotcovered{|->}@*) (*@\vdmnotcovered{qty}@*) };
+ )
+ pre (*@\vdmnotcovered{mk\_}@*)(title, color) in set dom (*@\vdmnotcovered{cart}@*)
+  and qty (*@\vdmnotcovered{>}@*) (*@\vdmnotcovered{0}@*);
+  
+ -- Push cart to buy history
+(*@
+\label{pushCartToHistory:58}
+@*)
+ public pushCartToHistory: () ==> ()
+ pushCartToHistory() == (*@\vdmnotcovered{(}@*)
+  buyHistory := (*@\vdmnotcovered{[}@*)(*@\vdmnotcovered{cart}@*)] (*@\vdmnotcovered{\^{}}@*) (*@\vdmnotcovered{buyHistory}@*);
+  cart := (*@\vdmnotcovered{\{}@*) |-> };
+ )
+ pre card dom cart > (*@\vdmnotcovered{0}@*)
+ post (*@\vdmnotcovered{cart}@*) = (*@\vdmnotcovered{\{}@*) |-> }
+  (*@\vdmnotcovered{and}@*) (*@\vdmnotcovered{len}@*) (*@\vdmnotcovered{buyHistory}@*) = len buyHistory~ (*@\vdmnotcovered{+}@*) (*@\vdmnotcovered{1}@*);
+  
+ -- Convert wishlist to cart
+(*@
+\label{convertWishlist:68}
+@*)
+ public convertWishlist: () ==> ()
+ convertWishlist() == (*@\vdmnotcovered{(}@*)
+  for all mk_(title, color) in set (*@\vdmnotcovered{wishlist}@*)
+   do (*@\vdmnotcovered{(}@*)
+    if mk_(title, color) not in set dom (*@\vdmnotcovered{cart}@*)
+    then addToCart(title, (*@\vdmnotcovered{color}@*));
+   );
+  wishlist := (*@\vdmnotcovered{\{}@*) };
+ )
+ pre (*@\vdmnotcovered{card}@*) wishlist (*@\vdmnotcovered{>}@*) (*@\vdmnotcovered{0}@*)
+ post wishlist = (*@\vdmnotcovered{\{}@*) }
+  (*@\vdmnotcovered{and}@*) (*@\vdmnotcovered{card}@*) dom (*@\vdmnotcovered{cart}@*) = card (dom cart~ union (*@\vdmnotcovered{wishlist}@*)~);
+  
+
+end Client
+\end{vdmpp}
+\bigskip
+\begin{longtable}{|l|r|r|r|}
+\hline
+Function or operation & Line & Coverage & Calls \\
+\hline
+\hline
+\hyperref[Client:15]{Client} & 15&0.0\% & 0 \\
+\hline
+\hyperref[addToCart:36]{addToCart} & 36&0.0\% & 0 \\
+\hline
+\hyperref[addToWishlist:22]{addToWishlist} & 22&0.0\% & 0 \\
+\hline
+\hyperref[convertWishlist:68]{convertWishlist} & 68&0.0\% & 0 \\
+\hline
+\hyperref[pushCartToHistory:58]{pushCartToHistory} & 58&0.0\% & 0 \\
+\hline
+\hyperref[removeFromCart:43]{removeFromCart} & 43&0.0\% & 0 \\
+\hline
+\hyperref[removeFromWishlist:29]{removeFromWishlist} & 29&0.0\% & 0 \\
+\hline
+\hyperref[setQtyInCart:50]{setQtyInCart} & 50&0.0\% & 0 \\
+\hline
+\hline
+Client.vdmpp & & 0.0\% & 0 \\
+\hline
+\end{longtable}
+
