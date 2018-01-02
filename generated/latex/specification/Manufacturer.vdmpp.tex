@@ -1,0 +1,46 @@
+\begin{vdmpp}[breaklines=true]
+class Manufacturer
+types
+ public Name = seq of char;
+ 
+instance variables
+ public name : Name;
+ public products : map Product`Title to Product := (*@\vdmnotcovered{\{}@*) |-> };
+ 
+operations
+(*@
+\label{Manufacturer:10}
+@*)
+ public Manufacturer : Name ==> Manufacturer
+ Manufacturer(n) == (*@\vdmnotcovered{(}@*)
+  name := (*@\vdmnotcovered{n}@*);
+   (*@\vdmnotcovered{return}@*) (*@\vdmnotcovered{self}@*)
+ );
+ 
+ -- Add product
+(*@
+\label{addProduct:17}
+@*)
+ public addProduct: Product ==> ()
+ addProduct(p) == (*@\vdmnotcovered{(}@*)
+  (*@\vdmnotcovered{products}@*) := products (*@\vdmnotcovered{munion}@*) { (*@\vdmnotcovered{p}@*).(*@\vdmnotcovered{title}@*) |-> (*@\vdmnotcovered{p}@*) };
+ )
+ pre (*@\vdmnotcovered{p}@*).(*@\vdmnotcovered{title}@*) not in set (*@\vdmnotcovered{dom}@*) (*@\vdmnotcovered{products}@*);
+
+end Manufacturer
+\end{vdmpp}
+\bigskip
+\begin{longtable}{|l|r|r|r|}
+\hline
+Function or operation & Line & Coverage & Calls \\
+\hline
+\hline
+\hyperref[Manufacturer:10]{Manufacturer} & 10&0.0\% & 0 \\
+\hline
+\hyperref[addProduct:17]{addProduct} & 17&0.0\% & 0 \\
+\hline
+\hline
+Manufacturer.vdmpp & & 0.0\% & 0 \\
+\hline
+\end{longtable}
+
