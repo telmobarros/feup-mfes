@@ -6,16 +6,16 @@ types
  public AdminCode = seq of char;
 
 instance variables
- public categories : set of Category := (*@\vdmnotcovered{\{}@*)};
- public subcategories : map Subcategory to Category := (*@\vdmnotcovered{\{}@*) |-> };
- public manufacturers : map Manufacturer`Name to Manufacturer := (*@\vdmnotcovered{\{}@*) |-> };
- public products : map Product`Title to Product := (*@\vdmnotcovered{\{}@*) |-> };
- public clients : map Client`Email to Client := (*@\vdmnotcovered{\{}@*) |-> };
+ public categories : set of Category := {};
+ public subcategories : map Subcategory to Category := { |-> };
+ public manufacturers : map Manufacturer`Name to Manufacturer := { |-> };
+ public products : map Product`Title to Product := { |-> };
+ public clients : map Client`Email to Client := { |-> };
  
- public adminCode : AdminCode := (*@\vdmnotcovered{[}@*)];
+ public adminCode : AdminCode := [];
  
  -- subcategories should be associated with category
-  inv (*@\vdmnotcovered{rng}@*) (*@\vdmnotcovered{subcategories}@*) (*@\vdmnotcovered{subset}@*) (*@\vdmnotcovered{categories}@*);
+  inv rng subcategories subset categories;
 
 operations
  /** ADMIN OPERATIONS **/
@@ -25,7 +25,7 @@ operations
 @*)
  public BuyInPortugal: () ==> BuyInPortugal
  BuyInPortugal() ==
-  (*@\vdmnotcovered{return}@*) (*@\vdmnotcovered{self}@*);
+  return self;
  
  -- Change admin password
 (*@
@@ -42,20 +42,20 @@ operations
 \label{registerManufacturer:34}
 @*)
  public registerManufacturer: Manufacturer`Name * AdminCode ==> ()
- registerManufacturer(name, code) == (*@\vdmnotcovered{(}@*)
-  dcl m:Manufacturer := new Manufacturer((*@\vdmnotcovered{name}@*));
-  (*@\vdmnotcovered{addManufacturer}@*)((*@\vdmnotcovered{m}@*));
+ registerManufacturer(name, code) == (
+  dcl m:Manufacturer := new Manufacturer(name);
+  addManufacturer(m);
  )
- pre (*@\vdmnotcovered{name}@*) not in set dom (*@\vdmnotcovered{manufacturers}@*)
-  and code = (*@\vdmnotcovered{adminCode}@*)
- post dom manufacturers = dom manufacturers~ union (*@\vdmnotcovered{\{}@*)(*@\vdmnotcovered{name}@*)};
+ pre name not in set dom manufacturers
+  and code = adminCode
+ post dom manufacturers = dom manufacturers~ union {name};
 
 (*@
 \label{addManufacturer:43}
 @*)
  private addManufacturer: Manufacturer ==> ()
- addManufacturer(m) == (*@\vdmnotcovered{(}@*)
-  manufacturers := manufacturers munion { m.name (*@\vdmnotcovered{|->}@*) (*@\vdmnotcovered{m}@*) };
+ addManufacturer(m) == (
+  manufacturers := manufacturers munion { m.name |-> m };
  );
  
  -- Add category
@@ -63,45 +63,45 @@ operations
 \label{addCategory:49}
 @*)
  public addCategory: Category * AdminCode ==> ()
- addCategory(category, code) == (*@\vdmnotcovered{(}@*)
-  categories := (*@\vdmnotcovered{categories}@*) (*@\vdmnotcovered{union}@*) (*@\vdmnotcovered{\{}@*)(*@\vdmnotcovered{category}@*)};
+ addCategory(category, code) == (
+  categories := categories union {category};
  )
- pre category (*@\vdmnotcovered{not}@*) in set (*@\vdmnotcovered{categories}@*)
-  and code (*@\vdmnotcovered{=}@*) (*@\vdmnotcovered{adminCode}@*)
- post categories (*@\vdmnotcovered{=}@*) (*@\vdmnotcovered{categories}@*)~ (*@\vdmnotcovered{union}@*) (*@\vdmnotcovered{\{}@*)(*@\vdmnotcovered{category}@*)};
+ pre category not in set categories
+  and code = adminCode
+ post categories = categories~ union {category};
  
  -- Set categories
 (*@
 \label{setCategories:58}
 @*)
  public setCategories: set of Category * AdminCode ==> ()
- setCategories(cats, code) == (*@\vdmnotcovered{(}@*)
-  categories := (*@\vdmnotcovered{cats}@*);
+ setCategories(cats, code) == (
+  categories := cats;
  )
- pre (*@\vdmnotcovered{code}@*) (*@\vdmnotcovered{=}@*) (*@\vdmnotcovered{adminCode}@*);
+ pre code = adminCode;
  
  -- Add subCategories
 (*@
 \label{addSubcategory:65}
 @*)
  public addSubcategory: Subcategory * Category * AdminCode ==> ()
- addSubcategory(subcategory, category, code) == (*@\vdmnotcovered{(}@*)
-  subcategories := (*@\vdmnotcovered{subcategories}@*) (*@\vdmnotcovered{munion}@*) {(*@\vdmnotcovered{subcategory}@*) (*@\vdmnotcovered{|->}@*) (*@\vdmnotcovered{category}@*)};
+ addSubcategory(subcategory, category, code) == (
+  subcategories := subcategories munion {subcategory |-> category};
  )
- pre subcategory (*@\vdmnotcovered{not}@*) in set (*@\vdmnotcovered{dom}@*) (*@\vdmnotcovered{subcategories}@*)
-  and (*@\vdmnotcovered{category}@*) (*@\vdmnotcovered{in}@*) set (*@\vdmnotcovered{categories}@*)
-  and code = (*@\vdmnotcovered{adminCode}@*)
- post dom (*@\vdmnotcovered{subcategories}@*) = (*@\vdmnotcovered{dom}@*) (*@\vdmnotcovered{subcategories}@*)~ (*@\vdmnotcovered{union}@*) {(*@\vdmnotcovered{subcategory}@*)};
+ pre subcategory not in set dom subcategories
+  and category in set categories
+  and code = adminCode
+ post dom subcategories = dom subcategories~ union {subcategory};
  
  -- Set subCategories
 (*@
 \label{setSubcategories:75}
 @*)
  public setSubcategories: map Subcategory to Category * AdminCode ==> ()
- setSubcategories(subcats, code) == (*@\vdmnotcovered{(}@*)
-  (*@\vdmnotcovered{subcategories}@*) := (*@\vdmnotcovered{subcats}@*);
+ setSubcategories(subcats, code) == (
+  subcategories := subcats;
  )
- pre code (*@\vdmnotcovered{=}@*) (*@\vdmnotcovered{adminCode}@*);
+ pre code = adminCode;
  
  /** ADMIN OPERATIONS END **/
  
@@ -113,32 +113,32 @@ operations
 \label{addProduct:87}
 @*)
  public addProduct: Manufacturer`Name * Product`Title * Product`Description * Product`Subcategory * Product`Price * map Product`Color to Product`Quantity ==> ()
- addProduct(manName, tit, des, cat, pr, qties) == (*@\vdmnotcovered{(}@*)
-  dcl product : Product := new (*@\vdmnotcovered{Product}@*)(tit, des, cat, pr, (*@\vdmnotcovered{qties}@*));
-  let manufacturer = (*@\vdmnotcovered{manufacturers}@*)((*@\vdmnotcovered{manName}@*))
-   in (*@\vdmnotcovered{(}@*)
-    (*@\vdmnotcovered{manufacturer}@*).addProduct((*@\vdmnotcovered{product}@*));
-    products := (*@\vdmnotcovered{products}@*) munion {tit (*@\vdmnotcovered{|->}@*) (*@\vdmnotcovered{product}@*)};
+ addProduct(manName, tit, des, cat, pr, qties) == (
+  dcl product : Product := new Product(tit, des, cat, pr, qties);
+  let manufacturer = manufacturers(manName)
+   in (
+    manufacturer.addProduct(product);
+    products := products munion {tit |-> product};
    );
-   (*@\vdmnotcovered{return}@*);
+   return;
  )
- pre manName in set dom (*@\vdmnotcovered{manufacturers}@*)
-  and tit not in set dom (*@\vdmnotcovered{products}@*)
-  and cat in set (*@\vdmnotcovered{dom}@*) (*@\vdmnotcovered{subcategories}@*)
- post (*@\vdmnotcovered{dom}@*) (*@\vdmnotcovered{products}@*) = dom products~ union (*@\vdmnotcovered{\{}@*)(*@\vdmnotcovered{tit}@*)};
+ pre manName in set dom manufacturers
+  and tit not in set dom products
+  and cat in set dom subcategories
+ post dom products = dom products~ union {tit};
  
  -- Add to stock of a product
 (*@
 \label{addToStock:103}
 @*)
  public addToStock: Manufacturer`Name * Product`Title * Product`Color * Product`Quantity ==> ()
- addToStock(manName, title, color, qty) == (*@\vdmnotcovered{(}@*)
-  let product = (*@\vdmnotcovered{products}@*)((*@\vdmnotcovered{title}@*))
-  in (*@\vdmnotcovered{(}@*)
-   (*@\vdmnotcovered{product}@*).addToStock((*@\vdmnotcovered{color}@*), (*@\vdmnotcovered{qty}@*));
+ addToStock(manName, title, color, qty) == (
+  let product = products(title)
+  in (
+   product.addToStock(color, qty);
   );
  )
- pre title in set dom manufacturers(manName).(*@\vdmnotcovered{products}@*);
+ pre title in set dom manufacturers(manName).products;
  
  -- Remove from stock of a product
 (*@
@@ -163,10 +163,10 @@ operations
 \label{addToWishlist:128}
 @*)
  public addToWishlist: Client`Email * Product`Title * Product`Color ==> ()
- addToWishlist(email, title, color) == (*@\vdmnotcovered{(}@*)
-  let client = clients((*@\vdmnotcovered{email}@*))
-  in (*@\vdmnotcovered{(}@*)
-   client.addToWishlist(title, (*@\vdmnotcovered{color}@*));
+ addToWishlist(email, title, color) == (
+  let client = clients(email)
+  in (
+   client.addToWishlist(title, color);
   );
  );
  
@@ -175,10 +175,10 @@ operations
 \label{removeFromWishlist:137}
 @*)
  public removeFromWishlist: Client`Email * Product`Title * Product`Color ==> ()
- removeFromWishlist(email, title, color) == (*@\vdmnotcovered{(}@*)
-  (*@\vdmnotcovered{let}@*) client = (*@\vdmnotcovered{clients}@*)((*@\vdmnotcovered{email}@*))
-  in (*@\vdmnotcovered{(}@*)
-   client.removeFromWishlist(title, (*@\vdmnotcovered{color}@*));
+ removeFromWishlist(email, title, color) == (
+  let client = clients(email)
+  in (
+   client.removeFromWishlist(title, color);
   );
  );
  
@@ -187,10 +187,10 @@ operations
 \label{addToCart:146}
 @*)
  public addToCart: Client`Email * Product`Title * Product`Color ==> ()
- addToCart(email, title, color) == (*@\vdmnotcovered{(}@*)
-  let client = clients((*@\vdmnotcovered{email}@*))
-  in (*@\vdmnotcovered{(}@*)
-   client.addToCart(title, (*@\vdmnotcovered{color}@*));
+ addToCart(email, title, color) == (
+  let client = clients(email)
+  in (
+   client.addToCart(title, color);
   );
  );
  
@@ -199,10 +199,10 @@ operations
 \label{setQtyInCart:155}
 @*)
  public setQtyInCart: Client`Email * Product`Title * Product`Color * Product`Quantity ==> ()
- setQtyInCart(email, title, color, qty) == (*@\vdmnotcovered{(}@*)
-  (*@\vdmnotcovered{let}@*) client = (*@\vdmnotcovered{clients}@*)((*@\vdmnotcovered{email}@*))
-  in (*@\vdmnotcovered{(}@*)
-   client.setQtyInCart(title, color, (*@\vdmnotcovered{qty}@*));
+ setQtyInCart(email, title, color, qty) == (
+  let client = clients(email)
+  in (
+   client.setQtyInCart(title, color, qty);
   );
  );
  
@@ -211,10 +211,10 @@ operations
 \label{removeFromCart:164}
 @*)
  public removeFromCart: Client`Email * Product`Title * Product`Color ==> ()
- removeFromCart(email, title, color) == (*@\vdmnotcovered{(}@*)
-  let client = (*@\vdmnotcovered{clients}@*)((*@\vdmnotcovered{email}@*))
-  in (*@\vdmnotcovered{(}@*)
-   (*@\vdmnotcovered{client}@*).removeFromCart(title, (*@\vdmnotcovered{color}@*));
+ removeFromCart(email, title, color) == (
+  let client = clients(email)
+  in (
+   client.removeFromCart(title, color);
   );
  );
  
@@ -223,15 +223,15 @@ operations
 \label{getTotalCart:173}
 @*)
  public getTotalCart: Client`Email ==> rat
- getTotalCart(email) == (*@\vdmnotcovered{(}@*)
-  dcl sum: rat := (*@\vdmnotcovered{0}@*);
-  (*@\vdmnotcovered{let}@*) client = clients(email), cart = client.(*@\vdmnotcovered{cart}@*)
-  in (*@\vdmnotcovered{(}@*)
-   for all mk_(title, color) in set dom (*@\vdmnotcovered{cart}@*)
-    do (let qty = cart(mk_(title, (*@\vdmnotcovered{color}@*)))
-     in (*@\vdmnotcovered{sum}@*) := sum + products(title).getPriceWithDiscount((*@\vdmnotcovered{qty}@*)) * (*@\vdmnotcovered{qty}@*);
+ getTotalCart(email) == (
+  dcl sum: rat := 0;
+  let client = clients(email), cart = client.cart
+  in (
+   for all mk_(title, color) in set dom cart
+    do (let qty = cart(mk_(title, color))
+     in sum := sum + products(title).getPriceWithDiscount(qty) * qty;
     );
-   return (*@\vdmnotcovered{sum}@*);
+   return sum;
   );
  );
  
@@ -240,20 +240,20 @@ operations
 \label{buy:187}
 @*)
  public buy: Client`Email ==> ()
- buy(email) == (*@\vdmnotcovered{(}@*)
-  (*@\vdmnotcovered{let}@*) client = clients(email), cart = (*@\vdmnotcovered{client}@*).(*@\vdmnotcovered{cart}@*)
-  in (*@\vdmnotcovered{(}@*)
-   (*@\vdmnotcovered{for}@*) all mk_(title, color) in set (*@\vdmnotcovered{dom}@*) (*@\vdmnotcovered{cart}@*)
-    do (*@\vdmnotcovered{(}@*)
-     (*@\vdmnotcovered{products}@*)(title).removeFromStock(color, cart((*@\vdmnotcovered{mk\_}@*)((*@\vdmnotcovered{title}@*), (*@\vdmnotcovered{color}@*))))
+ buy(email) == (
+  let client = clients(email), cart = client.cart
+  in (
+   for all mk_(title, color) in set dom cart
+    do (
+     products(title).removeFromStock(color, cart(mk_(title, color)))
     );
-   (*@\vdmnotcovered{client}@*).pushCartToHistory();
+   client.pushCartToHistory();
   );
  )
- pre (*@\vdmnotcovered{let}@*) client = clients(email), cart = (*@\vdmnotcovered{client}@*).(*@\vdmnotcovered{cart}@*)
+ pre let client = clients(email), cart = client.cart
   in (
-   (*@\vdmnotcovered{forall}@*) mk_(title, color) in set (*@\vdmnotcovered{dom}@*) (*@\vdmnotcovered{cart}@*)
-    & (*@\vdmnotcovered{cart}@*)(mk_((*@\vdmnotcovered{title}@*), (*@\vdmnotcovered{color}@*))) (*@\vdmnotcovered{<=}@*) (*@\vdmnotcovered{products}@*)((*@\vdmnotcovered{title}@*)).(*@\vdmnotcovered{quantities}@*)((*@\vdmnotcovered{color}@*))
+   forall mk_(title, color) in set dom cart
+    & cart(mk_(title, color)) <= products(title).quantities(color)
   );
  
  -- Convert wishlist of a client
@@ -261,10 +261,10 @@ operations
 \label{convertWishlist:205}
 @*)
  public convertWishlist: Client`Email ==> ()
- convertWishlist(email) == (*@\vdmnotcovered{(}@*)
-  let client = (*@\vdmnotcovered{clients}@*)((*@\vdmnotcovered{email}@*))
-  in (*@\vdmnotcovered{(}@*)
-   (*@\vdmnotcovered{client}@*).convertWishlist();
+ convertWishlist(email) == (
+  let client = clients(email)
+  in (
+   client.convertWishlist();
   );
  );
  
@@ -278,24 +278,78 @@ operations
 \label{registerClient:219}
 @*)
  public registerClient: Client`Email ==> ()
- registerClient(email) == (*@\vdmnotcovered{(}@*)
- dcl c:Client := (*@\vdmnotcovered{new}@*) (*@\vdmnotcovered{Client}@*)((*@\vdmnotcovered{email}@*));
-  addClient((*@\vdmnotcovered{c}@*));
+ registerClient(email) == (
+ dcl c:Client := new Client(email);
+  addClient(c);
  )
- pre email not in set dom (*@\vdmnotcovered{clients}@*)
- post dom clients = dom clients~ union {(*@\vdmnotcovered{email}@*)};
+ pre email not in set dom clients
+ post dom clients = dom clients~ union {email};
 
 (*@
 \label{addClient:227}
 @*)
  private addClient: Client ==> ()
- addClient(c) == (*@\vdmnotcovered{(}@*)
-  (*@\vdmnotcovered{clients}@*) := clients (*@\vdmnotcovered{munion}@*) { c.email (*@\vdmnotcovered{|->}@*) (*@\vdmnotcovered{c}@*) };
+ addClient(c) == (
+  clients := clients munion { c.email |-> c };
  );
  
+ -- Get product by title
+(*@
+\label{searchProductsByTitle:233}
+@*)
+ public searchProductsByTitle: Product`Title ==> Product
+ searchProductsByTitle(title) == (*@\vdmnotcovered{(}@*)
+  dcl product: Product;
+  (*@\vdmnotcovered{product}@*) := products((*@\vdmnotcovered{title}@*));
+  return (*@\vdmnotcovered{product}@*);
+ );
+ 
+  -- Get products by manufacturer
+(*@
+\label{searchProductsByManufacturer:241}
+@*)
+ public searchProductsByManufacturer: Manufacturer`Name ==> set of Product
+ searchProductsByManufacturer(man) == (*@\vdmnotcovered{(}@*)
+  dcl resultPoducts: set of Product := (*@\vdmnotcovered{\{}@*)};
+  resultPoducts := rng manufacturers((*@\vdmnotcovered{man}@*)).(*@\vdmnotcovered{products}@*);
+  (*@\vdmnotcovered{return}@*) (*@\vdmnotcovered{resultPoducts}@*);
+ )
+ pre man (*@\vdmnotcovered{in}@*) set (*@\vdmnotcovered{dom}@*) (*@\vdmnotcovered{manufacturers}@*);
+ 
+ -- Get products by subcategory
+(*@
+\label{searchProductBySubcategory:250}
+@*)
+ public searchProductBySubcategory: Subcategory ==> set of Product
+ searchProductBySubcategory(subcat) == (*@\vdmnotcovered{(}@*)
+  dcl resultProducts: set of Product := (*@\vdmnotcovered{\{}@*)};
+  for all product in set (*@\vdmnotcovered{rng}@*) (*@\vdmnotcovered{products}@*)
+   do (*@\vdmnotcovered{(}@*)
+    if product.(*@\vdmnotcovered{subcategory}@*) = (*@\vdmnotcovered{subcat}@*)
+    then resultProducts := resultProducts (*@\vdmnotcovered{union}@*) {(*@\vdmnotcovered{product}@*)};
+   );
+  (*@\vdmnotcovered{return}@*) (*@\vdmnotcovered{resultProducts}@*);
+ )
+ pre subcat (*@\vdmnotcovered{in}@*) set dom (*@\vdmnotcovered{subcategories}@*);
+ 
+ 
+ -- Get products by category
+(*@
+\label{searchProductByCategory:264}
+@*)
+ public searchProductByCategory: Category ==> set of Product
+ searchProductByCategory(cat) == (*@\vdmnotcovered{(}@*)
+  dcl resultProducts: set of Product := (*@\vdmnotcovered{\{}@*)};
+  for all product in set rng (*@\vdmnotcovered{products}@*)
+   do (*@\vdmnotcovered{(}@*)
+    if (*@\vdmnotcovered{subcategories}@*)((*@\vdmnotcovered{product}@*).(*@\vdmnotcovered{subcategory}@*)) = (*@\vdmnotcovered{cat}@*)
+    then resultProducts := resultProducts union {(*@\vdmnotcovered{product}@*)};
+   );
+  return (*@\vdmnotcovered{resultProducts}@*);
+ )
+ pre cat in set (*@\vdmnotcovered{categories}@*);
  /** VISITOR OPERATIONS END **/
  
-
 end BuyInPortugal
 \end{vdmpp}
 \bigskip
@@ -304,50 +358,58 @@ end BuyInPortugal
 Function or operation & Line & Coverage & Calls \\
 \hline
 \hline
-\hyperref[BuyInPortugal:22]{BuyInPortugal} & 22&0.0\% & 0 \\
+\hyperref[BuyInPortugal:22]{BuyInPortugal} & 22&100.0\% & 117 \\
 \hline
-\hyperref[addCategory:49]{addCategory} & 49&0.0\% & 0 \\
+\hyperref[addCategory:49]{addCategory} & 49&100.0\% & 78 \\
 \hline
-\hyperref[addClient:227]{addClient} & 227&0.0\% & 0 \\
+\hyperref[addClient:227]{addClient} & 227&100.0\% & 52 \\
 \hline
-\hyperref[addManufacturer:43]{addManufacturer} & 43&0.0\% & 0 \\
+\hyperref[addManufacturer:43]{addManufacturer} & 43&100.0\% & 67 \\
 \hline
-\hyperref[addProduct:87]{addProduct} & 87&0.0\% & 0 \\
+\hyperref[addProduct:87]{addProduct} & 87&100.0\% & 47 \\
 \hline
-\hyperref[addSubcategory:65]{addSubcategory} & 65&0.0\% & 0 \\
+\hyperref[addSubcategory:65]{addSubcategory} & 65&100.0\% & 50 \\
 \hline
-\hyperref[addToCart:146]{addToCart} & 146&0.0\% & 0 \\
+\hyperref[addToCart:146]{addToCart} & 146&100.0\% & 34 \\
 \hline
-\hyperref[addToStock:103]{addToStock} & 103&0.0\% & 0 \\
+\hyperref[addToStock:103]{addToStock} & 103&100.0\% & 49 \\
 \hline
-\hyperref[addToWishlist:128]{addToWishlist} & 128&0.0\% & 0 \\
+\hyperref[addToWishlist:128]{addToWishlist} & 128&100.0\% & 49 \\
 \hline
-\hyperref[buy:187]{buy} & 187&0.0\% & 0 \\
+\hyperref[buy:187]{buy} & 187&100.0\% & 13 \\
 \hline
-\hyperref[convertWishlist:205]{convertWishlist} & 205&0.0\% & 0 \\
+\hyperref[convertWishlist:205]{convertWishlist} & 205&100.0\% & 16 \\
 \hline
-\hyperref[getTotalCart:173]{getTotalCart} & 173&0.0\% & 0 \\
+\hyperref[getTotalCart:173]{getTotalCart} & 173&100.0\% & 15 \\
 \hline
-\hyperref[registerClient:219]{registerClient} & 219&0.0\% & 0 \\
+\hyperref[registerClient:219]{registerClient} & 219&100.0\% & 52 \\
 \hline
-\hyperref[registerManufacturer:34]{registerManufacturer} & 34&0.0\% & 0 \\
+\hyperref[registerManufacturer:34]{registerManufacturer} & 34&100.0\% & 67 \\
 \hline
-\hyperref[removeFromCart:164]{removeFromCart} & 164&0.0\% & 0 \\
+\hyperref[removeFromCart:164]{removeFromCart} & 164&100.0\% & 30 \\
 \hline
 \hyperref[removeFromStock:113]{removeFromStock} & 113&0.0\% & 0 \\
 \hline
-\hyperref[removeFromWishlist:137]{removeFromWishlist} & 137&0.0\% & 0 \\
+\hyperref[removeFromWishlist:137]{removeFromWishlist} & 137&100.0\% & 15 \\
+\hline
+\hyperref[searchProductByCategory:264]{searchProductByCategory} & 264&0.0\% & 0 \\
+\hline
+\hyperref[searchProductBySubcategory:250]{searchProductBySubcategory} & 250&0.0\% & 0 \\
+\hline
+\hyperref[searchProductsByManufacturer:241]{searchProductsByManufacturer} & 241&0.0\% & 0 \\
+\hline
+\hyperref[searchProductsByTitle:233]{searchProductsByTitle} & 233&0.0\% & 0 \\
 \hline
 \hyperref[setAdminCode:27]{setAdminCode} & 27&0.0\% & 0 \\
 \hline
-\hyperref[setCategories:58]{setCategories} & 58&0.0\% & 0 \\
+\hyperref[setCategories:58]{setCategories} & 58&100.0\% & 46 \\
 \hline
-\hyperref[setQtyInCart:155]{setQtyInCart} & 155&0.0\% & 0 \\
+\hyperref[setQtyInCart:155]{setQtyInCart} & 155&100.0\% & 18 \\
 \hline
-\hyperref[setSubcategories:75]{setSubcategories} & 75&0.0\% & 0 \\
+\hyperref[setSubcategories:75]{setSubcategories} & 75&100.0\% & 39 \\
 \hline
 \hline
-BuyInPortugal.vdmpp & & 0.0\% & 0 \\
+BuyInPortugal.vdmpp & & 77.3\% & 854 \\
 \hline
 \end{longtable}
 

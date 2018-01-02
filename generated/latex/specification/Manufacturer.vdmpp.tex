@@ -5,16 +5,16 @@ types
  
 instance variables
  public name : Name;
- public products : map Product`Title to Product := (*@\vdmnotcovered{\{}@*) |-> };
+ public products : map Product`Title to Product := { |-> };
  
 operations
 (*@
 \label{Manufacturer:10}
 @*)
  public Manufacturer : Name ==> Manufacturer
- Manufacturer(n) == (*@\vdmnotcovered{(}@*)
-  name := (*@\vdmnotcovered{n}@*);
-   (*@\vdmnotcovered{return}@*) (*@\vdmnotcovered{self}@*)
+ Manufacturer(n) == (
+  name := n;
+   return self
  );
  
  -- Add product
@@ -22,10 +22,10 @@ operations
 \label{addProduct:17}
 @*)
  public addProduct: Product ==> ()
- addProduct(p) == (*@\vdmnotcovered{(}@*)
-  (*@\vdmnotcovered{products}@*) := products (*@\vdmnotcovered{munion}@*) { (*@\vdmnotcovered{p}@*).(*@\vdmnotcovered{title}@*) |-> (*@\vdmnotcovered{p}@*) };
+ addProduct(p) == (
+  products := products munion { p.title |-> p };
  )
- pre (*@\vdmnotcovered{p}@*).(*@\vdmnotcovered{title}@*) not in set (*@\vdmnotcovered{dom}@*) (*@\vdmnotcovered{products}@*);
+ pre p.title not in set dom products;
 
 end Manufacturer
 \end{vdmpp}
@@ -35,12 +35,12 @@ end Manufacturer
 Function or operation & Line & Coverage & Calls \\
 \hline
 \hline
-\hyperref[Manufacturer:10]{Manufacturer} & 10&0.0\% & 0 \\
+\hyperref[Manufacturer:10]{Manufacturer} & 10&100.0\% & 106 \\
 \hline
-\hyperref[addProduct:17]{addProduct} & 17&0.0\% & 0 \\
+\hyperref[addProduct:17]{addProduct} & 17&100.0\% & 78 \\
 \hline
 \hline
-Manufacturer.vdmpp & & 0.0\% & 0 \\
+Manufacturer.vdmpp & & 100.0\% & 184 \\
 \hline
 \end{longtable}
 
