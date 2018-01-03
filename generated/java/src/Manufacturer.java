@@ -23,6 +23,11 @@ public class Manufacturer {
     products = MapUtil.munion(Utils.copy(products), MapUtil.map(new Maplet(p.title, p)));
   }
 
+  public void removeProduct(final String title) {
+
+    products = MapUtil.domResBy(SetUtil.set(title), Utils.copy(products));
+  }
+
   public Manufacturer() {}
 
   public String toString() {

@@ -12,7 +12,7 @@ public class Product {
   public VDMMap volumeDiscounts = MapUtil.map();
   public VDMSet colors = SetUtil.set(quotes.NoneQuote.getInstance());
 
-  public void cg_init_Product_2(
+  public void cg_init_Product_1(
       final String tit, final String des, final String cat, final Number pr, final VDMMap qties) {
 
     subcategory = cat;
@@ -24,25 +24,10 @@ public class Product {
     return;
   }
 
-  public void cg_init_Product_1(
-      final String tit, final String des, final String cat, final Number pr) {
-
-    subcategory = cat;
-    title = tit;
-    description = des;
-    price = pr;
-    return;
-  }
-
-  public Product(final String tit, final String des, final String cat, final Number pr) {
-
-    cg_init_Product_1(tit, des, cat, pr);
-  }
-
   public Product(
       final String tit, final String des, final String cat, final Number pr, final VDMMap qties) {
 
-    cg_init_Product_2(tit, des, cat, pr, Utils.copy(qties));
+    cg_init_Product_1(tit, des, cat, pr, Utils.copy(qties));
   }
 
   public void setVolumeDiscounts(final VDMMap volDiscs) {
@@ -74,20 +59,20 @@ public class Product {
 
     Number discountedPrice = price;
     if (!(Utils.empty(volumeDiscounts))) {
-      for (Iterator iterator_7 = MapUtil.dom(Utils.copy(volumeDiscounts)).iterator();
-          iterator_7.hasNext();
+      for (Iterator iterator_13 = MapUtil.dom(Utils.copy(volumeDiscounts)).iterator();
+          iterator_13.hasNext();
           ) {
-        Number quantity = (Number) iterator_7.next();
-        Boolean andResult_12 = false;
+        Number quantity = (Number) iterator_13.next();
+        Boolean andResult_15 = false;
 
         if (qty.longValue() >= quantity.longValue()) {
           if (discountedPrice.doubleValue()
               > ((Number) Utils.get(volumeDiscounts, quantity)).doubleValue()) {
-            andResult_12 = true;
+            andResult_15 = true;
           }
         }
 
-        if (andResult_12) {
+        if (andResult_15) {
           discountedPrice = ((Number) Utils.get(volumeDiscounts, quantity));
         }
       }

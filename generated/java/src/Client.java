@@ -54,17 +54,17 @@ public class Client {
 
   public void convertWishlist() {
 
-    for (Iterator iterator_6 = wishlist.iterator(); iterator_6.hasNext(); ) {
-      Tuple tuplePattern_3 = (Tuple) iterator_6.next();
-      Boolean success_3 = tuplePattern_3.compatible(String.class, Object.class);
+    for (Iterator iterator_12 = wishlist.iterator(); iterator_12.hasNext(); ) {
+      Tuple tuplePattern_5 = (Tuple) iterator_12.next();
+      Boolean success_5 = tuplePattern_5.compatible(String.class, Object.class);
       String title = null;
       Object color = null;
-      if (success_3) {
-        title = SeqUtil.toStr(tuplePattern_3.get(0));
-        color = ((Object) tuplePattern_3.get(1));
+      if (success_5) {
+        title = SeqUtil.toStr(tuplePattern_5.get(0));
+        color = ((Object) tuplePattern_5.get(1));
       }
 
-      if (!(success_3)) {
+      if (!(success_5)) {
         continue;
       }
 

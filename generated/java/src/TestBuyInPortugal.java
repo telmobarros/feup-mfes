@@ -47,7 +47,9 @@ public class TestBuyInPortugal extends MyTestCase {
             new Maplet("Vanilla Beans", "Agriculture & Food"),
             new Maplet("Plant Seeds & Bulbs", "Agriculture & Food"),
             new Maplet("Nuts & Kernels", "Agriculture & Food"),
-            new Maplet("Health & Personal Care", "Beauty & Health")),
+            new Maplet("Health & Personal Care", "Beauty & Health"),
+            new Maplet("Breads & Bakery", "Fresh Products, Drinks & Grocery"),
+            new Maplet("Dairy & Eggs", "Fresh Products, Drinks & Grocery")),
         "");
     bip.addSubcategory("Investment", "Real Estate", "");
     bip.registerManufacturer(testManufacturer.name, "");
@@ -74,6 +76,36 @@ public class TestBuyInPortugal extends MyTestCase {
     bip.addToStock(testManufacturer.name, testProduct.title, quotes.BlueQuote.getInstance(), 36L);
     bip.addToStock(testManufacturer.name, testProduct.title, quotes.WhiteQuote.getInstance(), 2L);
     return bip;
+  }
+
+  public static BuyInPortugal configuredBuyInPortugal4() {
+
+    BuyInPortugal bip = configuredBuyInPortugal2();
+    bip.registerManufacturer("DANONE", "");
+    bip.addProduct(
+        "DANONE",
+        "YOGURT PURE AROMA TUTTI - FRUTTI 4X120G",
+        "",
+        "Dairy & Eggs",
+        2.45,
+        MapUtil.map(new Maplet(quotes.NoneQuote.getInstance(), 0L)));
+    bip.addProduct(
+        "DANONE",
+        "YOGURT CHILD ONE BONGO 8 FRUITS 4X155G",
+        "",
+        "Dairy & Eggs",
+        2L,
+        MapUtil.map(new Maplet(quotes.NoneQuote.getInstance(), 0L)));
+    bip.addToStock(testManufacturer.name, testProduct.title, quotes.BlueQuote.getInstance(), 36L);
+    bip.addToStock(testManufacturer.name, testProduct.title, quotes.WhiteQuote.getInstance(), 2L);
+    return bip;
+  }
+
+  private static void testSetAdminCode() {
+
+    BuyInPortugal bip = new BuyInPortugal();
+    bip.setAdminCode("", "1234");
+    assertEqual("1234", bip.adminCode);
   }
 
   private static void testCategories() {
@@ -114,7 +146,7 @@ public class TestBuyInPortugal extends MyTestCase {
         testProduct.description,
         testProduct.subcategory,
         testProduct.price,
-        testProduct.quantities);
+        MapUtil.map(new Maplet(quotes.NoneQuote.getInstance(), 0L)));
     assertTrue(SetUtil.inSet(testProduct.title, MapUtil.dom(bip.products)));
     assertEqual(testProduct.title, ((Product) Utils.get(bip.products, testProduct.title)).title);
     assertEqual(
@@ -125,7 +157,11 @@ public class TestBuyInPortugal extends MyTestCase {
         ((Product) Utils.get(bip.products, testProduct.title)).subcategory);
     assertEqual(testProduct.price, ((Product) Utils.get(bip.products, testProduct.title)).price);
     assertEqual(
-        testProduct.quantities, ((Product) Utils.get(bip.products, testProduct.title)).quantities);
+        MapUtil.map(new Maplet(quotes.NoneQuote.getInstance(), 0L)),
+        ((Product) Utils.get(bip.products, testProduct.title)).quantities);
+    assertEqual(
+        SetUtil.set(quotes.NoneQuote.getInstance()),
+        ((Product) Utils.get(bip.products, testProduct.title)).colors);
   }
 
   private static void testRegisterClient() {
@@ -185,6 +221,26 @@ public class TestBuyInPortugal extends MyTestCase {
         assertTrue(
             Utils.equals(
                 ((Number) Utils.get(product.quantities, quotes.BlueQuote.getInstance())), 36L));
+      }
+    }
+  }
+
+  private static void testRemoveFromStock() {
+
+    BuyInPortugal bip = configuredBuyInPortugal2();
+    {
+      final Product product = ((Product) Utils.get(bip.products, testProduct.title));
+      {
+        assertTrue(
+            Utils.equals(
+                ((Number) Utils.get(product.quantities, quotes.BlueQuote.getInstance())), 0L));
+        bip.addToStock(
+            testManufacturer.name, testProduct.title, quotes.BlueQuote.getInstance(), 36L);
+        bip.removeFromStock(
+            testManufacturer.name, testProduct.title, quotes.BlueQuote.getInstance(), 30L);
+        assertTrue(
+            Utils.equals(
+                ((Number) Utils.get(product.quantities, quotes.BlueQuote.getInstance())), 6L));
       }
     }
   }
@@ -295,10 +351,99 @@ public class TestBuyInPortugal extends MyTestCase {
     bip.addToCart(testClient.email, testProduct.title, quotes.BlueQuote.getInstance());
     bip.setQtyInCart(testClient.email, testProduct.title, quotes.BlueQuote.getInstance(), 2L);
     assertTrue(Utils.equals(bip.getTotalCart(testClient.email), 2.46));
+    bip.addToStock(testManufacturer.name, testProduct.title, quotes.BlueQuote.getInstance(), 1000L);
+    bip.setVolumeDiscounts(
+        testManufacturer.name,
+        testProduct.title,
+        MapUtil.map(new Maplet(500L, 1L), new Maplet(750L, 0.5), new Maplet(1000L, 0.25)));
+    bip.setQtyInCart(testClient.email, testProduct.title, quotes.BlueQuote.getInstance(), 500L);
+    assertEqual(500L, bip.getTotalCart(testClient.email));
+    bip.setQtyInCart(testClient.email, testProduct.title, quotes.BlueQuote.getInstance(), 600L);
+    assertEqual(600L, bip.getTotalCart(testClient.email));
+    bip.setQtyInCart(testClient.email, testProduct.title, quotes.BlueQuote.getInstance(), 800L);
+    assertEqual(400L, bip.getTotalCart(testClient.email));
+    bip.setQtyInCart(testClient.email, testProduct.title, quotes.BlueQuote.getInstance(), 1000L);
+    assertEqual(250L, bip.getTotalCart(testClient.email));
   }
 
-  public static void testAll() {
+  private static void testRemoveProduct() {
 
+    BuyInPortugal bip = configuredBuyInPortugal3();
+    bip.addToCart(testClient.email, testProduct.title, quotes.BlueQuote.getInstance());
+    bip.addToCart(testClient.email, testProduct.title, quotes.RedQuote.getInstance());
+    bip.addToWishlist(testClient.email, testProduct.title, quotes.RedQuote.getInstance());
+    bip.removeProduct(testManufacturer.name, testProduct.title);
+    assertEqual(MapUtil.map(), bip.products);
+    assertEqual(
+        MapUtil.map(),
+        ((Manufacturer) Utils.get(bip.manufacturers, testManufacturer.name)).products);
+    assertEqual(SetUtil.set(), ((Client) Utils.get(bip.clients, testClient.email)).wishlist);
+    assertEqual(MapUtil.map(), ((Client) Utils.get(bip.clients, testClient.email)).cart);
+  }
+
+  private static void testBuy() {
+
+    BuyInPortugal bip = configuredBuyInPortugal3();
+    bip.addToCart(testClient.email, testProduct.title, quotes.BlueQuote.getInstance());
+    bip.setQtyInCart(testClient.email, testProduct.title, quotes.BlueQuote.getInstance(), 35L);
+    bip.addToCart(testClient.email, testProduct.title, quotes.WhiteQuote.getInstance());
+    bip.buy(testClient.email);
+    assertEqual(
+        SeqUtil.seq(
+            MapUtil.map(
+                new Maplet(Tuple.mk_(testProduct.title, quotes.BlueQuote.getInstance()), 35L),
+                new Maplet(Tuple.mk_(testProduct.title, quotes.WhiteQuote.getInstance()), 1L))),
+        ((Client) Utils.get(bip.clients, testClient.email)).buyHistory);
+    assertEqual(MapUtil.map(), ((Client) Utils.get(bip.clients, testClient.email)).cart);
+    bip.addToCart(testClient.email, testProduct.title, quotes.BlueQuote.getInstance());
+    bip.buy(testClient.email);
+    assertEqual(
+        SeqUtil.seq(
+            MapUtil.map(
+                new Maplet(Tuple.mk_(testProduct.title, quotes.BlueQuote.getInstance()), 1L)),
+            MapUtil.map(
+                new Maplet(Tuple.mk_(testProduct.title, quotes.BlueQuote.getInstance()), 35L),
+                new Maplet(Tuple.mk_(testProduct.title, quotes.WhiteQuote.getInstance()), 1L))),
+        ((Client) Utils.get(bip.clients, testClient.email)).buyHistory);
+  }
+
+  private static void testSearch() {
+
+    BuyInPortugal bip = configuredBuyInPortugal4();
+    {
+      final Product product = bip.searchProductsByTitle(testProduct.title);
+      {
+        assertEqual(testProduct.description, product.description);
+      }
+    }
+
+    {
+      final VDMSet products = bip.searchProductsByCategory("Beauty & Health");
+      {
+        assertTrue(Utils.equals(products.size(), 1L));
+      }
+    }
+
+    {
+      final VDMSet products = bip.searchProductsBySubcategory("Dairy & Eggs");
+      {
+        assertTrue(Utils.equals(products.size(), 2L));
+      }
+    }
+
+    {
+      final VDMSet products = bip.searchProductsByManufacturer("DANONE");
+      {
+        assertTrue(Utils.equals(products.size(), 2L));
+      }
+    }
+  }
+
+  public static void main(String[] args) {
+
+    IO.print("Set admin code: ");
+    testSetAdminCode();
+    IO.println("Finish");
     IO.print("Add Category: ");
     testCategories();
     IO.println("Finish");
@@ -316,6 +461,9 @@ public class TestBuyInPortugal extends MyTestCase {
     IO.println("Finish");
     IO.print("Add to Stock: ");
     testAddToStock();
+    IO.println("Finish");
+    IO.print("Remove from Stock: ");
+    testRemoveFromStock();
     IO.println("Finish");
     IO.print("Add Wish List: ");
     testAddWishList();
@@ -338,6 +486,62 @@ public class TestBuyInPortugal extends MyTestCase {
     IO.print("Get Total Cart: ");
     testGetTotalCart();
     IO.println("Finish");
+    IO.print("Buy: ");
+    testBuy();
+    IO.println("Finish");
+    IO.print("Remove Product: ");
+    testRemoveProduct();
+    IO.println("Finish");
+    IO.print("Search: ");
+    testSearch();
+    IO.println("Finish");
+  }
+
+  public static void testCannotRegisterClient() {
+
+    BuyInPortugal bip = new BuyInPortugal();
+    bip.registerClient(testClient.email);
+    bip.registerClient(testClient.email);
+  }
+
+  public static void testCannotAddProduct() {
+
+    BuyInPortugal bip = configuredBuyInPortugal1();
+    bip.addProduct(
+        testManufacturer.name,
+        testProduct.title,
+        testProduct.description,
+        testProduct.subcategory,
+        testProduct.price,
+        MapUtil.map(new Maplet(quotes.NoneQuote.getInstance(), 0L)));
+    bip.addProduct(
+        testManufacturer.name,
+        testProduct.title,
+        testProduct.description,
+        testProduct.subcategory,
+        testProduct.price,
+        MapUtil.map(new Maplet(quotes.NoneQuote.getInstance(), 0L)));
+  }
+
+  public static void testCannotBuy() {
+
+    BuyInPortugal bip = configuredBuyInPortugal3();
+    bip.addToCart(testClient.email, testProduct.title, quotes.BlueQuote.getInstance());
+    bip.setQtyInCart(testClient.email, testProduct.title, quotes.BlueQuote.getInstance(), 40L);
+    bip.buy(testClient.email);
+  }
+
+  public static void testCannotAddWishList() {
+
+    BuyInPortugal bip = configuredBuyInPortugal2();
+    bip.addToWishlist(testClient.email, testProduct.title, quotes.RedQuote.getInstance());
+    bip.addToWishlist(testClient.email, testProduct.title, quotes.RedQuote.getInstance());
+  }
+
+  public static void testCannotAddStock() {
+
+    BuyInPortugal bip = configuredBuyInPortugal2();
+    bip.addToStock(testManufacturer.name, testProduct.title, quotes.BlueQuote.getInstance(), -36L);
   }
 
   public TestBuyInPortugal() {}

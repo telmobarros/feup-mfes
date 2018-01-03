@@ -15,6 +15,10 @@ instance variables
 	
 	-- subcategories should be associated with category
   inv rng subcategories subset categories;
+  -- products should be the union of products from all manufacturers
+  inv forall product in set rng products
+  	& exists1 manufacturer in set rng manufacturers
+  		& product in set rng manufacturer.products
 
 operations
 	/** ADMIN OPERATIONS **/
@@ -104,8 +108,8 @@ operations
 	removeProduct(manName, title) == (
 		let manufacturer = manufacturers(manName)
 			in (
-				manufacturer.removeProduct(title);
 				products := {title} <-: products;
+				manufacturer.removeProduct(title);
 				for all client in set rng clients
 				do (
 					for all mk_(t, color) in set client.wishlist
@@ -121,7 +125,12 @@ operations
 	)
 	pre manName in set dom manufacturers
 		and title in set dom products
-	post dom products = dom products~ \ {title};
+	post dom products = dom products~ \ {title}
+		and forall client in set rng clients &
+			not exists mk_(t1, -) in set client.wishlist
+				& t1 = title
+			and not exists mk_(t2, -) in set dom client.cart
+				& t2 = title;
 	
 	-- Add to stock of a product
 	public addToStock: Manufacturer`Name * Product`Title * Product`Color * Product`Quantity ==> ()
