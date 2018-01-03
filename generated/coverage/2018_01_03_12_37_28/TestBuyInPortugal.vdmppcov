@@ -1,0 +1,489 @@
+class TestBuyInPortugal is subclass of MyTestCase
+/* Test cases for BuyInPortugal model*/
+
+instance variables
+	public static testManufacturer : Manufacturer := new Manufacturer("RENOVA");
+	public static testProduct: Product := new Product("Pocket Tissues",
+		"- 3-ply base sheet\n- 36x9 tissues per pack\n- Tissue size: 21x21cm",
+		"Health & Personal Care",
+		1.23,
+		{<White> |-> 0,
+			<Blue> |-> 0,
+			<Pink> |-> 0,
+			<Yellow> |-> 0,
+			<Orange> |-> 0,
+			<Purple> |-> 0,
+			<Green> |-> 0,
+			<Red> |-> 0
+		});
+		public static testClient : Client := new Client("logistica@fe.up.pt");
+		
+		
+
+operations
+
+	-- Pre configuration 1 that returns a BuyInPortugal model with categories, subcategories and a manufacturer
+	public static configuredBuyInPortugal1: () ==> BuyInPortugal
+	configuredBuyInPortugal1() == (
+		dcl bip : BuyInPortugal := new BuyInPortugal();
+		
+		bip.setCategories({
+			"Agriculture & Food",
+			"Beauty & Health",
+			"Books & Audible",
+			"Clothes, Shoes & Jewellery",
+			"Car & Motorbike",
+			"Fresh Products, Drinks & Grocery",
+			"Home, Garden, Pets & DIY",
+			"Electronics & Computers",
+			"Metallurgy, Chemicals, Rubber & Plastics",
+			"Movies, TV, Music & Games",
+			"Machinery, Industrial Parts & Tools",
+			"Toys, Children & Baby",
+			"Sports & Outdoors"
+			},"");
+		bip.addCategory("Real Estate","");
+			
+		bip.setSubcategories({
+		"Vanilla Beans" |-> "Agriculture & Food",
+		"Plant Seeds & Bulbs" |-> "Agriculture & Food",
+		"Nuts & Kernels" |-> "Agriculture & Food",
+		"Health & Personal Care" |-> "Beauty & Health"
+		},"");
+		bip.addSubcategory("Investment", "Real Estate","");
+		
+		bip.registerManufacturer(testManufacturer.name,"");
+		
+		return bip;
+	);
+	
+	-- Pre configuration 2 that returns a BuyInPortugal model containing all pre config 1 contained plus a product and a client
+	public static configuredBuyInPortugal2: () ==> BuyInPortugal
+	configuredBuyInPortugal2() == (
+		dcl bip : BuyInPortugal := configuredBuyInPortugal1();
+		
+		bip.addProduct(testManufacturer.name, testProduct.title, testProduct.description, testProduct.subcategory, testProduct.price, testProduct.quantities);
+		
+		bip.registerClient(testClient.email);
+		
+		return bip;
+	);
+	
+	-- Pre configuration 2 that returns a BuyInPortugal model containing all pre config 2 contained plus stock of the product
+	public static configuredBuyInPortugal3: () ==> BuyInPortugal
+	configuredBuyInPortugal3() == (
+		dcl bip : BuyInPortugal := configuredBuyInPortugal2();
+		
+		bip.addToStock(testManufacturer.name, testProduct.title, <Blue>, 36);
+		bip.addToStock(testManufacturer.name, testProduct.title, <White>, 2);
+		
+		return bip;
+	);
+	
+	
+	/** TEST CASES WITH VALID INPUTS **/
+	/*public static test: () ==> ()
+	test() == (
+		dcl bip : BuyInPortugal := new BuyInPortugal();
+		
+		bip.setCategories({
+			"Agriculture & Food",
+			"Beauty & Health",
+			"Books & Audible",
+			"Clothes, Shoes & Jewellery",
+			"Car & Motorbike",
+			"Fresh Products, Drinks & Grocery",
+			"Home, Garden, Pets & DIY",
+			"Electronics & Computers",
+			"Metallurgy, Chemicals, Rubber & Plastics",
+			"Movies, TV, Music & Games",
+			"Machinery, Industrial Parts & Tools",
+			"Toys, Children & Baby",
+			"Sports & Outdoors"
+			},"");
+		bip.addCategory("Real Estate","");
+			
+		bip.setSubcategories({
+		"Vanilla Beans" |-> "Agriculture & Food",
+		"Plant Seeds & Bulbs" |-> "Agriculture & Food",
+		"Nuts & Kernels" |-> "Agriculture & Food",
+		"Health & Personal Care" |-> "Beauty & Health"
+		},"");
+		bip.addSubcategory("Investment", "Real Estate","");
+		
+		bip.registerManufacturer("RENOVA","");
+		
+		bip.addProduct(
+			"RENOVA",
+		"Pocket Tissues",
+		"- 3-ply base sheet\n- 36x9 tissues per pack\n- Tissue size: 21x21cm",
+		"Health & Personal Care",
+		1.23,
+		{<White> |-> 0,
+			<Blue> |-> 0,
+			<Pink> |-> 0,
+			<Yellow> |-> 0,
+			<Orange> |-> 0,
+			<Purple> |-> 0,
+			<Green> |-> 0,
+			<Red> |-> 0
+		});
+		
+		bip.addToStock("RENOVA", "Pocket Tissues", <Blue>, 36);
+		bip.addToStock("RENOVA", "Pocket Tissues", <White>, 2);
+		
+		bip.registerClient("logistica@fe.up.pt");
+		
+		bip.addToWishlist("logistica@fe.up.pt", "Pocket Tissues", <Red>);
+		bip.removeFromWishlist("logistica@fe.up.pt", "Pocket Tissues", <Red>);
+		bip.addToWishlist("logistica@fe.up.pt", "Pocket Tissues", <Blue>);
+		bip.addToWishlist("logistica@fe.up.pt", "Pocket Tissues", <White>);
+		
+		bip.addToCart("logistica@fe.up.pt", "Pocket Tissues", <Blue>);
+		bip.setQtyInCart("logistica@fe.up.pt", "Pocket Tissues", <Blue>, 35);
+		bip.addToCart("logistica@fe.up.pt", "Pocket Tissues", <Red>);
+		bip.removeFromCart("logistica@fe.up.pt", "Pocket Tissues", <Red>);
+		
+		bip.convertWishlist("logistica@fe.up.pt");
+		
+		IO`print(bip.getTotalCart("logistica@fe.up.pt"));
+		IO`print("\n");
+		
+		bip.buy("logistica@fe.up.pt");
+		IO`print(bip);
+	);*/
+	
+	-- Test Create Client
+	/*private testCreateClient: () ==> ()
+	testCreateClient() ==	(
+ 		dcl client: Client := new Client("exemplo@gmail.com");
+ 		assertTrue(client.email = "exemplo@gmail.com");
+ 		assertEqual({}, client.wishlist);
+	);*/
+	
+	-- Test Create Manufacturer
+	/*private testCreateManufacturer: () ==> ()
+	testCreateManufacturer() ==	(
+ 		dcl manufacturer: Manufacturer := new Manufacturer("RENOVA");
+ 		assertEqual("RENOVA", manufacturer.name);
+ 		assertEqual({ |-> }, manufacturer.products);
+	);*/
+	
+	-- Test Create Product
+	/*private testCreateProduct: () ==> ()
+	testCreateProduct() ==	(
+ 		assertTrue(product.title = "Pocket Tissues");
+ 		assertTrue(product.description = "- 3-ply base sheet\n- 36x9 tissues per pack\n- Tissue size: 21x21cm");
+ 		assertTrue(product.subcategory = "Health & Personal Care");
+ 		assertTrue(product.price = 1.23);
+	);*/
+	
+	-- Test Set Admin Code
+	private static testSetAdminCode: () ==> ()
+	testSetAdminCode() ==	(
+		dcl bip : BuyInPortugal := new BuyInPortugal();
+		bip.setAdminCode("","1234");
+		assertEqual("1234", bip.adminCode);
+	);
+	
+	-- Test Category
+	private static testCategories: () ==> ()
+	testCategories() ==	(
+		dcl bip : BuyInPortugal := new BuyInPortugal();
+		assertEqual({}, bip.categories);
+		bip.addCategory("Agriculture & Food","");
+ 		assertTrue("Agriculture & Food" in set bip.categories);
+ 		bip.setCategories({"Beauty & Health", "Books & Audible"},"");
+		bip.addCategory("Real Estate","");
+		assertEqual({"Beauty & Health", "Books & Audible", "Real Estate"}, bip.categories);
+	);
+	
+	-- Test Add SubCategory
+	private static testAddSubCategory: () ==> ()
+	testAddSubCategory() ==	(
+		dcl bip : BuyInPortugal := new BuyInPortugal();
+		bip.addCategory("Real Estate","");
+		assertTrue("Investment" not in set dom bip.subcategories);
+		bip.addSubcategory("Investment", "Real Estate","");
+ 		assertEqual("Real Estate", bip.subcategories("Investment"));
+	);
+	
+	-- Test Register Manufacturer
+	private static testRegisterManufacturer: () ==> ()
+	testRegisterManufacturer() ==	(
+		dcl bip : BuyInPortugal := new BuyInPortugal();
+		assertTrue(testManufacturer.name not in set dom bip.manufacturers);
+		bip.registerManufacturer(testManufacturer.name,"");
+		assertTrue(testManufacturer.name in set dom bip.manufacturers);
+	);
+	
+	-- Test Add Product
+	private static testAddProduct: () ==> ()
+	testAddProduct() ==	(
+		dcl bip : BuyInPortugal := configuredBuyInPortugal1();
+		assertTrue(testProduct.title not in set dom bip.products);
+		bip.addProduct(testManufacturer.name, testProduct.title, testProduct.description, testProduct.subcategory, testProduct.price, testProduct.quantities);
+ 		assertTrue(testProduct.title in set dom bip.products);
+ 		assertEqual(testProduct.title, bip.products(testProduct.title).title);
+ 		assertEqual(testProduct.description, bip.products(testProduct.title).description);
+ 		assertEqual(testProduct.subcategory, bip.products(testProduct.title).subcategory);
+ 		assertEqual(testProduct.price, bip.products(testProduct.title).price);
+ 		assertEqual(testProduct.quantities, bip.products(testProduct.title).quantities);
+	);
+	
+	-- Test Register Client
+	private static testRegisterClient: () ==> ()
+	testRegisterClient() ==	(
+		dcl bip : BuyInPortugal := new BuyInPortugal();
+		
+		assertTrue(testClient.email not in set dom bip.clients);
+		bip.registerClient(testClient.email);
+		assertTrue(testClient.email in set dom bip.clients);
+ 		
+	);
+	
+	-- Test Add WishList
+	private static testAddWishList: () ==> ()
+	testAddWishList() ==	(
+		dcl bip : BuyInPortugal := configuredBuyInPortugal2();
+		let client = bip.clients(testClient.email)
+		in(
+			assertTrue(mk_(testProduct.title, <Red>) not in set client.wishlist);
+			bip.addToWishlist(testClient.email, testProduct.title, <Red>);
+			assertTrue(mk_(testProduct.title, <Red>) in set client.wishlist);
+		);
+	);
+	
+	-- Test Remove WishList
+	private static testRemoveWishList: () ==> ()
+	testRemoveWishList() ==	(
+		dcl bip : BuyInPortugal := configuredBuyInPortugal2();
+		let client = bip.clients(testClient.email)
+		in(
+			bip.addToWishlist(testClient.email, testProduct.title, <Red>);
+			assertEqual({mk_(testProduct.title, <Red>)}, client.wishlist);
+			bip.removeFromWishlist(testClient.email, testProduct.title, <Red>);
+			assertTrue(mk_(testProduct.title, <Red>) not in set client.wishlist);
+		);
+	);
+	
+	-- Test Add Stock
+	private static testAddToStock: () ==> ()
+	testAddToStock() ==	(
+		dcl bip : BuyInPortugal := configuredBuyInPortugal2();
+		let product = bip.products(testProduct.title)
+		in(
+			assertTrue(product.quantities(<Blue>) = 0);
+			bip.addToStock(testManufacturer.name, testProduct.title, <Blue>, 36);
+			assertTrue(product.quantities(<Blue>) = 36);
+		);
+	);
+	
+	-- Test Remove from Stock
+	private static testRemoveFromStock: () ==> ()
+	testRemoveFromStock() ==	(
+		dcl bip : BuyInPortugal := configuredBuyInPortugal2();
+		let product = bip.products(testProduct.title)
+		in(
+			assertTrue(product.quantities(<Blue>) = 0);
+			bip.addToStock(testManufacturer.name, testProduct.title, <Blue>, 36);
+			bip.removeFromStock(testManufacturer.name, testProduct.title, <Blue>, 30);
+			assertTrue(product.quantities(<Blue>) = 6);
+		);
+	);
+	
+	-- Test Add to Cart
+	private static testAddToCart: () ==> ()
+	testAddToCart() ==	(
+		dcl bip : BuyInPortugal := configuredBuyInPortugal3();
+		let client = bip.clients(testClient.email)
+		in(
+			assertTrue(mk_(testProduct.title, <Red>)  not in set dom client.cart);
+			bip.addToCart(testClient.email, testProduct.title, <Red>);
+			assertTrue(mk_(testProduct.title, <Red>) in set dom client.cart);
+		);
+	);
+	
+	-- Test Add Quantity to Cart
+	private static testQntAddToCart: () ==> ()
+	testQntAddToCart() ==	(
+		dcl bip : BuyInPortugal := configuredBuyInPortugal3();
+		let client = bip.clients(testClient.email)
+		in(
+			bip.addToCart(testClient.email, testProduct.title, <Blue>);
+			assertTrue(client.cart(mk_(testProduct.title,<Blue>)) = 1);
+			bip.setQtyInCart(testClient.email, testProduct.title, <Blue>, 35);
+			assertTrue(client.cart(mk_(testProduct.title,<Blue>)) = 35);
+		);
+	);
+	
+	-- Test Remove from Cart
+	private static testRemoveFromCart: () ==> ()
+	testRemoveFromCart() ==	(
+		dcl bip : BuyInPortugal := configuredBuyInPortugal3();
+		let client = bip.clients(testClient.email)
+		in(
+			bip.addToCart(testClient.email, testProduct.title, <Red>);
+			bip.removeFromCart(testClient.email, testProduct.title, <Red>);
+			assertTrue(mk_(testProduct.title, <Red>) not in set dom client.cart);
+		);
+	);
+	
+	-- Test Convert WishList
+	private static testConvertWishList: () ==> ()
+	testConvertWishList() ==	(
+		dcl bip : BuyInPortugal := configuredBuyInPortugal3();
+		let client = bip.clients(testClient.email)
+		in(
+			bip.addToWishlist(testClient.email, testProduct.title, <Red>);
+	  	bip.convertWishlist(testClient.email);
+	  	assertTrue(mk_(testProduct.title, <Red>) in set dom client.cart);
+	  	assertTrue(client.cart(mk_(testProduct.title,<Red>)) = 1);
+	  	assertTrue(mk_(testProduct.title, <Red>) not in set client.wishlist);
+	  	
+			bip.setQtyInCart(testClient.email, testProduct.title, <Red>, 35);
+			bip.addToWishlist(testClient.email, testProduct.title, <Red>);
+	  	bip.convertWishlist(testClient.email);
+	  	assertTrue(mk_(testProduct.title, <Red>) in set dom client.cart);
+	  	assertTrue(client.cart(mk_(testProduct.title,<Red>)) = 35);
+	  	assertTrue(mk_(testProduct.title, <Red>) not in set client.wishlist);
+		);
+	);
+	
+	-- Test Get Total Cart
+	private static testGetTotalCart: () ==> ()
+	testGetTotalCart() ==	(
+		dcl bip : BuyInPortugal := configuredBuyInPortugal3();
+		bip.addToCart(testClient.email, testProduct.title, <Blue>);
+		bip.setQtyInCart(testClient.email, testProduct.title, <Blue>, 2);
+		assertTrue(bip.getTotalCart(testClient.email) = 2.46);
+		bip.addToStock(testManufacturer.name, testProduct.title, <Blue>, 1000);
+		bip.setVolumeDiscounts(testManufacturer.name, testProduct.title, { 500 |-> 1, 750 |-> 0.5, 1000 |-> 0.25});
+		bip.setQtyInCart(testClient.email, testProduct.title, <Blue>, 500);
+		assertEqual(500, bip.getTotalCart(testClient.email));
+		bip.setQtyInCart(testClient.email, testProduct.title, <Blue>, 600);
+		assertEqual(600, bip.getTotalCart(testClient.email));
+		bip.setQtyInCart(testClient.email, testProduct.title, <Blue>, 800);
+		assertEqual(400, bip.getTotalCart(testClient.email));
+		bip.setQtyInCart(testClient.email, testProduct.title, <Blue>, 1000);
+		assertEqual(250, bip.getTotalCart(testClient.email));
+	);
+	
+	-- Test Remove Product
+	private static testRemoveProduct: () ==> ()
+	testRemoveProduct() ==	(
+		dcl bip : BuyInPortugal := configuredBuyInPortugal3();
+		bip.addToCart(testClient.email, testProduct.title, <Blue>);
+		bip.addToCart(testClient.email, testProduct.title, <Red>);
+		bip.addToWishlist(testClient.email, testProduct.title, <Red>);
+		bip.removeProduct(testManufacturer.name, testProduct.title);
+		assertEqual({ |-> }, bip.products);
+		assertEqual({ |-> }, bip.manufacturers(testManufacturer.name).products);
+		assertEqual({ }, bip.clients(testClient.email).wishlist);
+		assertEqual({ |-> }, bip.clients(testClient.email).cart);
+	);
+	
+	-- Test Remove Product
+	private static testBuy: () ==> ()
+	testBuy() ==	(
+		dcl bip : BuyInPortugal := configuredBuyInPortugal3();
+		bip.addToCart(testClient.email, testProduct.title, <Blue>);
+		bip.setQtyInCart(testClient.email, testProduct.title, <Blue>, 35);
+		bip.addToCart(testClient.email, testProduct.title, <White>);
+		bip.buy(testClient.email);
+		assertEqual([{mk_(testProduct.title, <Blue>) |-> 35, mk_(testProduct.title, <White>) |-> 1}], bip.clients(testClient.email).buyHistory);
+		assertEqual({ |-> }, bip.clients(testClient.email).cart);
+		bip.addToCart(testClient.email, testProduct.title, <Blue>);
+		bip.buy(testClient.email);
+		assertEqual([{mk_(testProduct.title, <Blue>) |-> 1},{mk_(testProduct.title, <Blue>) |-> 35, mk_(testProduct.title, <White>) |-> 1}], bip.clients(testClient.email).buyHistory);
+	);
+	-- Entry point that runs all tests with valid inputs
+	public static testAll: () ==> ()
+	testAll() ==
+	(
+
+			/*IO`print("Create Client: " );
+  		testCreateClient();
+  		IO`println("Finish");
+  	
+  		IO`print("Create Manufacturer: " );
+  		testCreateManufacturer();
+  		IO`println("Finish");
+  		
+  		IO`print("Create Product: " );
+  		testCreateProduct();
+  		IO`println("Finish");*/
+  		
+  		IO`print("Set admin code: " );
+  		testSetAdminCode();
+  		IO`println("Finish");
+  		
+  		IO`print("Add Category: " );
+  		testCategories();
+  		IO`println("Finish");
+  		
+  		IO`print("Add SubCategory: " );
+  		testAddSubCategory();
+  		IO`println("Finish");
+  		
+  		IO`print("Register Manufacturer: " );
+  		testRegisterManufacturer();
+  		IO`println("Finish");
+  		
+			IO`print("Add Product: " );
+  		testAddProduct();
+  		IO`println("Finish");
+  		
+  		IO`print("Register Client: " );
+  		testRegisterClient();
+  		IO`println("Finish");
+
+  		IO`print("Add to Stock: " );
+  		testAddToStock();
+  		IO`println("Finish");
+  		
+  		IO`print("Remove from Stock: " );
+  		testRemoveFromStock();
+  		IO`println("Finish");
+  		
+  		IO`print("Add Wish List: " );
+  		testAddWishList();
+  		IO`println("Finish");
+
+			IO`print("Add Remove Wish List: " );
+  		testRemoveWishList();
+  		IO`println("Finish");
+  		
+  		IO`print("Add To Cart: " );
+  		testAddToCart();
+  		IO`println("Finish");
+
+  		IO`print("Add Qty To Cart: " );
+  		testQntAddToCart();
+  		IO`println("Finish");
+
+			IO`print("Remove from Cart: " );
+  		testRemoveFromCart();
+  		IO`println("Finish");
+  		
+  		IO`print("Convert Wish List: " );
+  		testConvertWishList();
+  		IO`println("Finish");
+
+			IO`print("Get Total Cart: " );
+  		testGetTotalCart();
+  		IO`println("Finish");
+
+			IO`print("Buy: " );
+  		testBuy();
+  		IO`println("Finish");
+
+			IO`print("Remove Product: " );
+  		testRemoveProduct();
+  		IO`println("Finish");
+  );
+  
+	
+	/** TEST CASES WITH VALID INPUTS END **/
+
+end TestBuyInPortugal

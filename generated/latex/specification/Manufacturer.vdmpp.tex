@@ -26,6 +26,16 @@ operations
   products := products munion { p.title |-> p };
  )
  pre p.title not in set dom products;
+ 
+ -- Remove product
+(*@
+\label{removeProduct:24}
+@*)
+ public removeProduct: Product`Title ==> ()
+ removeProduct(title) == (
+  products := {title} <-: products;
+ )
+ pre title in set dom products;
 
 end Manufacturer
 \end{vdmpp}
@@ -35,12 +45,14 @@ end Manufacturer
 Function or operation & Line & Coverage & Calls \\
 \hline
 \hline
-\hyperref[Manufacturer:10]{Manufacturer} & 10&100.0\% & 106 \\
+\hyperref[Manufacturer:10]{Manufacturer} & 10&100.0\% & 288 \\
 \hline
-\hyperref[addProduct:17]{addProduct} & 17&100.0\% & 78 \\
+\hyperref[addProduct:17]{addProduct} & 17&100.0\% & 384 \\
+\hline
+\hyperref[removeProduct:24]{removeProduct} & 24&100.0\% & 9 \\
 \hline
 \hline
-Manufacturer.vdmpp & & 100.0\% & 184 \\
+Manufacturer.vdmpp & & 100.0\% & 681 \\
 \hline
 \end{longtable}
 

@@ -2,9 +2,6 @@
 class TestBuyInPortugal is subclass of MyTestCase
 /* Test cases for BuyInPortugal model*/
 
-types
- public Category = seq of char;
-
 instance variables
  public static testManufacturer : Manufacturer := new Manufacturer("RENOVA");
  public static testProduct: Product := new Product("Pocket Tissues",
@@ -28,15 +25,9 @@ operations
 
  -- Pre configuration 1 that returns a BuyInPortugal model with categories, subcategories and a manufacturer
 (*@
-\label{configuredBuyInPortugal1:29}
-@*)
-(*@
-\label{configuredBuyInPortugal:29}
+\label{configuredBuyInPortugal1:26}
 @*)
  public static configuredBuyInPortugal1: () ==> BuyInPortugal
-(*@
-\label{test:30}
-@*)
  configuredBuyInPortugal1() == (
   dcl bip : BuyInPortugal := new BuyInPortugal();
   
@@ -61,7 +52,9 @@ operations
   "Vanilla Beans" |-> "Agriculture & Food",
   "Plant Seeds & Bulbs" |-> "Agriculture & Food",
   "Nuts & Kernels" |-> "Agriculture & Food",
-  "Health & Personal Care" |-> "Beauty & Health"
+  "Health & Personal Care" |-> "Beauty & Health",
+  "Breads & Bakery" |-> "Fresh Products, Drinks & Grocery",
+  "Dairy & Eggs" |-> "Fresh Products, Drinks & Grocery"
   },"");
   bip.addSubcategory("Investment", "Real Estate","");
   
@@ -69,10 +62,10 @@ operations
   
   return bip;
  );
- 
 (*@
-\label{configuredBuyInPortugal2:63}
+\label{configuredBuyInPortugal2:61}
 @*)
+ 
  -- Pre configuration 2 that returns a BuyInPortugal model containing all pre config 1 contained plus a product and a client
  public static configuredBuyInPortugal2: () ==> BuyInPortugal
  configuredBuyInPortugal2() == (
@@ -84,11 +77,33 @@ operations
   
   return bip;
  );
+(*@
+\label{configuredBuyInPortugal3:73}
+@*)
  
  -- Pre configuration 2 that returns a BuyInPortugal model containing all pre config 2 contained plus stock of the product
  public static configuredBuyInPortugal3: () ==> BuyInPortugal
  configuredBuyInPortugal3() == (
   dcl bip : BuyInPortugal := configuredBuyInPortugal2();
+  
+  bip.addToStock(testManufacturer.name, testProduct.title, <Blue>, 36);
+  bip.addToStock(testManufacturer.name, testProduct.title, <White>, 2);
+  
+  return bip;
+ );
+(*@
+\label{configuredBuyInPortugal4:84}
+@*)
+ 
+ -- Pre configuration 2 that returns a BuyInPortugal model containing all pre config 2 contained plus more products and manufacturers examples
+ public static configuredBuyInPortugal4: () ==> BuyInPortugal
+ configuredBuyInPortugal4() == (
+  dcl bip : BuyInPortugal := configuredBuyInPortugal2();
+  
+  bip.registerManufacturer("DANONE","");
+  
+  bip.addProduct("DANONE","YOGURT PURE AROMA TUTTI - FRUTTI 4X120G", "", "Dairy & Eggs", 2.45, {<None> |-> 0});
+  bip.addProduct("DANONE","YOGURT CHILD ONE BONGO 8 FRUITS 4X155G", "", "Dairy & Eggs", 2, {<None> |-> 0});
   
   bip.addToStock(testManufacturer.name, testProduct.title, <Blue>, 36);
   bip.addToStock(testManufacturer.name, testProduct.title, <White>, 2);
@@ -101,9 +116,6 @@ operations
  /*public static test: () ==> ()
  test() == (
   dcl bip : BuyInPortugal := new BuyInPortugal();
-(*@
-\label{configuredBuyInPortugal3:91}
-@*)
   
   bip.setCategories({
    "Agriculture & Food",
@@ -114,22 +126,10 @@ operations
    "Fresh Products, Drinks & Grocery",
    "Home, Garden, Pets & DIY",
    "Electronics & Computers",
-(*@
-\label{assertTrue:101}
-@*)
-(*@
-\label{Assert:101}
-@*)
    "Metallurgy, Chemicals, Rubber & Plastics",
    "Movies, TV, Music & Games",
    "Machinery, Industrial Parts & Tools",
    "Toys, Children & Baby",
-(*@
-\label{AssertEqual:105}
-@*)
-(*@
-\label{assertEqual:105}
-@*)
    "Sports & Outdoors"
    },"");
   bip.addCategory("Real Estate","");
@@ -142,9 +142,6 @@ operations
   },"");
   bip.addSubcategory("Investment", "Real Estate","");
   
-(*@
-\label{testCreateClient:117}
-@*)
   bip.registerManufacturer("RENOVA","");
   
   bip.addProduct(
@@ -153,9 +150,6 @@ operations
   "- 3-ply base sheet\n- 36x9 tissues per pack\n- Tissue size: 21x21cm",
   "Health & Personal Care",
   1.23,
-(*@
-\label{testCreateManufacturer:125}
-@*)
   {<White> |-> 0,
    <Blue> |-> 0,
    <Pink> |-> 0,
@@ -163,9 +157,6 @@ operations
    <Orange> |-> 0,
    <Purple> |-> 0,
    <Green> |-> 0,
-(*@
-\label{testAddCategory:132}
-@*)
    <Red> |-> 0
   });
   
@@ -175,9 +166,6 @@ operations
   bip.registerClient("logistica@fe.up.pt");
   
   bip.addToWishlist("logistica@fe.up.pt", "Pocket Tissues", <Red>);
-(*@
-\label{testAddSubCategory:141}
-@*)
   bip.removeFromWishlist("logistica@fe.up.pt", "Pocket Tissues", <Red>);
   bip.addToWishlist("logistica@fe.up.pt", "Pocket Tissues", <Blue>);
   bip.addToWishlist("logistica@fe.up.pt", "Pocket Tissues", <White>);
@@ -190,9 +178,6 @@ operations
   bip.convertWishlist("logistica@fe.up.pt");
   
   IO`print(bip.getTotalCart("logistica@fe.up.pt"));
-(*@
-\label{testRegisterManufacturer:153}
-@*)
   IO`print("\n");
   
   bip.buy("logistica@fe.up.pt");
@@ -204,50 +189,58 @@ operations
  testCreateClient() == (
    dcl client: Client := new Client("exemplo@gmail.com");
    assertTrue(client.email = "exemplo@gmail.com");
-(*@
-\label{testCreateProduct:164}
-@*)
    assertEqual({}, client.wishlist);
  );*/
  
+(*@
+\label{testCategories:182}
+@*)
+(*@
+\label{testSetAdminCode:182}
+@*)
  -- Test Create Manufacturer
  /*private testCreateManufacturer: () ==> ()
  testCreateManufacturer() == (
    dcl manufacturer: Manufacturer := new Manufacturer("RENOVA");
    assertEqual("RENOVA", manufacturer.name);
    assertEqual({ |-> }, manufacturer.products);
-(*@
-\label{testAddProduct:173}
-@*)
  );*/
  
  -- Test Create Product
  /*private testCreateProduct: () ==> ()
  testCreateProduct() == (
    assertTrue(product.title = "Pocket Tissues");
+(*@
+\label{testAddSubCategory:194}
+@*)
    assertTrue(product.description = "- 3-ply base sheet\n- 36x9 tissues per pack\n- Tissue size: 21x21cm");
    assertTrue(product.subcategory = "Health & Personal Care");
    assertTrue(product.price = 1.23);
-(*@
-\label{testRegisterClient:182}
-@*)
  );*/
+ 
+ -- Test Set Admin Code
+ private static testSetAdminCode: () ==> ()
+ testSetAdminCode() == (
+  dcl bip : BuyInPortugal := new BuyInPortugal();
+  bip.setAdminCode("","1234");
+(*@
+\label{testRegisterManufacturer:204}
+@*)
+  assertEqual("1234", bip.adminCode);
+ );
  
  -- Test Category
  private static testCategories: () ==> ()
  testCategories() == (
-(*@
-\label{testCategories:187}
-@*)
   dcl bip : BuyInPortugal := new BuyInPortugal();
   assertEqual({}, bip.categories);
   bip.addCategory("Agriculture & Food","");
+(*@
+\label{testAddProduct:213}
+@*)
    assertTrue("Agriculture & Food" in set bip.categories);
    bip.setCategories({"Beauty & Health", "Books & Audible"},"");
   bip.addCategory("Real Estate","");
-(*@
-\label{testAddWishList:193}
-@*)
   assertEqual({"Beauty & Health", "Books & Audible", "Real Estate"}, bip.categories);
  );
  
@@ -259,6 +252,9 @@ operations
   assertTrue("Investment" not in set dom bip.subcategories);
   bip.addSubcategory("Investment", "Real Estate","");
    assertEqual("Real Estate", bip.subcategories("Investment"));
+(*@
+\label{testRegisterClient:227}
+@*)
  );
  
  -- Test Register Manufacturer
@@ -266,29 +262,30 @@ operations
  testRegisterManufacturer() == (
   dcl bip : BuyInPortugal := new BuyInPortugal();
   assertTrue(testManufacturer.name not in set dom bip.manufacturers);
-(*@
-\label{testAddToStock:211}
-@*)
   bip.registerManufacturer(testManufacturer.name,"");
   assertTrue(testManufacturer.name in set dom bip.manufacturers);
  );
  
+(*@
+\label{testAddWishList:238}
+@*)
  -- Test Add Product
  private static testAddProduct: () ==> ()
  testAddProduct() == (
   dcl bip : BuyInPortugal := configuredBuyInPortugal1();
   assertTrue(testProduct.title not in set dom bip.products);
-  bip.addProduct(testManufacturer.name, testProduct.title, testProduct.description, testProduct.subcategory, testProduct.price, testProduct.quantities);
+  bip.addProduct(testManufacturer.name, testProduct.title, testProduct.description, testProduct.subcategory, testProduct.price, {<None> |-> 0});
    assertTrue(testProduct.title in set dom bip.products);
    assertEqual(testProduct.title, bip.products(testProduct.title).title);
    assertEqual(testProduct.description, bip.products(testProduct.title).description);
    assertEqual(testProduct.subcategory, bip.products(testProduct.title).subcategory);
    assertEqual(testProduct.price, bip.products(testProduct.title).price);
-   assertEqual(testProduct.quantities, bip.products(testProduct.title).quantities);
- );
+   assertEqual({<None> |-> 0}, bip.products(testProduct.title).quantities);
 (*@
-\label{testRemoveWishList:228}
+\label{testRemoveWishList:250}
 @*)
+   assertEqual({<None>}, bip.products(testProduct.title).colors);
+ );
  
  -- Test Register Client
  private static testRegisterClient: () ==> ()
@@ -300,6 +297,9 @@ operations
   assertTrue(testClient.email in set dom bip.clients);
    
  );
+(*@
+\label{testAddToStock:263}
+@*)
  
  -- Test Add WishList
  private static testAddWishList: () ==> ()
@@ -309,12 +309,12 @@ operations
   in(
    assertTrue(mk_(testProduct.title, <Red>) not in set client.wishlist);
    bip.addToWishlist(testClient.email, testProduct.title, <Red>);
-(*@
-\label{testAddToCart:248}
-@*)
    assertTrue(mk_(testProduct.title, <Red>) in set client.wishlist);
   );
  );
+(*@
+\label{testRemoveFromStock:275}
+@*)
  
  -- Test Remove WishList
  private static testRemoveWishList: () ==> ()
@@ -328,11 +328,11 @@ operations
    assertTrue(mk_(testProduct.title, <Red>) not in set client.wishlist);
   );
  );
+(*@
+\label{testAddToCart:288}
+@*)
  
  -- Test Add Stock
-(*@
-\label{testQntAddToCart:266}
-@*)
  private static testAddToStock: () ==> ()
  testAddToStock() == (
   dcl bip : BuyInPortugal := configuredBuyInPortugal2();
@@ -343,6 +343,25 @@ operations
    assertTrue(product.quantities(<Blue>) = 36);
   );
  );
+(*@
+\label{testQntAddToCart:300}
+@*)
+ 
+ -- Test Remove from Stock
+ private static testRemoveFromStock: () ==> ()
+ testRemoveFromStock() == (
+  dcl bip : BuyInPortugal := configuredBuyInPortugal2();
+  let product = bip.products(testProduct.title)
+  in(
+   assertTrue(product.quantities(<Blue>) = 0);
+   bip.addToStock(testManufacturer.name, testProduct.title, <Blue>, 36);
+   bip.removeFromStock(testManufacturer.name, testProduct.title, <Blue>, 30);
+   assertTrue(product.quantities(<Blue>) = 6);
+  );
+ );
+(*@
+\label{testRemoveFromCart:313}
+@*)
  
  -- Test Add to Cart
  private static testAddToCart: () ==> ()
@@ -352,12 +371,12 @@ operations
   in(
    assertTrue(mk_(testProduct.title, <Red>)  not in set dom client.cart);
    bip.addToCart(testClient.email, testProduct.title, <Red>);
-(*@
-\label{testRemoveFromCart:285}
-@*)
    assertTrue(mk_(testProduct.title, <Red>) in set dom client.cart);
   );
  );
+(*@
+\label{testConvertWishList:325}
+@*)
  
  -- Test Add Quantity to Cart
  private static testQntAddToCart: () ==> ()
@@ -374,14 +393,14 @@ operations
  
  -- Test Remove from Cart
  private static testRemoveFromCart: () ==> ()
-(*@
-\label{testConvertWishList:304}
-@*)
  testRemoveFromCart() == (
   dcl bip : BuyInPortugal := configuredBuyInPortugal3();
   let client = bip.clients(testClient.email)
   in(
    bip.addToCart(testClient.email, testProduct.title, <Red>);
+(*@
+\label{testGetTotalCart:346}
+@*)
    bip.removeFromCart(testClient.email, testProduct.title, <Red>);
    assertTrue(mk_(testProduct.title, <Red>) not in set dom client.cart);
   );
@@ -392,6 +411,9 @@ operations
  testConvertWishList() == (
   dcl bip : BuyInPortugal := configuredBuyInPortugal3();
   let client = bip.clients(testClient.email)
+(*@
+\label{testAll:356}
+@*)
   in(
    bip.addToWishlist(testClient.email, testProduct.title, <Red>);
     bip.convertWishlist(testClient.email);
@@ -401,13 +423,13 @@ operations
     
    bip.setQtyInCart(testClient.email, testProduct.title, <Red>, 35);
    bip.addToWishlist(testClient.email, testProduct.title, <Red>);
+(*@
+\label{testRemoveProduct:365}
+@*)
     bip.convertWishlist(testClient.email);
     assertTrue(mk_(testProduct.title, <Red>) in set dom client.cart);
     assertTrue(client.cart(mk_(testProduct.title,<Red>)) = 35);
     assertTrue(mk_(testProduct.title, <Red>) not in set client.wishlist);
-(*@
-\label{testGetTotalCart:332}
-@*)
   );
  );
  
@@ -418,15 +440,75 @@ operations
   bip.addToCart(testClient.email, testProduct.title, <Blue>);
   bip.setQtyInCart(testClient.email, testProduct.title, <Blue>, 2);
   assertTrue(bip.getTotalCart(testClient.email) = 2.46);
+  bip.addToStock(testManufacturer.name, testProduct.title, <Blue>, 1000);
+  bip.setVolumeDiscounts(testManufacturer.name, testProduct.title, { 500 |-> 1, 750 |-> 0.5, 1000 |-> 0.25});
+  bip.setQtyInCart(testClient.email, testProduct.title, <Blue>, 500);
+  assertEqual(500, bip.getTotalCart(testClient.email));
+  bip.setQtyInCart(testClient.email, testProduct.title, <Blue>, 600);
+  assertEqual(600, bip.getTotalCart(testClient.email));
+  bip.setQtyInCart(testClient.email, testProduct.title, <Blue>, 800);
+  assertEqual(400, bip.getTotalCart(testClient.email));
+(*@
+\label{testBuy:387}
+@*)
+  bip.setQtyInCart(testClient.email, testProduct.title, <Blue>, 1000);
+  assertEqual(250, bip.getTotalCart(testClient.email));
+ );
+ 
+ -- Test Remove Product
+ private static testRemoveProduct: () ==> ()
+ testRemoveProduct() == (
+  dcl bip : BuyInPortugal := configuredBuyInPortugal3();
+  bip.addToCart(testClient.email, testProduct.title, <Blue>);
+  bip.addToCart(testClient.email, testProduct.title, <Red>);
+  bip.addToWishlist(testClient.email, testProduct.title, <Red>);
+  bip.removeProduct(testManufacturer.name, testProduct.title);
+  assertEqual({ |-> }, bip.products);
+  assertEqual({ |-> }, bip.manufacturers(testManufacturer.name).products);
+  assertEqual({ }, bip.clients(testClient.email).wishlist);
+  assertEqual({ |-> }, bip.clients(testClient.email).cart);
+ );
+ 
+ -- Test Remove Product
+ private static testBuy: () ==> ()
+ testBuy() == (
+  dcl bip : BuyInPortugal := configuredBuyInPortugal3();
+  bip.addToCart(testClient.email, testProduct.title, <Blue>);
+  bip.setQtyInCart(testClient.email, testProduct.title, <Blue>, 35);
+  bip.addToCart(testClient.email, testProduct.title, <White>);
+  bip.buy(testClient.email);
+  assertEqual([{mk_(testProduct.title, <Blue>) |-> 35, mk_(testProduct.title, <White>) |-> 1}], bip.clients(testClient.email).buyHistory);
+  assertEqual({ |-> }, bip.clients(testClient.email).cart);
+  bip.addToCart(testClient.email, testProduct.title, <Blue>);
+  bip.buy(testClient.email);
+  assertEqual([{mk_(testProduct.title, <Blue>) |-> 1},{mk_(testProduct.title, <Blue>) |-> 35, mk_(testProduct.title, <White>) |-> 1}], bip.clients(testClient.email).buyHistory);
  );
  
  
+ -- Test Remove Product
 (*@
-\label{testAll:345}
+\label{testSearch:422}
 @*)
-(*@
-\label{main:345}
-@*)
+ private static testSearch: () ==> ()
+ testSearch() == (
+  dcl bip : BuyInPortugal := configuredBuyInPortugal4();
+  let product = bip.searchProductsByTitle(testProduct.title)
+  in (
+   assertEqual(testProduct.description, product.description);
+  );
+  let products = bip.searchProductsByCategory("Beauty & Health")
+  in (
+   assertTrue(card products = 1);
+  );
+  let products = bip.searchProductsBySubcategory("Dairy & Eggs")
+  in (
+   assertTrue(card products = 2);
+  );
+  let products = bip.searchProductsByManufacturer("DANONE")
+  in (
+   assertTrue(card products = 2);
+  );
+ );
  -- Entry point that runs all tests with valid inputs
  public static testAll: () ==> ()
  testAll() ==
@@ -443,6 +525,10 @@ operations
     IO`print("Create Product: " );
     testCreateProduct();
     IO`println("Finish");*/
+    
+    IO`print("Set admin code: " );
+    testSetAdminCode();
+    IO`println("Finish");
     
     IO`print("Add Category: " );
     testCategories();
@@ -468,6 +554,10 @@ operations
     testAddToStock();
     IO`println("Finish");
     
+    IO`print("Remove from Stock: " );
+    testRemoveFromStock();
+    IO`println("Finish");
+    
     IO`print("Add Wish List: " );
     testAddWishList();
     IO`println("Finish");
@@ -480,7 +570,7 @@ operations
     testAddToCart();
     IO`println("Finish");
 
-    IO`print("Add Qnt To Cart: " );
+    IO`print("Add Qty To Cart: " );
     testQntAddToCart();
     IO`println("Finish");
 
@@ -495,8 +585,18 @@ operations
    IO`print("Get Total Cart: " );
     testGetTotalCart();
     IO`println("Finish");
-   
 
+   IO`print("Buy: " );
+    testBuy();
+    IO`println("Finish");
+
+   IO`print("Remove Product: " );
+    testRemoveProduct();
+    IO`println("Finish");
+
+   IO`print("Search: " );
+    testSearch();
+    IO`println("Finish");
   );
   
  
@@ -510,64 +610,54 @@ end TestBuyInPortugal
 Function or operation & Line & Coverage & Calls \\
 \hline
 \hline
-\hyperref[Assert:101]{Assert} & 101&0.0\% & 0 \\
+\hyperref[configuredBuyInPortugal1:26]{configuredBuyInPortugal1} & 26&100.0\% & 13 \\
 \hline
-\hyperref[AssertEqual:105]{AssertEqual} & 105&0.0\% & 0 \\
+\hyperref[configuredBuyInPortugal2:61]{configuredBuyInPortugal2} & 61&100.0\% & 126 \\
 \hline
-\hyperref[assertEqual:105]{assertEqual} & 105&0.0\% & 0 \\
+\hyperref[configuredBuyInPortugal3:73]{configuredBuyInPortugal3} & 73&100.0\% & 14 \\
 \hline
-\hyperref[assertTrue:101]{assertTrue} & 101&0.0\% & 0 \\
+\hyperref[configuredBuyInPortugal4:84]{configuredBuyInPortugal4} & 84&100.0\% & 2 \\
 \hline
-\hyperref[configuredBuyInPortugal:29]{configuredBuyInPortugal} & 29&100.0\% & 25 \\
+\hyperref[testAddProduct:213]{testAddProduct} & 213&100.0\% & 1 \\
 \hline
-\hyperref[configuredBuyInPortugal1:29]{configuredBuyInPortugal1} & 29&100.0\% & 25 \\
+\hyperref[testAddSubCategory:194]{testAddSubCategory} & 194&100.0\% & 2 \\
 \hline
-\hyperref[configuredBuyInPortugal2:63]{configuredBuyInPortugal2} & 63&100.0\% & 19 \\
+\hyperref[testAddToCart:288]{testAddToCart} & 288&100.0\% & 3 \\
 \hline
-\hyperref[configuredBuyInPortugal3:91]{configuredBuyInPortugal3} & 91&100.0\% & 10 \\
+\hyperref[testAddToStock:263]{testAddToStock} & 263&100.0\% & 1 \\
 \hline
-\hyperref[main:345]{main} & 345&100.0\% & 1 \\
+\hyperref[testAddWishList:238]{testAddWishList} & 238&100.0\% & 1 \\
 \hline
-\hyperref[test:30]{test} & 30&0.0\% & 0 \\
+\hyperref[testAll:356]{testAll} & 356&100.0\% & 1 \\
 \hline
-\hyperref[testAddCategory:132]{testAddCategory} & 132&100.0\% & 14 \\
+\hyperref[testBuy:387]{testBuy} & 387&100.0\% & 1 \\
 \hline
-\hyperref[testAddProduct:173]{testAddProduct} & 173&100.0\% & 3 \\
+\hyperref[testCategories:182]{testCategories} & 182&100.0\% & 1 \\
 \hline
-\hyperref[testAddSubCategory:141]{testAddSubCategory} & 141&100.0\% & 6 \\
+\hyperref[testConvertWishList:325]{testConvertWishList} & 325&100.0\% & 1 \\
 \hline
-\hyperref[testAddToCart:248]{testAddToCart} & 248&100.0\% & 2 \\
+\hyperref[testGetTotalCart:346]{testGetTotalCart} & 346&100.0\% & 8 \\
 \hline
-\hyperref[testAddToStock:211]{testAddToStock} & 211&100.0\% & 9 \\
+\hyperref[testQntAddToCart:300]{testQntAddToCart} & 300&100.0\% & 1 \\
 \hline
-\hyperref[testAddWishList:193]{testAddWishList} & 193&100.0\% & 3 \\
+\hyperref[testRegisterClient:227]{testRegisterClient} & 227&100.0\% & 1 \\
 \hline
-\hyperref[testAll:345]{testAll} & 345&100.0\% & 1 \\
+\hyperref[testRegisterManufacturer:204]{testRegisterManufacturer} & 204&100.0\% & 1 \\
 \hline
-\hyperref[testCategories:187]{testCategories} & 187&100.0\% & 7 \\
+\hyperref[testRemoveFromCart:313]{testRemoveFromCart} & 313&100.0\% & 2 \\
 \hline
-\hyperref[testConvertWishList:304]{testConvertWishList} & 304&100.0\% & 2 \\
+\hyperref[testRemoveFromStock:275]{testRemoveFromStock} & 275&100.0\% & 4 \\
 \hline
-\hyperref[testCreateClient:117]{testCreateClient} & 117&0.0\% & 0 \\
+\hyperref[testRemoveProduct:365]{testRemoveProduct} & 365&100.0\% & 1 \\
 \hline
-\hyperref[testCreateManufacturer:125]{testCreateManufacturer} & 125&0.0\% & 0 \\
+\hyperref[testRemoveWishList:250]{testRemoveWishList} & 250&100.0\% & 8 \\
 \hline
-\hyperref[testCreateProduct:164]{testCreateProduct} & 164&100.0\% & 3 \\
+\hyperref[testSearch:422]{testSearch} & 422&100.0\% & 1 \\
 \hline
-\hyperref[testGetTotalCart:332]{testGetTotalCart} & 332&100.0\% & 2 \\
-\hline
-\hyperref[testQntAddToCart:266]{testQntAddToCart} & 266&100.0\% & 4 \\
-\hline
-\hyperref[testRegisterClient:182]{testRegisterClient} & 182&100.0\% & 3 \\
-\hline
-\hyperref[testRegisterManufacturer:153]{testRegisterManufacturer} & 153&100.0\% & 6 \\
-\hline
-\hyperref[testRemoveFromCart:285]{testRemoveFromCart} & 285&100.0\% & 2 \\
-\hline
-\hyperref[testRemoveWishList:228]{testRemoveWishList} & 228&100.0\% & 2 \\
+\hyperref[testSetAdminCode:182]{testSetAdminCode} & 182&100.0\% & 1 \\
 \hline
 \hline
-TestBuyInPortugal.vdmpp & & 100.0\% & 149 \\
+TestBuyInPortugal.vdmpp & & 100.0\% & 195 \\
 \hline
 \end{longtable}
 
