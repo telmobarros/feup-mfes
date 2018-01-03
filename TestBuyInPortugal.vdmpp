@@ -402,7 +402,7 @@ operations
 		assertEqual({ |-> }, bip.clients(testClient.email).cart);
 	);
 	
-	-- Test Remove Product
+	-- Test Buy
 	private static testBuy: () ==> ()
 	testBuy() ==	(
 		dcl bip : BuyInPortugal := configuredBuyInPortugal3();
@@ -418,7 +418,7 @@ operations
 	);
 	
 	
-	-- Test Remove Product
+	-- Test Search
 	private static testSearch: () ==> ()
 	testSearch() ==	(
 		dcl bip : BuyInPortugal := configuredBuyInPortugal4();
@@ -531,5 +531,22 @@ operations
   
 	
 	/** TEST CASES WITH VALID INPUTS END **/
+	
+	/***** TEST CASES WITH INVALID INPUTS (EXECUTE ONE AT A TIME) ******/
+	
+	private static testCannotRegisterClient: () ==> ()
+	testCannotRegisterClient() ==	(
+		dcl bip : BuyInPortugal := new BuyInPortugal();
+		bip.registerClient(testClient.email);
+		bip.registerClient(testClient.email); -- breaks pre-condition
+	);
+	
+	private static testCannotAddProduct: () ==> ()
+	testCannotAddProduct() ==	(
+		dcl bip : BuyInPortugal := configuredBuyInPortugal1();
+		bip.addProduct(testManufacturer.name, testProduct.title, testProduct.description, testProduct.subcategory, testProduct.price, {<None> |-> 0});
+		bip.addProduct(testManufacturer.name, testProduct.title, testProduct.description, testProduct.subcategory, testProduct.price, {<None> |-> 0}); -- breaks pre-condition
+	);
+
 
 end TestBuyInPortugal
