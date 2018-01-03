@@ -271,6 +271,19 @@ operations
 		);
 	);
 	
+	-- Test Remove from Stock
+	private static testRemoveFromStock: () ==> ()
+	testRemoveFromStock() ==	(
+		dcl bip : BuyInPortugal := configuredBuyInPortugal2();
+		let product = bip.products(testProduct.title)
+		in(
+			assertTrue(product.quantities(<Blue>) = 0);
+			bip.addToStock(testManufacturer.name, testProduct.title, <Blue>, 36);
+			bip.removeFromStock(testManufacturer.name, testProduct.title, <Blue>, 30);
+			assertTrue(product.quantities(<Blue>) = 6);
+		);
+	);
+	
 	-- Test Add to Cart
 	private static testAddToCart: () ==> ()
 	testAddToCart() ==	(
@@ -378,6 +391,10 @@ operations
 
   		IO`print("Add to Stock: " );
   		testAddToStock();
+  		IO`println("Finish");
+  		
+  		IO`print("Add to Stock: " );
+  		testRemoveFromStock();
   		IO`println("Finish");
   		
   		IO`print("Add Wish List: " );
