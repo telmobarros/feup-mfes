@@ -18,7 +18,8 @@ instance variables
   public volumeDiscounts: VolumeDiscounts := { |-> };
   public colors: set of Color := {<None>};
   
-  inv card colors > 1 <=> <None> not in set colors;
+  inv card colors > 0;
+  inv <None> in set colors => card colors = 1;
   inv dom quantities = colors;
 
 operations
@@ -42,7 +43,11 @@ operations
 	  quantities := qties;
 	  colors := dom qties;
 	  return self;
-	);
+	)
+	pre
+		if <None> in set (dom qties)
+		then (dom qties) = {<None>}
+		else qties <> { |-> };
 		
 	-- Set volume discounts
 	public setVolumeDiscounts : VolumeDiscounts ==> ()

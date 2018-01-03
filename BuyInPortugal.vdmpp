@@ -181,7 +181,8 @@ operations
 				);
 			return sum;
 		);
-	);
+	)
+	pre email in set dom clients;
 	
 	-- Buy cart from client
 	public buy: Client`Email ==> ()
