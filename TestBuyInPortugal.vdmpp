@@ -547,6 +547,27 @@ operations
 		bip.addProduct(testManufacturer.name, testProduct.title, testProduct.description, testProduct.subcategory, testProduct.price, {<None> |-> 0});
 		bip.addProduct(testManufacturer.name, testProduct.title, testProduct.description, testProduct.subcategory, testProduct.price, {<None> |-> 0}); -- breaks pre-condition
 	);
+	
+	private static testCannotBuy: () ==> ()
+	testCannotBuy() ==	(
+		dcl bip : BuyInPortugal := configuredBuyInPortugal3();
+		bip.addToCart(testClient.email, testProduct.title, <Blue>);
+		bip.setQtyInCart(testClient.email, testProduct.title, <Blue>, 40);
+		bip.buy(testClient.email); -- breaks
+	);
+	
+	private static testCannotAddWishList: () ==> ()
+	testCannotAddWishList() ==	(
+		dcl bip : BuyInPortugal := configuredBuyInPortugal2();
+		bip.addToWishlist(testClient.email, testProduct.title, <Red>);
+		bip.addToWishlist(testClient.email, testProduct.title, <Red>); -- breaks
+	);
+	
+	private static testCannotAddStock: () ==> ()
+	testCannotAddStock() ==	(
+			dcl bip : BuyInPortugal := configuredBuyInPortugal2();
+			bip.addToStock(testManufacturer.name, testProduct.title, <Blue>, -36);
+	);
 
 
 end TestBuyInPortugal
